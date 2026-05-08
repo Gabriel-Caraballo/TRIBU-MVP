@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmación TRIBU</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      color: #6366f1;
+      margin-bottom: 24px;
+    }
+    .logo span {
+      color: #f59e0b;
+    }
+    h2 {
+      color: #1f2937;
+      font-size: 24px;
+      margin: 0 0 16px 0;
+    }
+    p {
+      color: #6b7280;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0 0 24px 0;
+    }
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 8px 0;
+    }
+    .button:hover {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    }
+    .footer {
+      margin-top: 32px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+    .footer a {
+      color: #6366f1;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logo">TRIBU<span>.</span></div>
+      
+      <h2>Bienvenido a TRIBU</h2>
+      
+      <p>Estás a un paso de unirte a nuestra comunidad. Confirma tu correo electrónico para comenzar a conectar con causas que marcan la diferencia.</p>
+      
+      <a href="{{ .ConfirmationURL }}" class="button">Confirmar mi cuenta</a>
+      
+      <p style="font-size: 14px; margin-top: 24px;">Si no creaste una cuenta en TRIBU, puedes ignorar este correo.</p>
+      
+      <div class="footer">
+        <p>¿Necesitas ayuda? Contáctanos en <a href="mailto:hola@tribu.app">hola@tribu.app</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
