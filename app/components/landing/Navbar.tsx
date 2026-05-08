@@ -42,6 +42,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               className="object-contain"
               sizes="40px"
               priority
+              style={{ backgroundColor: 'transparent' }}
             />
           </div>
           <span className={`font-bold text-xl ${isScrolled ? 'text-[--tribu-navy]' : 'text-white'}`}>
