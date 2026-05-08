@@ -140,93 +140,173 @@ export default function MyActivitiesPage() {
     );
   }
 
+  // Separate activities by status
+  const upcomingActivities = activities.filter(a => 
+    a.activity?.status === 'open' || a.activity?.status === 'in_progress'
+  );
+  const pastActivities = activities.filter(a => 
+    a.activity?.status === 'completed' || a.activity?.status === 'cancelled'
+  );
+
   return (
-    <div className="space-y-6 pb-20">
-      <h1 className="text-2xl font-bold text-[--tribu-navy]">Mis Actividades</h1>
+    <div className="min-h-screen bg-gray-50 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* Header */}
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[--tribu-navy]">
+            Mis Actividades
+          </h1>
+          <p className="text-[--tribu-gray] mt-2">
+            Gestiona tu voluntariado
+          </p>
+        </div>
 
-      {activities.length > 0 ? (
-        <div className="space-y-4">
-          {activities.map((reg) => (
-            <div key={reg.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="p-5">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold text-[--tribu-navy] flex-1">
-                    {reg.activity?.title}
-                  </h3>
-                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusLabels[reg.status]?.color}`}>
-                    {statusLabels[reg.status]?.label}
-                  </span>
-                </div>
-                
-                <p className="text-sm text-[--tribu-gray] mb-3">
-                  {(reg.activity as any)?.organization_name || 'ONG'}
-                </p>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
+            <div className="text-2xl lg:text-3xl font-bold text-[--tribu-blue]">{activities.length}</div>
+            <div className="text-sm text-[--tribu-gray]">Total registradas</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
+            <div className="text-2xl lg:text-3xl font-bold text-[--tribu-green]">{upcomingActivities.length}</div>
+            <div className="text-sm text-[--tribu-gray]">Próximas</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
+            <div className="text-2xl lg:text-3xl font-bold text-gray-600">{pastActivities.length}</div>
+            <div className="text-sm text-[--tribu-gray]">Completadas</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
+            <div className="text-2xl lg:text-3xl font-bold text-[--tribu-orange]">
+              {activities.filter(a => a.status === 'registered').length}
+            </div>
+            <div className="text-sm text-[--tribu-gray]">Pendientes</div>
+          </div>
+        </div>
 
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center text-[--tribu-gray]">
-                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    {formatDate(reg.activity?.start_time || '')}
+        {/* Upcoming Activities */}
+        {upcomingActivities.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
+              <span className="mr-2">📅</span> Próximas Actividades
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              {upcomingActivities.map((reg) => (
+                <div key={reg.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all">
+                  <div className={`${
+                    reg.status === 'registered' 
+                      ? 'bg-gradient-to-r from-[--tribu-blue] to-blue-600' 
+                      : 'bg-gradient-to-r from-green-500 to-green-600'
+                  } text-white px-4 py-2`}>
+                    <span className="font-medium">{statusLabels[reg.status]?.label}</span>
                   </div>
                   
-                  <div className="flex items-center text-[--tribu-gray]">
-                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    {reg.activity?.location}
-                  </div>
-
-                  <div className="flex items-center text-[--tribu-gray]">
-                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {reg.activity?.start_time && reg.activity?.end_time 
-                      ? `${getHours(reg.activity.start_time, reg.activity.end_time)} horas`
-                      : ''}
+                  <div className="p-4 lg:p-5">
+                    <div className="flex items-center mb-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        🏢 {(reg.activity as any)?.organization_name || 'ONG'}
+                      </span>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-[--tribu-navy] mb-2 line-clamp-2">
+                      {reg.activity?.title}
+                    </h3>
+                    
+                    <div className="space-y-2 text-sm mb-4">
+                      <div className="flex items-start text-[--tribu-gray]">
+                        <span className="w-5 flex-shrink-0">📅</span>
+                        <div>
+                          <p className="font-medium">{formatDate(reg.activity?.start_time || '')}</p>
+                          <p className="text-xs text-gray-500">
+                            {reg.activity?.start_time && reg.activity?.end_time 
+                              ? `${getHours(reg.activity.start_time, reg.activity.end_time)} horas`
+                              : ''}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start text-[--tribu-gray]">
+                        <span className="w-5 flex-shrink-0">📍</span>
+                        <span className="line-clamp-1">{reg.activity?.location || 'Sin ubicación'}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Status Badge */}
+                    <div className="mb-3">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                        activityStatusLabels[reg.activity?.status || 'draft']?.color
+                      }`}>
+                        {activityStatusLabels[reg.activity?.status || 'draft']?.label}
+                      </span>
+                    </div>
+                    
+                    {/* Action - Show scan button when activity is completed */}
+                    {reg.activity?.status === 'completed' && reg.status === 'registered' && (
+                      <Link 
+                        href="/scan"
+                        className="block w-full py-3 bg-[--tribu-green] text-white text-center rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                      >
+                        📷 Escanear QR para acreditar horas
+                      </Link>
+                    )}
                   </div>
                 </div>
-
-                {/* Estado de la actividad */}
-                <div className="mt-3">
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    activityStatusLabels[reg.activity?.status || 'draft']?.color
-                  }`}>
-                    {activityStatusLabels[reg.activity?.status || 'draft']?.label}
-                  </span>
-                </div>
-
-                {/* Botón de escanear si está en progreso */}
-                {reg.activity?.status === 'in_progress' && reg.status === 'registered' && (
-                  <Link 
-                    href="/scan"
-                    className="mt-4 block w-full py-2.5 bg-[--tribu-green] text-white text-center rounded-lg font-medium hover:bg-[--tribu-navy] transition-colors"
-                  >
-                    Escuchar QR para registrar asistencia
-                  </Link>
-                )}
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 bg-white rounded-lg">
-          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <h3 className="mt-4 text-lg font-medium text-gray-900">No tienes actividades</h3>
-          <p className="mt-2 text-sm text-gray-500">
-            Explora el feed para encontrar actividades disponibles
-          </p>
-          <Link 
-            href="/feed"
-            className="mt-4 inline-block text-[--tribu-blue] hover:underline"
-          >
-            Ver actividades →
-          </Link>
-        </div>
-      )}
+          </div>
+        )}
+
+        {/* Past Activities */}
+        {pastActivities.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
+              <span className="mr-2">✅</span> Actividades Completadas
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              {pastActivities.map((reg) => (
+                <div key={reg.id} className="bg-white rounded-xl shadow-sm overflow-hidden opacity-80">
+                  <div className="bg-gray-100 text-gray-600 px-4 py-2">
+                    <span className="font-medium">{statusLabels[reg.status]?.label}</span>
+                  </div>
+                  
+                  <div className="p-4">
+                    <div className="flex items-center mb-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                        🏢 {(reg.activity as any)?.organization_name || 'ONG'}
+                      </span>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-gray-700 mb-2">
+                      {reg.activity?.title}
+                    </h3>
+                    
+                    <div className="text-sm text-gray-500">
+                      <p>{formatDate(reg.activity?.start_time || '')}</p>
+                      <p>{getHours(reg.activity?.start_time || '', reg.activity?.end_time || '')} horas</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {activities.length === 0 && (
+          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
+            <div className="text-6xl mb-4">🤝</div>
+            <h3 className="text-xl font-bold text-[--tribu-navy]">Aún no tienes actividades</h3>
+            <p className="text-[--tribu-gray] mt-2 mb-6">
+              Explora el feed para encontrar oportunidades de voluntariado
+            </p>
+            <Link 
+              href="/feed"
+              className="inline-block px-6 py-3 bg-[--tribu-blue] text-white rounded-lg font-semibold hover:bg-[--tribu-navy] transition-colors"
+            >
+              Explorar Actividades →
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

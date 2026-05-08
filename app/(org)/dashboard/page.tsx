@@ -226,14 +226,11 @@ export default function Dashboard() {
   // If no org found
   if (!orgId) {
     return (
-      <div className="flex flex-col items-center justify-center py-16">
-        <div className="text-center max-w-md">
-          <svg className="mx-auto h-20 w-20 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} 
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <h3 className="mt-4 text-lg font-medium text-gray-900">No tienes una organización</h3>
-          <p className="mt-2 text-sm text-gray-500">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center max-w-md bg-white rounded-xl shadow-lg p-8">
+          <div className="text-6xl mb-4">🏢</div>
+          <h3 className="text-xl font-bold text-[--tribu-navy]">No tienes una organización</h3>
+          <p className="text-[--tribu-gray] mt-2 mb-6">
             Contáctate con el administrador para crear una organización.
           </p>
         </div>
@@ -241,121 +238,169 @@ export default function Dashboard() {
     );
   }
 
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-[--tribu-navy]">Dashboard - {orgName}</h1>
-        <p className="text-[--tribu-gray]">Aquí tienes un resumen de tu impacto social</p>
-      </div>
+return (
+    <div className="min-h-screen bg-gray-50 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* Header */}
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[--tribu-navy]">
+            👋 Hola, {orgName}
+          </h1>
+          <p className="text-[--tribu-gray] mt-2">
+            Aquí tienes un resumen de tu impacto social
+          </p>
+        </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-[--tribu-gray]">Actividades</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">{stats.totalActivities}</p>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-[--tribu-gray]">Voluntarios</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">{stats.totalVolunteers}</p>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-[--tribu-gray]">Horas generadas</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">{stats.totalHours}</p>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-[--tribu-gray]">Tasa de asistencia</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">{stats.attendanceRate}%</p>
-        </div>
-      </div>
-
-      {/* Recent activities and top volunteers */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-[--tribu-navy]">Actividades recientes</h2>
-            <Link href="/activities" className="text-sm text-[--tribu-blue] hover:underline">
-              Ver todas
-            </Link>
+        {/* Stats Cards - Responsive */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-blue]">{stats.totalActivities}</div>
+                <div className="text-sm text-[--tribu-gray]">Actividades</div>
+              </div>
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-blue-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
+                📋
+              </div>
+            </div>
           </div>
           
-          {recentActivities.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No hay actividades aún</p>
-          ) : (
-            <div className="space-y-4">
-              {recentActivities.map((activity) => (
-                <Link 
-                  key={activity.id} 
-                  href={`/activities/${activity.id}`}
-                  className="block p-4 border border-gray-200 rounded-lg hover:border-[--tribu-blue] transition-colors"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-medium text-[--tribu-navy]">{activity.title}</h3>
-                      <p className="text-sm text-[--tribu-gray] mt-1">
-                        {formatDate(activity.start_time)}
-                        {activity.location && ` • ${activity.location}`}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(activity.status)}`}>
-                        {activity.status === 'open' ? 'Abierta' : 
-                         activity.status === 'in_progress' ? 'En progreso' :
-                         activity.status === 'completed' ? 'Completada' :
-                         activity.status === 'draft' ? 'Borrador' : activity.status}
-                      </span>
-                      <p className="text-xs text-[--tribu-gray] mt-1">
-                        {activity.registeredCount} registrados
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-green]">{stats.totalVolunteers}</div>
+                <div className="text-sm text-[--tribu-gray]">Voluntarios</div>
+              </div>
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-green-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
+                🤝
+              </div>
             </div>
-          )}
-          
-          <Link 
-            href="/activities/new"
-            className="mt-4 w-full flex items-center justify-center px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-[--tribu-blue] hover:text-[--tribu-blue] transition-colors"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            Crear nueva actividad
-          </Link>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-[--tribu-navy]">Top voluntarios</h2>
-            <Link href="/volunteers" className="text-sm text-[--tribu-blue] hover:underline">
-              Ver todos
-            </Link>
           </div>
           
-          {topVolunteers.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">
-              Los voluntarios que participen en tus actividades aparecerán aquí
-            </p>
-          ) : (
-            <div className="space-y-4">
-              {topVolunteers.map((volunteer, index) => (
-                <div key={volunteer.id} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
-                    index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-400'
-                  }`}>
-                    {index + 1}
-                  </div>
-                  <div className="ml-3 flex-1">
-                    <p className="font-medium text-[--tribu-navy]">{volunteer.full_name}</p>
-                    <p className="text-sm text-[--tribu-gray]">{volunteer.total_hours} horas</p>
-                  </div>
-                </div>
-              ))}
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-navy]">{stats.totalHours}</div>
+                <div className="text-sm text-[--tribu-gray]">Horas</div>
+              </div>
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-navy-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
+                ⏱️
+              </div>
             </div>
-          )}
+          </div>
+          
+          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-orange]">{stats.attendanceRate}%</div>
+                <div className="text-sm text-[--tribu-gray]">Asistencia</div>
+              </div>
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-orange-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
+                📊
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* Recent Activities */}
+          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] flex items-center">
+                <span className="mr-2">📋</span> Actividades Recientes
+              </h2>
+              <Link href="/activities" className="text-sm text-[--tribu-blue] hover:underline">
+                Ver todas →
+              </Link>
+            </div>
+            
+            {recentActivities.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-4xl mb-2">📭</div>
+                <p className="text-gray-500">No hay actividades aún</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentActivities.map((activity) => (
+                  <Link 
+                    key={activity.id} 
+                    href={`/activities/${activity.id}`}
+                    className="block p-3 lg:p-4 border border-gray-100 rounded-lg hover:border-[--tribu-blue] hover:shadow-md transition-all"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-[--tribu-navy] truncate">{activity.title}</h3>
+                        <p className="text-sm text-[--tribu-gray] mt-1">
+                          {formatDate(activity.start_time)}
+                          {activity.location && ` • ${activity.location}`}
+                        </p>
+                      </div>
+                      <div className="text-right ml-3 flex-shrink-0">
+                        <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(activity.status)}`}>
+                          {activity.status === 'open' ? '🟢 Abierta' : 
+                           activity.status === 'in_progress' ? '🟡 En progreso' :
+                           activity.status === 'completed' ? '✅ Completada' :
+                           activity.status === 'draft' ? '📝 Borrador' : activity.status}
+                        </span>
+                        <p className="text-xs text-[--tribu-gray] mt-1">
+                          {activity.registeredCount} registrados
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+            
+            <Link 
+              href="/activities/new"
+              className="mt-4 w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-200 rounded-lg text-gray-500 hover:border-[--tribu-blue] hover:text-[--tribu-blue] transition-colors font-medium"
+            >
+              <span className="mr-2 text-lg">➕</span>
+              Crear nueva actividad
+            </Link>
+          </div>
+
+          {/* Top Volunteers */}
+          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] flex items-center">
+                <span className="mr-2">🏆</span> Top Voluntarios
+              </h2>
+              <Link href="/volunteers" className="text-sm text-[--tribu-blue] hover:underline">
+                Ver todos →
+              </Link>
+            </div>
+            
+            {topVolunteers.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-4xl mb-2">🤔</div>
+                <p className="text-gray-500">
+                  Los voluntarios que participen aparecerán aquí
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {topVolunteers.map((volunteer, index) => (
+                  <div key={volunteer.id} className="flex items-center p-3 bg-gray-50 rounded-lg">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg ${
+                      index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-400'
+                    }`}>
+                      {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                    </div>
+                    <div className="ml-3 flex-1">
+                      <p className="font-semibold text-[--tribu-navy]">{volunteer.full_name}</p>
+                      <p className="text-sm text-[--tribu-gray]">{volunteer.total_hours} horas acumuladas</p>
+                    </div>
+                    <div className="text-2xl text-gray-300">
+                      👏
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
