@@ -107,37 +107,41 @@ export const HowItWorks: React.FC<HowItWorksProps> = () => {
   }, [activeTab]);
   
   return (
-    <section id="how-it-works" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="h2-section text-[--tribu-navy] mb-12">Cómo funciona</h2>
+    <section id="how-it-works" className="py-24 md:py-32 bg-[#0a0a09] text-[#e8e8e2] font-mono border-b border-white/10">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#8a8a82] uppercase mb-16">
+          <span className="text-[--tribu-blue]">#</span> CÓMO FUNCIONA
+        </div>
+        
+        <div className="mb-16">
+          <h2 className="text-4xl md:text-5xl font-sans uppercase tracking-wide leading-[1.1] font-bold mb-12">Puesta en marcha</h2>
           
           {/* Tabs */}
-          <div className="inline-flex border-b border-gray-200 mb-12">
+          <div className="inline-flex border-b border-white/10 mb-12 w-full md:w-auto">
             <button
-              className={`px-6 py-3 text-lg font-medium transition-colors relative ${
+              className={`px-6 py-4 text-xs tracking-widest uppercase transition-colors relative ${
                 activeTab === 'ongs' 
-                  ? 'text-[--tribu-navy] font-bold' 
-                  : 'text-[--tribu-gray]'
+                  ? 'text-[#e8e8e2] font-bold' 
+                  : 'text-[#8a8a82] hover:text-[#e8e8e2]'
               }`}
               onClick={() => setActiveTab('ongs')}
             >
               Para ONGs
               {activeTab === 'ongs' && (
-                <span className="absolute bottom-0 left-0 w-full h-1 bg-[--tribu-blue]"></span>
+                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[--tribu-blue]"></span>
               )}
             </button>
             <button
-              className={`px-6 py-3 text-lg font-medium transition-colors relative ${
+              className={`px-6 py-4 text-xs tracking-widest uppercase transition-colors relative ${
                 activeTab === 'volunteers' 
-                  ? 'text-[--tribu-navy] font-bold' 
-                  : 'text-[--tribu-gray]'
+                  ? 'text-[#e8e8e2] font-bold' 
+                  : 'text-[#8a8a82] hover:text-[#e8e8e2]'
               }`}
               onClick={() => setActiveTab('volunteers')}
             >
               Para Voluntarios
               {activeTab === 'volunteers' && (
-                <span className="absolute bottom-0 left-0 w-full h-1 bg-[--tribu-blue]"></span>
+                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[--tribu-blue]"></span>
               )}
             </button>
           </div>
@@ -150,7 +154,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = () => {
               <div
                 key={`${activeTab}-step-${index}`}
                 ref={(el: HTMLDivElement | null) => { stepsRef.current[index] = el; }}
-                className="transition-all duration-500"
+                className="bg-[#111110] border border-white/10 p-8 transition-all duration-500 hover:border-white/20"
                 style={{
                   opacity: 0,
                   transform: 'translateY(20px)',
@@ -158,18 +162,18 @@ export const HowItWorks: React.FC<HowItWorksProps> = () => {
                 }}
               >
                 {/* Número del paso */}
-                <div className="w-14 h-14 rounded-full bg-[--tribu-blue] text-white flex items-center justify-center font-bold text-xl mb-4">
-                  {step.number}
+                <div className="text-[10px] tracking-widest text-[--tribu-blue] mb-6">
+                  [PASO_0{step.number}]
                 </div>
                 
                 {/* Iconos */}
-                <div className="text-[--tribu-blue] mb-4">
+                <div className="text-[#e8e8e2] mb-6">
                   {step.icon}
                 </div>
                 
                 {/* Contenido del paso */}
-                <h3 className="text-xl font-bold text-[--tribu-navy] mb-3">{step.title}</h3>
-                <p className="text-[--tribu-gray]">{step.description}</p>
+                <h3 className="text-xl font-sans uppercase tracking-wide font-bold text-[#e8e8e2] mb-4">{step.title}</h3>
+                <p className="text-xs text-[#8a8a82] leading-relaxed">{step.description}</p>
               </div>
             ))}
           </div>

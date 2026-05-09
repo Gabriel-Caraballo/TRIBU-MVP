@@ -83,7 +83,7 @@ const AnimatedCounter: React.FC<CounterProps> = ({
   const formattedCount = count.toFixed(decimalPlaces);
   
   return (
-    <div ref={countRef} className="font-bold text-5xl md:text-7xl text-white">
+    <div ref={countRef} className="font-sans font-bold text-6xl md:text-8xl text-[--tribu-green] mb-4">
       {prefix}{formattedCount}{suffix}
     </div>
   );
@@ -139,8 +139,15 @@ export const ImpactNumbers: React.FC<ImpactNumbersProps> = () => {
     };
   }, []);
   
+  interface ImpactStat {
+    value: number;
+    suffix?: string;
+    prefix?: string;
+    label: string;
+  }
+
   // Datos de métricas
-  const impactStats = [
+  const impactStats: ImpactStat[] = [
     {
       value: 862,
       suffix: 'M+',
@@ -168,11 +175,15 @@ export const ImpactNumbers: React.FC<ImpactNumbersProps> = () => {
     <section 
       ref={sectionRef} 
       id="impact" 
-      className="py-20 bg-[--tribu-navy]"
+      className="py-24 md:py-32 bg-[#111110] text-[#e8e8e2] font-mono border-b border-white/10"
     >
-      <div className="container mx-auto px-4">
-        <h2 className="h2-section text-white text-center mb-16">
-          El impacto social que se puede medir, crece
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#8a8a82] uppercase mb-16 justify-center">
+          <span className="text-[--tribu-green]">#</span> IMPACTO_GLOBAL
+        </div>
+
+        <h2 className="text-4xl md:text-5xl font-sans uppercase tracking-wide leading-[1.1] font-bold mb-20 text-center">
+          El impacto que se mide, <em className="bg-[#e8e8e2] text-[#0a0a09] px-2 not-italic inline-block">crece</em>.
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 max-w-6xl mx-auto mb-12">
@@ -193,14 +204,14 @@ export const ImpactNumbers: React.FC<ImpactNumbersProps> = () => {
                 prefix={stat.prefix} 
                 duration={1500}
               />
-              <p className="text-white/80 mt-4 max-w-[250px] mx-auto">
+              <p className="text-[#8a8a82] text-xs leading-relaxed max-w-[250px] mx-auto">
                 {stat.label}
               </p>
             </div>
           ))}
         </div>
         
-        <p className="text-white/60 text-sm text-center max-w-3xl mx-auto">
+        <p className="text-white/30 text-[10px] uppercase tracking-widest text-center mt-16 max-w-3xl mx-auto">
           *Datos basados en el Informe sobre el Estado del Voluntariado en el Mundo 2022, ONU Voluntarios.
         </p>
       </div>

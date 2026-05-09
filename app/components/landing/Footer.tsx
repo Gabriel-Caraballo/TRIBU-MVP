@@ -27,36 +27,35 @@ export const Footer: React.FC<FooterProps> = () => {
   };
   
   return (
-    <footer className="bg-[--tribu-navy] text-white py-16">
-      <div className="container mx-auto px-4">
+    <footer className="bg-[#0a0a09] text-[#8a8a82] py-16 font-mono">
+      <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Columna 1: Logo y tagline */}
-          <div>
+          <div className="fade-in">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 relative mr-3">
+              <div className="w-10 h-10 relative mr-3 rounded-full overflow-hidden bg-[#111110]">
                 <Image 
                   src="/logo.png"
                   alt="TRIBU Logo" 
-                  fill 
-                  className="object-contain"
-                  sizes="40px"
+                  fill
+                  className="object-cover"
                 />
               </div>
-              <span className="font-bold text-xl">TRIBU</span>
+              <span className="font-bold text-xl font-sans uppercase tracking-widest text-[#e8e8e2]">TRIBU</span>
             </div>
-            <p className="text-white/80 mb-3">Profesionalizando el impacto social.</p>
-            <p className="text-white/60 text-sm">2026 Hackathon</p>
+            <p className="text-[#8a8a82] mb-3 text-xs leading-loose uppercase tracking-widest">Profesionalizando el impacto social.</p>
+            <p className="text-white/30 text-[10px]">2026 Hackathon by República Dominicana</p>
           </div>
           
           {/* Columna 2: Producto */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Producto</h3>
+            <h3 className="font-bold text-xs uppercase tracking-widest text-[#e8e8e2] mb-6">Producto</h3>
             <ul className="space-y-2">
               {footerLinks.producto.map((link, index) => (
                 <li key={index}>
                   <Link 
                     href={link.href} 
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-xs hover:text-[--tribu-blue] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -67,13 +66,13 @@ export const Footer: React.FC<FooterProps> = () => {
           
           {/* Columna 3: Empresa */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Empresa</h3>
+            <h3 className="font-bold text-xs uppercase tracking-widest text-[#e8e8e2] mb-6">Empresa</h3>
             <ul className="space-y-2">
               {footerLinks.empresa.map((link, index) => (
                 <li key={index}>
                   <Link 
                     href={link.href} 
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-xs hover:text-[--tribu-blue] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -84,13 +83,13 @@ export const Footer: React.FC<FooterProps> = () => {
           
           {/* Columna 4: Contacto */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Contacto</h3>
+            <h3 className="font-bold text-xs uppercase tracking-widest text-[#e8e8e2] mb-6">Contacto</h3>
             <ul className="space-y-2">
               {footerLinks.contacto.map((link, index) => (
                 <li key={index}>
                   <Link 
                     href={link.href} 
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-xs hover:text-[--tribu-blue] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -101,9 +100,9 @@ export const Footer: React.FC<FooterProps> = () => {
         </div>
         
         {/* Línea divisoria */}
-        <div className="border-t border-white/20 pt-8">
-          <p className="text-center text-white/60 text-sm">
-            © 2026 TRIBU. Todos los derechos reservados.
+        <div className="border-t border-white/10 pt-8">
+          <p className="text-center text-white/30 text-[10px] uppercase tracking-widest">
+            &copy; 2026 TRIBU. Todos los derechos reservados.
           </p>
         </div>
       </div>

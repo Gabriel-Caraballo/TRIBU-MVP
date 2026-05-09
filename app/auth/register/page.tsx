@@ -93,7 +93,7 @@ export default function RegisterPage() {
         options: {
           data: {
             full_name: formData.fullName,
-            account_type: accountType,
+            role: accountType,
             org_name: accountType === 'org_admin' ? formData.orgName : undefined
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`
@@ -121,10 +121,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <AuthCard title="Crear cuenta">
+    <AuthCard title="[ CREAR_CUENTA ]">
       {step === 1 && (
         <div>
-          <p className="text-[--tribu-gray] text-center mb-6">Selecciona el tipo de cuenta que deseas crear</p>
+          <p className="text-[#8a8a82] text-xs uppercase tracking-widest text-center mb-8">Selecciona el tipo de cuenta que deseas crear</p>
           
           <AccountTypeSelector 
             onSelect={handleAccountTypeSelect}
@@ -136,7 +136,7 @@ export default function RegisterPage() {
       {step === 2 && (
         <>
           {authError && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-md mb-4 text-sm">
+            <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-4 mb-6 text-xs tracking-wide font-mono">
               {authError}
             </div>
           )}
@@ -190,25 +190,25 @@ export default function RegisterPage() {
               required
             />
             
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between pt-4">
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="text-[--tribu-blue] hover:underline focus:outline-none text-sm"
+                className="text-[10px] text-[#8a8a82] hover:text-[--tribu-green] uppercase tracking-widest transition-colors"
               >
-                ← Volver
+                &larr; Volver
               </button>
               
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`flex justify-center py-3 px-8 border border-transparent rounded-md shadow-sm text-white bg-[--tribu-blue] hover:bg-[--tribu-navy] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--tribu-blue] transition-colors ${
+                className={`btn w-auto min-w-[150px] btn-primary ${
                   isLoading ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
                 {isLoading ? (
-                  <div className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-2">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V2C5.373 2 2 5.373 2 12h2zm8 4l-2-2 2-2 2 2-2 2z"></path>
                     </svg>
@@ -219,11 +219,11 @@ export default function RegisterPage() {
             </div>
           </form>
           
-          <div className="mt-6 text-center">
-            <p className="text-sm text-[--tribu-gray]">
+          <div className="mt-8 text-center border-t border-white/10 pt-6">
+            <p className="text-[10px] text-[#8a8a82] uppercase tracking-widest">
               ¿Ya tienes cuenta?{' '}
-              <Link href="/auth/login" className="text-[--tribu-blue] hover:underline font-medium">
-                Inicia sesión aquí
+              <Link href="/auth/login" className="text-[--tribu-green] font-bold hover:text-[#e8e8e2] transition-colors ml-2">
+                Inicia sesión aquí &rarr;
               </Link>
             </p>
           </div>

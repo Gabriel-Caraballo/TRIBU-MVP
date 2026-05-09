@@ -50,65 +50,59 @@ export const FinalCTA: React.FC<FinalCTAProps> = () => {
   }, []);
   
   const trustBadges = [
-    { icon: '🔒', text: 'Datos seguros con Supabase' },
-    { icon: '📱', text: 'Funciona en cualquier celular' },
-    { icon: '🇩🇴', text: 'Hecho en República Dominicana' }
+    { icon: '[SEC]', text: 'Datos seguros con Supabase' },
+    { icon: '[MOB]', text: 'Funciona en cualquier celular' },
+    { icon: '[RD]', text: 'Hecho en República Dominicana' }
   ];
   
   return (
     <section 
       ref={sectionRef} 
-      className="py-20 bg-gradient-to-br from-[--tribu-navy] via-[#2A4F8A] to-[--tribu-blue] relative overflow-hidden"
+      className="py-24 md:py-32 bg-[#0a0a09] font-mono relative overflow-hidden border-b border-white/10"
     >
-      {/* Formas abstractas de fondo */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[20%] left-[10%] w-64 h-64 rounded-full bg-[--tribu-peach] opacity-[0.07]"></div>
-        <div className="absolute bottom-[20%] right-[10%] w-96 h-96 rounded-full bg-white opacity-[0.07]"></div>
-        <div className="absolute bottom-[10%] left-[20%] w-40 h-40 hexagon bg-[--tribu-peach] opacity-[0.08]"></div>
-      </div>
       
       <div 
         ref={contentRef}
-        className="container mx-auto px-4 relative z-10 text-center max-w-4xl transition-all duration-500"
+        className="container mx-auto px-4 relative z-10 text-center max-w-4xl transition-all duration-500 bg-[#111110] border border-[--tribu-green]/30 p-12 md:p-20 shadow-[0_0_50px_-15px_var(--tribu-green)]"
         style={{ opacity: 0, transform: 'translateY(20px)' }}
       >
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-          Tu causa merece más que una hoja de Excel
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans uppercase tracking-wide font-bold text-[#e8e8e2] mb-6 leading-[1.1]">
+          Inicia tu nueva <em className="bg-[--tribu-green] text-[#0a0a09] px-2 not-italic inline-block">era</em>.
         </h2>
         
-        <p className="text-xl text-white/90 mb-10 max-w-3xl mx-auto">
-          Únete a las organizaciones que ya están profesionalizando su impacto. Configura TRIBU en menos de 5 minutos.
+        <p className="text-sm text-[#8a8a82] mb-12 max-w-2xl mx-auto leading-relaxed">
+          Únete a las organizaciones que ya están profesionalizando su impacto. Despliegue inmediato, sin costos ocultos.
         </p>
         
-<div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
           <Link 
             href="/auth/register" 
-            className="btn btn-white text-[--tribu-navy] font-medium"
+            className="inline-flex items-center justify-center gap-3 text-xs font-bold tracking-widest uppercase bg-[--tribu-green] text-white px-10 py-5 hover:bg-[#e8e8e2] hover:text-[#0a0a09] transition-colors duration-300"
           >
-            Registra tu NGO gratis
+            Registra tu ONG gratis
           </Link>
           
           <Link 
             href="/auth/register" 
-            className="btn btn-outline-white font-medium"
+            className="inline-flex items-center justify-center gap-3 text-xs font-bold tracking-widest uppercase bg-[#111110] text-[#e8e8e2] border border-white/10 px-10 py-5 hover:text-white hover:border-white/30 transition-colors duration-300"
           >
             Soy voluntario
           </Link>
         </div>
         
         {/* Badges de confianza */}
-        <div className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
           {trustBadges.map((badge, index) => (
             <div 
               key={index} 
-              className="text-white/80 flex items-center text-sm sm:text-base"
+              className="text-[#8a8a82] flex items-center text-[10px] tracking-widest uppercase"
             >
-              <span className="mr-2 text-lg">{badge.icon}</span>
+              <span className="mr-2 opacity-50">{badge.icon}</span>
               <span>{badge.text}</span>
               
               {/* Separador, excepto para el último */}
               {index < trustBadges.length - 1 && (
-                <span className="hidden sm:block ml-8">·</span>
+                <span className="hidden sm:block ml-8 text-white/10">|</span>
               )}
             </div>
           ))}

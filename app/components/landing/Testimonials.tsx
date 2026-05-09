@@ -98,20 +98,20 @@ export const Testimonials: React.FC<TestimonialsProps> = () => {
     <section 
       ref={sectionRef} 
       id="testimonials" 
-      className="py-20 bg-[--tribu-light]"
+      className="py-24 md:py-32 bg-[#0a0a09] text-[#e8e8e2] font-mono border-b border-white/10"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="container mx-auto px-4">
-        <h2 className="h2-section text-[--tribu-navy] text-center mb-12">
-          Voces de quienes conocen el problema
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#8a8a82] uppercase mb-16 justify-center">
+          <span className="text-[--tribu-blue]">#</span> TESTIMONIOS
+        </div>
+
+        <h2 className="text-4xl md:text-5xl font-sans uppercase tracking-wide leading-[1.1] font-bold mb-16 text-center">
+          Voces en <em className="bg-[#e8e8e2] text-[#0a0a09] px-2 not-italic inline-block">código</em>.
         </h2>
         
         <div className="max-w-4xl mx-auto mb-12 relative">
-          {/* Comillas decorativas */}
-          <div className="text-[--tribu-blue] opacity-15 absolute top-0 left-0 transform -translate-x-4 -translate-y-8 text-8xl font-serif">
-            "
-          </div>
           
           {/* Carousel de testimonios */}
           <div className="relative h-80 md:h-64">
@@ -125,13 +125,14 @@ export const Testimonials: React.FC<TestimonialsProps> = () => {
                     : 'opacity-0 translate-x-12 -z-10'
                 }`}
               >
-                <div className="bg-white p-8 rounded-xl shadow-sm border-l-4 border-[--tribu-peach]">
-                  <p className="text-[--tribu-dark] text-lg md:text-xl leading-relaxed mb-6">
-                    "{testimonial.quote}"
+                <div className="bg-[#111110] p-10 border border-white/10 border-l-4 border-l-[--tribu-yellow]">
+                  <p className="text-[#e8e8e2] text-lg md:text-xl leading-relaxed mb-8">
+                    <span className="text-[--tribu-blue] mr-2">{'>'}</span> 
+                    &quot;{testimonial.quote}&quot;
                   </p>
                   <div>
-                    <p className="font-bold text-[--tribu-navy]">{testimonial.author}</p>
-                    <p className="text-[--tribu-gray] text-sm">{testimonial.role}</p>
+                    <p className="font-bold text-[#e8e8e2] uppercase tracking-wide">{testimonial.author}</p>
+                    <p className="text-[#8a8a82] text-xs mt-1">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
@@ -147,7 +148,7 @@ export const Testimonials: React.FC<TestimonialsProps> = () => {
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   activeIndex === index 
                     ? 'bg-[--tribu-blue] w-6' 
-                    : 'bg-[--tribu-blue]/30'
+                    : 'bg-white/20'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
@@ -155,7 +156,7 @@ export const Testimonials: React.FC<TestimonialsProps> = () => {
           </div>
         </div>
         
-        <p className="text-[--tribu-gray] text-sm text-center max-w-3xl mx-auto">
+        <p className="text-white/30 text-[10px] uppercase tracking-widest text-center mt-12 max-w-3xl mx-auto">
           *Testimonios representativos basados en investigación de campo con directores de ONGs y voluntarios universitarios en RD.
         </p>
       </div>

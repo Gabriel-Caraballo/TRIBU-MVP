@@ -1,155 +1,147 @@
 // components/landing/Hero.tsx
-// Sección principal hero con gradiente, copy principal y mockup del dashboard
+// Sección principal hero con gradiente animado, copy principal y mockup del dashboard
 
 "use client";
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useRef, useEffect } from 'react';
 
-interface HeroProps {}
+export const Hero = () => {
+  const [phase, setPhase] = useState<'scanning' | 'success' | 'app'>('scanning');
 
-export const Hero: React.FC<HeroProps> = () => {
-  // Ref para las formas geométricas del fondo
-  const shapesRef = useRef<HTMLDivElement>(null);
-  
-  // Efecto parallax sutil en las formas del fondo
+  // Secuencia de animación del celular
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!shapesRef.current) return;
-      
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-      
-      const shapes = shapesRef.current.querySelectorAll('.bg-shape');
-      shapes.forEach((shape, i) => {
-        const speed = 1 + i * 0.5;
-        const htmlShape = shape as HTMLElement;
-        htmlShape.style.transform = `translate(${x * speed * 10}px, ${y * speed * 10}px)`;
-      });
+    const cycle = () => {
+      setPhase('scanning');
+      // A los 3 segundos, encuentra el QR y muestra éxito
+      setTimeout(() => setPhase('success'), 3000);
+      // 1.5 segundos después, abre la app
+      setTimeout(() => setPhase('app'), 4500); 
     };
     
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    cycle();
+    // Se repite todo el ciclo cada 9 segundos
+    const interval = setInterval(cycle, 9000); 
+    
+    return () => clearInterval(interval);
   }, []);
-  
+
   return (
-    <section className="min-h-screen bg-gradient-to-br from-[--tribu-navy] via-[#2A4F8A] to-[--tribu-blue] relative overflow-hidden">
-      {/* Formas geométricas de fondo */}
-      <div ref={shapesRef} className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="bg-shape absolute top-[10%] left-[5%] w-48 sm:w-64 h-48 sm:h-64 rounded-full bg-[--tribu-peach] opacity-[0.07]"></div>
-        <div className="bg-shape absolute top-[60%] left-[15%] w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-white opacity-[0.05]"></div>
-        <div className="bg-shape absolute top-[30%] right-[10%] w-64 sm:w-96 h-64 sm:h-96 rounded-full bg-white opacity-[0.04]"></div>
-        <div className="bg-shape absolute bottom-[15%] right-[25%] w-32 sm:w-48 h-32 sm:h-48 rounded-full bg-[--tribu-peach] opacity-[0.08]"></div>
-      </div>
+    <>
+    <style>{`
+      @keyframes scanLine {
+        0%, 100% { transform: translateY(0); opacity: 0; }
+        10%, 90% { opacity: 1; }
+        50% { transform: translateY(160px); }
+      }
+      .animate-scan-line {
+        animation: scanLine 2s ease-in-out infinite;
+      }
+    `}</style>
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0a0a09] text-[#e8e8e2] font-mono border-b border-white/10">
       
-      {/* Contenido principal */}
-      <div className="container mx-auto px-4 pt-28 pb-12 sm:pt-32 sm:pb-16 md:pt-40 md:pb-20 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Columna izquierda: Copy + CTAs */}
-          <div className="text-white max-w-xl order-2 lg:order-1">
-            {/* Tag line */}
-            <div className="inline-flex items-center rounded-full bg-white/10 px-3 py-1.5 mb-5 text-xs sm:text-sm">
-              <span className="mr-1.5">✦</span>
-              <span className="font-medium">Plataforma de gestión de voluntariado</span>
-            </div>
-            
-            {/* Título principal */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
-              Convierte buena voluntad en impacto medible
+      <div className="container relative z-10 mx-auto px-4 pt-32 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center max-w-6xl">
+
+        {/* Columna Izquierda: Copy + CTAs */}
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 z-20">
+          <div className="mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans uppercase tracking-tighter leading-[1] mb-6 max-w-3xl font-black flex flex-wrap items-end justify-center lg:justify-start gap-y-3">
+              <span className="inline-block transform scale-y-110 origin-bottom mr-2">El impacto real no se mide en</span>
+              <em className="inline-flex not-italic border-t-2 border-l-2 border-[#107c41] bg-[#f3f2f1] shadow-[4px_4px_0px_#107c41] ml-2">
+                {['E', 'X', 'C', 'E', 'L'].map((letter, i) => (
+                  <span key={i} className="flex items-center justify-center w-6 h-8 md:w-8 md:h-10 border-b-2 border-r-2 border-[#107c41] text-[#107c41] font-black text-lg md:text-xl font-mono">
+                    {letter}
+                  </span>
+                ))}
+              </em>.
             </h1>
-            
-            {/* Subtítulo */}
-            <p className="text-base sm:text-lg mb-6 text-white/90 max-w-lg">
-              TRIBU es la plataforma que las ONGs necesitaban: gestiona tu talento voluntario con herramientas de nivel corporativo.
-            </p>
-            
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-5">
-              <Link
-                href="/auth/register"
-                className="px-5 py-3 bg-white text-[--tribu-navy] rounded-lg font-medium text-center hover:bg-gray-100 transition-colors text-sm sm:text-base"
-              >
-                Registra tu ONG — es gratis
-              </Link>
-              <Link
-                href="/auth/register"
-                className="px-5 py-3 border border-white text-white rounded-lg font-medium text-center hover:bg-white/10 transition-colors text-sm sm:text-base"
-              >
-                Soy voluntario, únete
-              </Link>
-            </div>
-            
-            {/* Texto bajo CTAs */}
-            <p className="text-xs sm:text-sm text-white/80 flex flex-wrap gap-x-3 gap-y-1">
-              <span>Sin tarjeta de crédito</span>
-              <span>·</span>
-              <span>Configuración en 5 minutos</span>
-              <span>·</span>
-              <span>Cancela cuando quieras</span>
+            <p className="text-sm md:text-base text-[#8a8a82] leading-relaxed max-w-xl text-center lg:text-left">
+              Así nace <strong className="text-[--tribu-green]">TRIBU</strong>. La plataforma que profesionaliza, mide y valida el voluntariado social para que tu impacto deje de ser invisible.
             </p>
           </div>
-        
-          {/* Columna derecha: Mockup del dashboard */}
-          <div className="floating order-1 lg:order-2 mb-8 lg:mb-0">
-            {/* Dashboard mockup */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-lg mx-auto">
-              {/* Header del mockup */}
-              <div className="px-4 sm:px-6 py-3 bg-[--tribu-navy] text-white flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white/20 rounded-md flex items-center justify-center text-white text-xs sm:text-sm">
-                    T
-                  </div>
-                  <h3 className="font-semibold text-sm sm:text-base">Dashboard TRIBU</h3>
+
+          {/* CTAs Minimalistas Monospace */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+            <Link
+              href="/auth/register"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 text-xs font-bold tracking-widest uppercase bg-[--tribu-green] text-white px-10 py-5 hover:bg-[#e8e8e2] hover:text-[#0a0a09] transition-colors duration-300"
+            >
+              Comenzar gratis
+            </Link>
+            <Link
+              href="#how-it-works"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 text-xs font-bold tracking-widest uppercase bg-[#111110] text-[#e8e8e2] border border-white/10 px-10 py-5 hover:text-white hover:border-white/30 transition-colors duration-300"
+            >
+              Ver cómo funciona
+            </Link>
+          </div>
+        </div>
+
+        {/* Columna Derecha: Phone Mockup Animation */}
+        <div className="flex justify-center lg:justify-center order-1 lg:order-2 w-full z-10 relative">
+          {/* Contenedor del Celular con rotación y traslación */}
+          <div className="relative w-[260px] h-[540px] border-[8px] border-[#2a2a28] rounded-[3rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col bg-[#111110] ring-1 ring-white/5 transform lg:rotate-[12deg] lg:-translate-y-12 lg:-translate-x-4 hover:rotate-0 transition-transform duration-700 ease-out">
+            
+            {/* Notch del Celular */}
+            <div className="absolute top-0 inset-x-0 h-6 flex justify-center z-50">
+              <div className="w-24 h-5 bg-[#2a2a28] rounded-b-2xl"></div>
+            </div>
+
+            {/* Fase 1: Escaneando */}
+            <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'scanning' ? 'opacity-100 z-10' : 'opacity-0 z-0'} flex flex-col items-center justify-center bg-black/90`}>
+              <div className="text-white/50 text-xs mb-8 uppercase tracking-widest">Escaneando QR...</div>
+              <div className="relative w-48 h-48 border-2 border-white/10 rounded-xl flex items-center justify-center">
+                {/* Esquinas del escáner */}
+                <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-[#22c55e] rounded-tl-lg"></div>
+                <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-[#22c55e] rounded-tr-lg"></div>
+                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-[#22c55e] rounded-bl-lg"></div>
+                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-[#22c55e] rounded-br-lg"></div>
+                
+                {/* Mock de Código QR */}
+                <div className="w-28 h-28 bg-white/20 rounded p-2 flex flex-wrap gap-1">
+                  <div className="w-full h-full border-4 border-dashed border-white/30"></div>
                 </div>
-                <div className="flex space-x-1.5 sm:space-x-2">
-                  <div className="w-2 h-2 rounded-full bg-white/50"></div>
-                  <div className="w-2 h-2 rounded-full bg-white/50"></div>
-                  <div className="w-2 h-2 rounded-full bg-white/50"></div>
+                
+                {/* Línea láser de escaneo */}
+                <div className="absolute top-4 left-0 right-0 h-0.5 bg-[--tribu-green] shadow-[0_0_15px_var(--tribu-green)] animate-scan-line"></div>
+              </div>
+            </div>
+
+            {/* Fase 2: Éxito */}
+            <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'success' ? 'opacity-100 z-10' : 'opacity-0 z-0'} flex flex-col items-center justify-center bg-[--tribu-green]`}>
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-xl scale-in-center">
+                <svg className="w-10 h-10 text-[--tribu-green]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-white font-sans font-bold text-xl uppercase tracking-wider">Asistencia</h3>
+              <h3 className="text-white font-sans font-bold text-xl uppercase tracking-wider">Validada</h3>
+            </div>
+
+            {/* Fase 3: Dashboard en App */}
+            <div className={`absolute inset-0 transition-opacity duration-500 ${phase === 'app' ? 'opacity-100 z-10' : 'opacity-0 z-0'} flex flex-col bg-white`}>
+              <div className="pt-10 pb-6 px-6 bg-[#0a0a09] text-white rounded-b-[2rem] shadow-md">
+                <div className="flex justify-between items-center mb-6">
+                  <span className="font-serif font-bold text-lg tracking-wider">TRIBU</span>
+                  <div className="w-7 h-7 rounded-full bg-[--tribu-green] text-white flex items-center justify-center font-bold text-[10px]">JD</div>
                 </div>
+                <div className="text-white/50 text-[10px] uppercase tracking-widest mb-1 font-sans">Horas validadas</div>
+                <div className="text-4xl font-sans font-bold">124<span className="text-sm text-white/40 ml-1">h</span></div>
               </div>
               
-              {/* Contenido del mockup */}
-              <div className="p-4 sm:p-6">
-                {/* Card de actividad */}
-                <div className="bg-white border border-gray-200 rounded-xl p-3 sm:p-4 shadow-sm mb-4 sm:mb-6">
+              <div className="p-5 flex-1 bg-gray-50">
+                <div className="text-[#0a0a09] font-sans font-bold text-xs uppercase tracking-wider mb-4">Actividad Reciente</div>
+                
+                <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
                   <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-[--tribu-navy] text-sm sm:text-base">Reforestación Parque Nacional</h4>
-                    <span className="text-xs bg-[--tribu-green-light] text-[--tribu-green] py-1 px-2 rounded-full">En progreso</span>
+                    <div className="font-bold text-[#0a0a09] text-sm font-sans">Reforestación</div>
+                    <span className="text-[8px] text-[--tribu-green] font-bold bg-[--tribu-green]/10 px-2 py-1 rounded tracking-wider">COMPLETA</span>
                   </div>
-                  <p className="text-[--tribu-gray] text-xs sm:text-sm mb-3">Sábado, 22 Mayo • 09:00 - 14:00</p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <span className="text-xs bg-[--tribu-blue-light] text-[--tribu-blue] py-1 px-2 rounded-full">Ecología</span>
-                    <span className="text-xs bg-[--tribu-green-light] text-[--tribu-green] py-1 px-2 rounded-full">Trabajo manual</span>
+                  <div className="text-[10px] text-gray-500 mb-3 font-sans">Parque Nacional • Hoy</div>
+                  <div className="flex gap-2">
+                    <span className="text-[10px] text-[--tribu-green] bg-[--tribu-green]/10 px-2 py-1 rounded font-bold font-sans">+4 Horas</span>
+                    <span className="text-[10px] text-gray-600 bg-gray-100 px-2 py-1 rounded font-medium font-sans">Ecología</span>
                   </div>
-                </div>
-                
-                {/* Mini lista de voluntarios */}
-                <div className="mb-4 sm:mb-6">
-                  <h4 className="font-medium text-[--tribu-navy] mb-2 sm:mb-3 text-sm">Voluntarios (8/10)</h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[--tribu-blue-light] text-[--tribu-blue] flex items-center justify-center font-medium text-xs sm:text-sm mr-2">JD</div>
-                        <span className="text-xs sm:text-sm">Juan Díaz</span>
-                      </div>
-                      <span className="text-[--tribu-green] text-xs sm:text-sm">✓ Presente</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[--tribu-green-light] text-[--tribu-green] flex items-center justify-center font-medium text-xs sm:text-sm mr-2">MP</div>
-                        <span className="text-xs sm:text-sm">María Pérez</span>
-                      </div>
-                      <span className="text-[--tribu-green] text-xs sm:text-sm">✓ Presente</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Contador de horas */}
-                <div className="bg-[--tribu-blue-light]/50 rounded-xl p-3 sm:p-4 text-center">
-                  <h4 className="text-[--tribu-navy] font-medium mb-1 text-xs sm:text-sm">Horas de impacto generadas</h4>
-                  <div className="text-[--tribu-blue] text-3xl sm:text-4xl font-bold">127</div>
-                  <p className="text-xs text-[--tribu-gray] mt-1">Este mes: +42 horas</p>
                 </div>
               </div>
             </div>
@@ -157,6 +149,7 @@ export const Hero: React.FC<HeroProps> = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

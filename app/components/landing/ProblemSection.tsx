@@ -3,126 +3,55 @@
 
 "use client";
 
-import { useRef, useEffect } from 'react';
-
-interface ProblemSectionProps {}
-
-export const ProblemSection: React.FC<ProblemSectionProps> = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  
-  // Efecto de fade-in al hacer scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
-    // Observar la sección
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    // Observar cada card con un delay staggered
-    cardsRef.current.forEach((card, index) => {
-      if (card) {
-        // Agregar transparencia inicial
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        
-        // Configurar animación con delay staggered
-        setTimeout(() => {
-          observer.observe(card);
-        }, 150 * index); // 150ms de delay entre cada card
-      }
-    });
-    
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-      cardsRef.current.forEach((card) => {
-        if (card) {
-          observer.unobserve(card);
-        }
-      });
-    };
-  }, []);
-  
+export const ProblemSection = () => {
   // Datos de las pain cards
   const painCards = [
     {
-      icon: '📋',
+      number: '01',
       title: 'Hojas de Excel interminables',
       description: 'Control de asistencia en papel, WhatsApp para coordinar, sin historial real de quién hizo qué ni cuándo.',
     },
     {
-      icon: '📱',
+      number: '02',
       title: 'Voluntarios que no regresan',
       description: 'Rotación constante. Cada actividad es casi de cero. Sin incentivos reales, la buena voluntad se agota.',
     },
     {
-      icon: '📉',
+      number: '03',
       title: 'Impacto invisible',
       description: 'Donantes y patrocinadores piden evidencia. Tú tienes historias hermosas, pero no tienes datos auditables.',
     },
   ];
   
   return (
-    <section 
-      ref={sectionRef} 
-      id="problem" 
-      className="py-20 bg-[--tribu-light]"
-    >
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="h2-section text-[--tribu-navy] mb-3">¿Reconoces este escenario?</h2>
-          <p className="h3-subsection text-[--tribu-gray] max-w-2xl mx-auto">
-            La mayoría de las ONGs gestionan su voluntariado así:
+    <section id="problem" className="py-24 md:py-32 bg-[#111110] text-[#e8e8e2] font-mono border-b border-white/10 relative overflow-hidden">
+      {/* Acentos de color */}
+      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[--tribu-green] opacity-[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+      <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-[--tribu-blue] opacity-[0.03] rounded-full blur-3xl translate-y-1/2 -translate-x-1/4"></div>
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#8a8a82] uppercase mb-16">
+          <span className="text-[--tribu-green]">#</span> EL_PROBLEMA
+        </div>
+
+        <div className="mb-20 md:w-2/3">
+          <h2 className="text-4xl md:text-5xl font-sans uppercase tracking-wide leading-[1.1] font-bold mb-6 text-[#e8e8e2]">
+            El estado actual de la <em className="bg-[--tribu-green] text-[#0a0a09] px-2 not-italic inline-block">gestión social</em>.
+          </h2>
+          <p className="text-sm md:text-base text-[#8a8a82] leading-relaxed max-w-2xl font-mono">
+            A pesar de las buenas intenciones, la gestión de voluntarios en el sector social está estancada en procesos administrativos arcaicos que limitan el impacto.
           </p>
         </div>
         
         {/* Pain Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {painCards.map((card, index) => (
-            <div
-              key={index}
-              ref={(el: HTMLDivElement | null) => { cardsRef.current[index] = el; }}
-              className="bg-white border-l-4 border-[--tribu-peach] rounded-lg shadow-md p-6 transition-all duration-500"
-              style={{
-                opacity: 0,
-                transform: 'translateY(20px)',
-                transitionDelay: `${index * 150}ms`,
-              }}
-            >
-              <div className="text-4xl mb-4">{card.icon}</div>
-              <h3 className="text-xl font-bold text-[--tribu-dark] mb-3">{card.title}</h3>
-              <p className="text-[--tribu-gray]">{card.description}</p>
+            <div key={index} className="bg-[#0a0a09] border border-white/10 p-8 hover:border-[--tribu-green]/30 transition-colors duration-500">
+              <span className="block font-sans font-bold text-4xl text-[--tribu-green] opacity-50 mb-6 tracking-tighter">_{card.number}</span>
+              <h3 className="text-xl font-sans uppercase tracking-wide font-bold mb-4 text-[#e8e8e2]">{card.title}</h3>
+              <p className="text-xs text-[#8a8a82] leading-relaxed">{card.description}</p>
             </div>
           ))}
-        </div>
-        
-        {/* Transición */}
-        <div className="text-center">
-          <svg 
-            className="w-12 h-12 mx-auto mb-4 text-[--tribu-navy]" 
-            fill="currentColor" 
-            viewBox="0 0 20 20" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              fillRule="evenodd" 
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
-              clipRule="evenodd"
-            />
-          </svg>
-          <p className="text-2xl font-bold text-[--tribu-navy]">Hay una forma mejor.</p>
         </div>
       </div>
     </section>

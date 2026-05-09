@@ -8,8 +8,6 @@ import ProblemSection from '../app/components/landing/ProblemSection';
 import HowItWorks from '../app/components/landing/HowItWorks';
 import FeaturesGrid from '../app/components/landing/FeaturesGrid';
 import ForWhom from '../app/components/landing/ForWhom';
-import ImpactNumbers from '../app/components/landing/ImpactNumbers';
-import Testimonials from '../app/components/landing/Testimonials';
 import Pricing from '../app/components/landing/Pricing';
 import FinalCTA from '../app/components/landing/FinalCTA';
 import Footer from '../app/components/landing/Footer';
@@ -28,15 +26,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[--tribu-light]">
+    <main className="min-h-screen">
       <Navbar />
       <Hero />
       <ProblemSection />
       <HowItWorks />
       <FeaturesGrid />
       <ForWhom />
-      <ImpactNumbers />
-      <Testimonials />
       <Pricing />
       <FinalCTA />
       <Footer />

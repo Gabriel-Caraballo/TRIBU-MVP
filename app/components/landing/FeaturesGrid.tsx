@@ -79,7 +79,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = () => {
         'Validación de asistencia por QR dinámico',
         'Historial inmutable de cada hora trabajada'
       ],
-      accentColor: '--tribu-blue'
+      accentColor: 'var(--tribu-green)'
     },
     {
       title: 'Retención Basada en Valor',
@@ -95,7 +95,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = () => {
         'Recordatorios automáticos de actividades',
         'Historial exportable para hojas de vida'
       ],
-      accentColor: '--tribu-green',
+      accentColor: 'var(--tribu-blue)',
       isPopular: true
     },
     {
@@ -112,7 +112,7 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = () => {
         'Exportación a PDF certificado',
         'Integración con programas de RSC'
       ],
-      accentColor: '--tribu-orange'
+      accentColor: 'var(--tribu-yellow)'
     }
   ];
   
@@ -120,11 +120,15 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = () => {
     <section 
       ref={sectionRef} 
       id="features" 
-      className="py-20 bg-[--tribu-light]"
+      className="py-24 md:py-32 bg-[#0a0a09] text-[#e8e8e2] font-mono border-b border-white/10"
     >
-      <div className="container mx-auto px-4">
-        <h2 className="h2-section text-[--tribu-navy] text-center mb-12">
-          Todo lo que necesitas para profesionalizar tu voluntariado
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#8a8a82] uppercase mb-16">
+          <span className="text-[--tribu-green]">#</span> CARACTERÍSTICAS
+        </div>
+        
+        <h2 className="text-4xl md:text-5xl font-sans uppercase tracking-wide leading-[1.1] font-bold mb-16">
+          Lo que necesitas para profesionalizar tu <em className="bg-[#e8e8e2] text-[#0a0a09] px-2 not-italic inline-block">voluntariado</em>.
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -132,44 +136,43 @@ export const FeaturesGrid: React.FC<FeaturesGridProps> = () => {
             <div
               key={index}
               ref={(el: HTMLDivElement | null) => { cardsRef.current[index] = el; }}
-              className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 ${
+              className={`bg-[#111110] border border-white/10 p-8 transition-all duration-500 hover:-translate-y-2 ${
                 card.isPopular 
-                  ? 'transform md:-translate-y-2 shadow-lg relative' 
+                  ? 'relative ring-1 ring-[--tribu-blue]' 
                   : ''
               }`}
               style={{
                 opacity: 0,
                 transform: 'translateY(20px)',
                 transitionDelay: `${index * 150}ms`,
-                borderTop: `3px solid var(${card.accentColor})`,
               }}
             >
               {/* Badge "Más popular" si aplica */}
               {card.isPopular && (
-                <div className="absolute top-4 right-4">
-                  <span className="inline-flex items-center rounded-full bg-[--tribu-orange-light] px-3 py-1 text-xs font-medium text-[--tribu-orange]">
+                <div className="absolute -top-4 right-6 scale-95">
+                  <span className="bg-[--tribu-blue] text-[#0a0a09] text-[10px] font-bold tracking-widest uppercase px-3 py-1 shadow-lg">
                     Más popular
                   </span>
                 </div>
               )}
               
-              <div className="p-6">
-                {/* Icono */}
-                <div className={`text-[var(${card.accentColor})] mb-4`}>
+              <div className="h-full flex flex-col">
+                {/* Icono con gradiente */}
+                <div className="mb-6 flex items-center justify-center" style={{ color: card.accentColor }}>
                   {card.icon}
                 </div>
                 
-                {/* Título */}
-                <h3 className="text-xl font-bold text-[--tribu-navy] mb-4">
+                {/* Título serif */}
+                <h3 className="text-2xl font-sans uppercase tracking-wide font-bold mb-6 text-[#e8e8e2]">
                   {card.title}
                 </h3>
                 
-                {/* Lista de características */}
-                <ul className="space-y-3">
+                {/* Lista de características con checkmark colorido */}
+                <ul className="space-y-4 flex-grow">
                   {card.features.map((feature, i) => (
-                    <li key={i} className="flex items-start">
-                      <span className={`text-[var(${card.accentColor})] mr-2 flex-shrink-0 mt-1`}>✓</span>
-                      <span className="text-[--tribu-gray]">{feature}</span>
+                    <li key={i} className="flex items-start group">
+                      <span className="mr-3 flex-shrink-0 mt-0.5 font-bold" style={{ color: card.accentColor }}>✓</span>
+                      <span className="text-xs text-[#8a8a82] group-hover:text-[#e8e8e2] transition-colors leading-relaxed">{feature}</span>
                     </li>
                   ))}
                 </ul>
