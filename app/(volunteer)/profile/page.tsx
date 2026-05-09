@@ -61,6 +61,7 @@ export default function ProfilePage() {
     city: ''
   });
   const [newSkill, setNewSkill] = useState('');
+  const [activityCount, setActivityCount] = useState(0);
 
   // Calcular nivel basado en horas
   const getUserLevel = (hours: number): { name: string; color: string; min: number; max: number } => {
@@ -110,6 +111,15 @@ export default function ProfilePage() {
       .select('*')
       .eq('user_id', session.user.id)
       .single();
+
+    // Get activity count
+    if (volunteerProfile) {
+      const { count } = await supabase
+        .from('activity_participants')
+        .select('*', { count: 'exact', head: true })
+        .eq('volunteer_id', volunteerProfile.id);
+      setActivityCount(count || 0);
+    }
 
     // Get skill hours breakdown
     const { data: attendanceData } = await supabase
@@ -270,13 +280,15 @@ export default function ProfilePage() {
       <div className="grid grid-cols-3 gap-4">
         <Link href="/my-activities" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
           <div className="text-2xl font-bold text-[--tribu-blue]">
-            {profile?.total_hours || 0}
+            {activityCount}
           </div>
           <div className="text-xs text-[--tribu-gray]">Mis Actividades</div>
         </Link>
-        <Link href="/scan" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
-          <div className="text-2xl font-bold text-[--tribu-green]">QR</div>
-          <div className="text-xs text-[--tribu-gray]">Escanear</div>
+        <Link href="/wallet" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
+          <div className="text-2xl font-bold text-[--tribu-green]">
+            {profile?.total_hours || 0}<span className="text-lg">h</span>
+          </div>
+          <div className="text-xs text-[--tribu-gray]">Billetera</div>
         </Link>
         <Link href="/certificates" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
           <div className="text-2xl font-bold text-[--tribu-orange]">0</div>
