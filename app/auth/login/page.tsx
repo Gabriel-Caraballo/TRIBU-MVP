@@ -27,7 +27,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validación con Zod
     try {
       loginSchema.parse({ email, password });
@@ -77,7 +77,7 @@ export default function LoginPage() {
           .select('role')
           .eq('id', data.user.id)
           .single();
-          
+
         if (profileError) {
           console.error('Error al obtener perfil:', profileError);
           setAuthError('Error al obtener tu perfil. Intenta nuevamente.');
@@ -86,11 +86,11 @@ export default function LoginPage() {
         }
 
         if (profile) {
-          console.log('[LOGIN] Redirect decision:', { 
-            role: profile.role, 
-            userId: data.user.id 
+          console.log('[LOGIN] Redirect decision:', {
+            role: profile.role,
+            userId: data.user.id
           });
-          
+
           if (profile.role === 'org_admin') {
             console.log('[LOGIN] Redirecting to /dashboard');
             router.push('/dashboard');
@@ -121,7 +121,7 @@ export default function LoginPage() {
           {authError}
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <FormField
           id="email"
@@ -132,7 +132,7 @@ export default function LoginPage() {
           error={errors.email}
           required
         />
-        
+
         <PasswordInput
           id="password"
           label="Contraseña"
@@ -141,19 +141,18 @@ export default function LoginPage() {
           error={errors.password}
           required
         />
-        
+
         <div className="text-right mt-2">
           <Link href="/auth/forgot-password" className="text-[10px] tracking-widest uppercase text-[#8a8a82] hover:text-[--tribu-green] transition-colors">
             [ OLVIDÉ MI CONTRASEÑA ]
           </Link>
         </div>
-        
+
         <button
           type="submit"
           disabled={isLoading}
-          className={`btn btn-primary w-full mt-4 ${
-            isLoading ? 'opacity-70 cursor-not-allowed' : ''
-          }`}
+          className={`btn btn-primary w-full mt-4 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+            }`}
         >
           {isLoading ? (
             <div className="flex items-center gap-2">
@@ -166,7 +165,7 @@ export default function LoginPage() {
           ) : 'Iniciar sesión'}
         </button>
       </form>
-      
+
       <div className="mt-8 text-center border-t border-white/10 pt-6">
         <p className="text-[10px] text-[#8a8a82] uppercase tracking-widest">
           ¿No tienes cuenta?{' '}

@@ -15,18 +15,18 @@ export default function VerifyEmailPage() {
             </svg>
           </div>
         </div>
-        
+
         <div className="space-y-4">
           <p className="text-[--tribu-dark]">
             Hemos enviado un enlace de verificación a tu email.
           </p>
-          
+
           <p className="text-[--tribu-gray] text-sm">
-            Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu cuenta. 
+            Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu cuenta.
             Si no lo encuentras, revisa también tu carpeta de spam.
           </p>
         </div>
-        
+
         <div className="pt-4">
           <Link href="/auth/login" className="text-[--tribu-blue] hover:underline font-medium">
             Volver a inicio de sesión

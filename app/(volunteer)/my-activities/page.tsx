@@ -21,18 +21,18 @@ interface RegisteredActivity {
 }
 
 const statusLabels: Record<string, { label: string; color: string }> = {
-  registered: { label: 'Registrado', color: 'bg-blue-100 text-blue-800' },
-  attended: { label: 'Asistió', color: 'bg-green-100 text-green-800' },
-  absent: { label: 'Inasistente', color: 'bg-red-100 text-red-800' },
-  cancelled: { label: 'Cancelado', color: 'bg-gray-100 text-gray-800' }
+  registered: { label: 'Registrado', color: 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' },
+  attended: { label: 'Asistió', color: 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' },
+  absent: { label: 'Inasistente', color: 'bg-[rgba(239,68,68,0.1)] text-red-400 border border-[rgba(239,68,68,0.2)]' },
+  cancelled: { label: 'Cancelado', color: 'bg-[#161616] text-[#444] border border-[#1f1f1f]' }
 };
 
 const activityStatusLabels: Record<string, { label: string; color: string }> = {
-  draft: { label: 'Borrador', color: 'bg-gray-100 text-gray-600' },
-  open: { label: 'Abierta', color: 'bg-blue-100 text-blue-700' },
-  in_progress: { label: 'En progreso', color: 'bg-yellow-100 text-yellow-700' },
-  completed: { label: 'Completada', color: 'bg-green-100 text-green-700' },
-  cancelled: { label: 'Cancelada', color: 'bg-red-100 text-red-700' }
+  draft: { label: 'Borrador', color: 'bg-[#161616] text-[#555] border border-[#1f1f1f]' },
+  open: { label: 'Abierta', color: 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' },
+  in_progress: { label: 'En progreso', color: 'bg-[rgba(245,158,11,0.1)] text-[#f59e0b] border border-[rgba(245,158,11,0.2)]' },
+  completed: { label: 'Completada', color: 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' },
+  cancelled: { label: 'Cancelada', color: 'bg-[rgba(239,68,68,0.1)] text-red-400 border border-[rgba(239,68,68,0.2)]' }
 };
 
 export default function MyActivitiesPage() {
@@ -135,7 +135,7 @@ export default function MyActivitiesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
@@ -149,74 +149,76 @@ export default function MyActivitiesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-[#0a0a0a] pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         {/* Header */}
         <div className="mb-6 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[--tribu-navy]">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
             Mis Actividades
           </h1>
-          <p className="text-[--tribu-gray] mt-2">
+          <p className="text-[#555] mt-2">
             Gestiona tu voluntariado
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
-            <div className="text-2xl lg:text-3xl font-bold text-[--tribu-blue]">{activities.length}</div>
-            <div className="text-sm text-[--tribu-gray]">Total registradas</div>
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
+            <div className="text-2xl lg:text-3xl font-bold text-[#22c55e]">{activities.length}</div>
+            <div className="text-xs text-[#555]">Total registradas</div>
           </div>
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
-            <div className="text-2xl lg:text-3xl font-bold text-[--tribu-green]">{upcomingActivities.length}</div>
-            <div className="text-sm text-[--tribu-gray]">Próximas</div>
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
+            <div className="text-2xl lg:text-3xl font-bold text-[#22c55e]">{upcomingActivities.length}</div>
+            <div className="text-xs text-[#555]">Próximas</div>
           </div>
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
-            <div className="text-2xl lg:text-3xl font-bold text-gray-600">{pastActivities.length}</div>
-            <div className="text-sm text-[--tribu-gray]">Completadas</div>
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
+            <div className="text-2xl lg:text-3xl font-bold text-[#aaa]">{pastActivities.length}</div>
+            <div className="text-xs text-[#555]">Completadas</div>
           </div>
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm">
-            <div className="text-2xl lg:text-3xl font-bold text-[--tribu-orange]">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
+            <div className="text-2xl lg:text-3xl font-bold text-[#f59e0b]">
               {activities.filter(a => a.status === 'registered').length}
             </div>
-            <div className="text-sm text-[--tribu-gray]">Pendientes</div>
+            <div className="text-xs text-[#555]">Pendientes</div>
           </div>
         </div>
 
         {/* Upcoming Activities */}
         {upcomingActivities.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
-              <span className="mr-2">📅</span> Próximas Actividades
+            <h2 className="text-xl font-bold text-white mb-4">
+              Próximas Actividades
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {upcomingActivities.map((reg) => (
-                <div key={reg.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all">
+                <div key={reg.id} className="bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] overflow-hidden">
                   <div className={`${
                     reg.status === 'registered' 
-                      ? 'bg-gradient-to-r from-[--tribu-blue] to-blue-600' 
-                      : 'bg-gradient-to-r from-green-500 to-green-600'
-                  } text-white px-4 py-2`}>
+                      ? 'bg-[rgba(34,197,94,0.12)] text-[#22c55e]' 
+                      : 'bg-[rgba(34,197,94,0.12)] text-[#22c55e]'
+                  } px-4 py-2 text-sm font-medium`}>
                     <span className="font-medium">{statusLabels[reg.status]?.label}</span>
                   </div>
                   
                   <div className="p-4 lg:p-5">
                     <div className="flex items-center mb-2">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        🏢 {(reg.activity as any)?.organization_name || 'ONG'}
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#161616] text-[#555] border border-[#1f1f1f]">
+                        {(reg.activity as any)?.organization_name || 'ONG'}
                       </span>
                     </div>
                     
-                    <h3 className="text-lg font-bold text-[--tribu-navy] mb-2 line-clamp-2">
+                    <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
                       {reg.activity?.title}
                     </h3>
                     
                     <div className="space-y-2 text-sm mb-4">
-                      <div className="flex items-start text-[--tribu-gray]">
-                        <span className="w-5 flex-shrink-0">📅</span>
+                      <div className="flex items-start text-[#555]">
+                        <svg className="w-4 h-4 text-[#444] flex-shrink-0 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                         <div>
-                          <p className="font-medium">{formatDate(reg.activity?.start_time || '')}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="font-medium text-[#aaa]">{formatDate(reg.activity?.start_time || '')}</p>
+                          <p className="text-xs text-[#555]">
                             {reg.activity?.start_time && reg.activity?.end_time 
                               ? `${getHours(reg.activity.start_time, reg.activity.end_time)} horas`
                               : ''}
@@ -224,8 +226,11 @@ export default function MyActivitiesPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-start text-[--tribu-gray]">
-                        <span className="w-5 flex-shrink-0">📍</span>
+                      <div className="flex items-start text-[#555]">
+                        <svg className="w-4 h-4 text-[#444] flex-shrink-0 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
                         <span className="line-clamp-1">{reg.activity?.location || 'Sin ubicación'}</span>
                       </div>
                     </div>
@@ -233,7 +238,11 @@ export default function MyActivitiesPage() {
                     {/* Status Badge */}
                     <div className="mb-3">
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                        activityStatusLabels[reg.activity?.status || 'draft']?.color
+                        reg.activity?.status === 'draft' ? 'bg-[#161616] text-[#555] border border-[#1f1f1f]' :
+                        reg.activity?.status === 'open' ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' :
+                        reg.activity?.status === 'in_progress' ? 'bg-[rgba(245,158,11,0.1)] text-[#f59e0b] border border-[rgba(245,158,11,0.2)]' :
+                        reg.activity?.status === 'completed' ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' :
+                        'bg-[rgba(239,68,68,0.1)] text-red-400 border border-[rgba(239,68,68,0.2)]'
                       }`}>
                         {activityStatusLabels[reg.activity?.status || 'draft']?.label}
                       </span>
@@ -243,9 +252,9 @@ export default function MyActivitiesPage() {
                     {reg.activity?.status === 'completed' && reg.status === 'registered' && (
                       <Link 
                         href="/scan"
-                        className="block w-full py-3 bg-[--tribu-green] text-white text-center rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                        className="block w-full py-3 bg-[#22c55e] text-black text-center rounded-lg font-bold hover:bg-[#16a34a] transition-colors"
                       >
-                        📷 Escanear QR para acreditar horas
+                        Escanear QR para acreditar horas
                       </Link>
                     )}
                   </div>
@@ -258,28 +267,28 @@ export default function MyActivitiesPage() {
         {/* Past Activities */}
         {pastActivities.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
-              <span className="mr-2">✅</span> Actividades Completadas
+            <h2 className="text-xl font-bold text-white mb-4">
+              Actividades Completadas
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {pastActivities.map((reg) => (
-                <div key={reg.id} className="bg-white rounded-xl shadow-sm overflow-hidden opacity-80">
-                  <div className="bg-gray-100 text-gray-600 px-4 py-2">
+                <div key={reg.id} className="bg-[#111] rounded-xl border border-[#1f1f1f] overflow-hidden opacity-60">
+                  <div className="bg-[#161616] text-[#444] px-4 py-2">
                     <span className="font-medium">{statusLabels[reg.status]?.label}</span>
                   </div>
                   
                   <div className="p-4">
                     <div className="flex items-center mb-2">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                        🏢 {(reg.activity as any)?.organization_name || 'ONG'}
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#161616] text-[#444] border border-[#1f1f1f]">
+                        {(reg.activity as any)?.organization_name || 'ONG'}
                       </span>
                     </div>
                     
-                    <h3 className="text-lg font-bold text-gray-700 mb-2">
+                    <h3 className="text-lg font-bold text-[#aaa] mb-2">
                       {reg.activity?.title}
                     </h3>
                     
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-[#444]">
                       <p>{formatDate(reg.activity?.start_time || '')}</p>
                       <p>{getHours(reg.activity?.start_time || '', reg.activity?.end_time || '')} horas</p>
                     </div>
@@ -292,15 +301,14 @@ export default function MyActivitiesPage() {
 
         {/* Empty State */}
         {activities.length === 0 && (
-          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-            <div className="text-6xl mb-4">🤝</div>
-            <h3 className="text-xl font-bold text-[--tribu-navy]">Aún no tienes actividades</h3>
-            <p className="text-[--tribu-gray] mt-2 mb-6">
+          <div className="text-center py-12 bg-[#111] rounded-xl border border-[#1f1f1f]">
+            <h3 className="text-xl font-bold text-white">Aún no tienes actividades</h3>
+            <p className="text-[#555] mt-2 mb-6">
               Explora el feed para encontrar oportunidades de voluntariado
             </p>
             <Link 
               href="/feed"
-              className="inline-block px-6 py-3 bg-[--tribu-blue] text-white rounded-lg font-semibold hover:bg-[--tribu-navy] transition-colors"
+              className="inline-block px-6 py-3 bg-[#22c55e] text-black rounded-lg font-semibold hover:bg-[#16a34a] transition-colors"
             >
               Explorar Actividades →
             </Link>

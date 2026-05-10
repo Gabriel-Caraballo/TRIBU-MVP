@@ -229,7 +229,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
@@ -238,38 +238,38 @@ export default function ProfilePage() {
   const levelProgress = getLevelProgress(profile?.total_hours || 0);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-20">
+    <div className="max-w-4xl mx-auto space-y-6 pb-20 min-h-screen bg-[#0a0a0a]">
       {/* Header con contador de horas */}
-      <div className="bg-gradient-to-r from-[--tribu-blue] to-[--tribu-navy] rounded-xl p-6 text-white">
+      <div className="bg-[#111] border border-[#1f1f1f] rounded-xl p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-blue-100 text-sm">Total de horas acumuladas</p>
-            <div className="text-5xl font-bold mt-1">
+            <p className="text-[#555] text-sm">Total de horas acumuladas</p>
+            <div className="text-5xl font-bold text-white mt-1">
               {profile?.total_hours || 0}
-              <span className="text-xl ml-1 font-normal">hrs</span>
+              <span className="text-xl ml-1 font-normal text-[#aaa]">hrs</span>
             </div>
           </div>
           <div className="text-center">
-            <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-2xl font-bold">{userName.charAt(0)}</span>
+            <div className="w-20 h-20 rounded-full bg-[#22c55e] flex items-center justify-center">
+              <span className="text-2xl font-bold text-black">{userName.charAt(0)}</span>
             </div>
-            <p className="mt-2 text-sm">{userName}</p>
+            <p className="mt-2 text-sm text-white">{userName}</p>
           </div>
         </div>
 
         {/* Nivel y Progress Bar */}
         <div className="mt-6">
           <div className="flex justify-between items-center text-sm mb-2">
-            <span className="bg-white/20 px-3 py-1 rounded-full" style={{ backgroundColor: userLevel.color + '40' }}>
+            <span className="px-3 py-1 rounded-full text-[#22c55e] text-sm font-medium">
               Nivel {userLevel.name}
             </span>
-            <span className="text-blue-100">
+            <span className="text-[#555]">
               {levelProgress}% hacia {getNextLevel(profile?.total_hours || 0)}
             </span>
           </div>
-          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+          <div className="h-2 bg-[#1f1f1f] rounded-full overflow-hidden">
             <div 
-              className="h-full bg-white rounded-full transition-all duration-500"
+              className="h-full bg-[#22c55e] rounded-full transition-all duration-500"
               style={{ width: `${levelProgress}%` }}
             />
           </div>
@@ -278,28 +278,28 @@ export default function ProfilePage() {
 
       {/* Acciones rápidas */}
       <div className="grid grid-cols-3 gap-4">
-        <Link href="/my-activities" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
-          <div className="text-2xl font-bold text-[--tribu-blue]">
+        <Link href="/my-activities" className="bg-[#111] border border-[#1f1f1f] p-4 rounded-lg text-center hover:border-[#2a2a2a] transition-all">
+          <div className="text-2xl font-bold text-[#22c55e]">
             {activityCount}
           </div>
-          <div className="text-xs text-[--tribu-gray]">Mis Actividades</div>
+          <div className="text-xs text-[#555]">Mis Actividades</div>
         </Link>
-        <Link href="/wallet" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
-          <div className="text-2xl font-bold text-[--tribu-green]">
-            {profile?.total_hours || 0}<span className="text-lg">h</span>
+        <Link href="/wallet" className="bg-[#111] border border-[#1f1f1f] p-4 rounded-lg text-center hover:border-[#2a2a2a] transition-all">
+          <div className="text-2xl font-bold text-[#22c55e]">
+            {profile?.total_hours || 0}<span className="text-lg text-[#aaa]">h</span>
           </div>
-          <div className="text-xs text-[--tribu-gray]">Billetera</div>
+          <div className="text-xs text-[#555]">Billetera</div>
         </Link>
-        <Link href="/certificates" className="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
-          <div className="text-2xl font-bold text-[--tribu-orange]">0</div>
-          <div className="text-xs text-[--tribu-gray]">Certificados</div>
+        <Link href="/certificates" className="bg-[#111] border border-[#1f1f1f] p-4 rounded-lg text-center hover:border-[#2a2a2a] transition-all">
+          <div className="text-2xl font-bold text-[#f59e0b]">0</div>
+          <div className="text-xs text-[#555]">Certificados</div>
         </Link>
       </div>
 
       {/* Gráfico de habilidades */}
       {skillHours.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-bold text-[--tribu-navy] mb-4">Horas por Habilidad</h2>
+        <div className="bg-[#111] border border-[#1f1f1f] rounded-lg p-6">
+          <h2 className="text-lg font-bold text-white mb-4">Horas por Habilidad</h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={skillHours} layout="vertical" margin={{ left: 80 }}>
@@ -308,10 +308,10 @@ export default function ProfilePage() {
                   type="category" 
                   dataKey="skill" 
                   width={80}
-                  tick={{ fontSize: 12 }}
+                  tick={{ fontSize: 12, fill: '#555' }}
                 />
                 <Tooltip 
-                  contentStyle={{ borderRadius: 8 }}
+                  contentStyle={{ borderRadius: 8, background: '#111', border: '1px solid #1f1f1f', color: '#fff' }}
                   formatter={(value: any) => [`${value} horas`, '']}
                 />
                 <Bar dataKey="hours" radius={[0, 4, 4, 0]}>
@@ -326,12 +326,12 @@ export default function ProfilePage() {
       )}
 
       {/* Editar Perfil */}
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-[#111] border border-[#1f1f1f] rounded-lg p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-[--tribu-navy]">Mi Perfil</h1>
+          <h1 className="text-2xl font-bold text-white">Mi Perfil</h1>
           <button
             onClick={() => setEditing(!editing)}
-            className="text-[--tribu-blue] hover:underline"
+            className="text-[#22c55e] hover:underline"
           >
             {editing ? 'Cancelar' : 'Editar'}
           </button>
@@ -339,7 +339,7 @@ export default function ProfilePage() {
 
         {message.text && (
           <div className={`p-3 rounded-md mb-4 ${
-            message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+            message.type === 'success' ? 'bg-[rgba(34,197,94,0.08)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' : 'bg-[rgba(239,68,68,0.08)] text-red-400 border border-[rgba(239,68,68,0.2)]'
           }`}>
             {message.text}
           </div>
@@ -349,7 +349,7 @@ export default function ProfilePage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+                <label className="block text-sm font-medium text-[#555] mb-1">
                   Nombre completo *
                 </label>
                 <input
@@ -357,22 +357,22 @@ export default function ProfilePage() {
                   required
                   value={formData.fullName}
                   onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+                <label className="block text-sm font-medium text-[#555] mb-1">
                   Teléfono
                 </label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+                <label className="block text-sm font-medium text-[#555] mb-1">
                   Edad
                 </label>
                 <input
@@ -381,69 +381,69 @@ export default function ProfilePage() {
                   max="99"
                   value={formData.age}
                   onChange={(e) => setFormData(prev => ({ ...prev, age: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+                <label className="block text-sm font-medium text-[#555] mb-1">
                   Ciudad
                 </label>
                 <input
                   type="text"
                   value={formData.city}
                   onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+              <label className="block text-sm font-medium text-[#555] mb-1">
                 Biografía breve
               </label>
               <textarea
                 value={formData.bio}
                 onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+                <label className="block text-sm font-medium text-[#555] mb-1">
                   Universidad
                 </label>
                 <input
                   type="text"
                   value={formData.university}
                   onChange={(e) => setFormData(prev => ({ ...prev, university: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[--tribu-gray] mb-1">
+                <label className="block text-sm font-medium text-[#555] mb-1">
                   Carrera
                 </label>
                 <input
                   type="text"
                   value={formData.career}
                   onChange={(e) => setFormData(prev => ({ ...prev, career: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[--tribu-gray] mb-2">
+              <label className="block text-sm font-medium text-[#555] mb-2">
                 Habilidades
               </label>
               {formData.skills.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
                   {formData.skills.map((skill) => (
-                    <span key={skill} className="inline-flex items-center px-3 py-1 rounded-full bg-[--tribu-blue-light] text-[--tribu-blue] text-sm">
+                    <span key={skill} className="inline-flex items-center px-3 py-1 rounded-full bg-[rgba(34,197,94,0.1)] text-[#22c55e] text-sm border border-[rgba(34,197,94,0.2)]">
                       {skill}
-                      <button type="button" onClick={() => removeSkill(skill)} className="ml-2 hover:text-[--tribu-navy]">×</button>
+                      <button type="button" onClick={() => removeSkill(skill)} className="ml-2 hover:text-white">×</button>
                     </span>
                   ))}
                 </div>
@@ -454,7 +454,7 @@ export default function ProfilePage() {
                     key={skill}
                     type="button"
                     onClick={() => addSkill(skill)}
-                    className="px-3 py-1 text-sm border border-gray-200 rounded-full hover:border-[--tribu-blue] hover:text-[--tribu-blue]"
+                    className="px-3 py-1 text-sm bg-[#161616] border border-[#1f1f1f] text-[#555] rounded-full hover:border-[#22c55e] hover:text-[#22c55e]"
                   >
                     + {skill}
                   </button>
@@ -466,7 +466,7 @@ export default function ProfilePage() {
                   value={newSkill}
                   onChange={(e) => setNewSkill(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill(newSkill))}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+                  className="flex-1 px-3 py-2 bg-[#0a0a0a] border border-[#1f1f1f] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e]"
                   placeholder="Agregar habilidad personalizada"
                 />
               </div>
@@ -476,7 +476,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className={`px-6 py-3 bg-[--tribu-blue] text-white rounded-lg hover:bg-[--tribu-navy] ${
+                className={`px-6 py-3 bg-[#22c55e] text-black rounded-lg font-bold hover:bg-[#16a34a] ${
                   saving ? 'opacity-70' : ''
                 }`}
               >
@@ -487,29 +487,29 @@ export default function ProfilePage() {
         ) : (
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-[--tribu-gray]">Nombre</p>
-              <p className="font-medium">{formData.fullName || 'No definido'}</p>
+              <p className="text-sm text-[#555]">Nombre</p>
+              <p className="font-medium text-white">{formData.fullName || 'No definido'}</p>
             </div>
             <div>
-              <p className="text-sm text-[--tribu-gray]">Ciudad</p>
-              <p className="font-medium">{formData.city || 'No definido'}</p>
+              <p className="text-sm text-[#555]">Ciudad</p>
+              <p className="font-medium text-white">{formData.city || 'No definido'}</p>
             </div>
             <div>
-              <p className="text-sm text-[--tribu-gray]">Biografía</p>
-              <p className="font-medium">{formData.bio || 'No definido'}</p>
+              <p className="text-sm text-[#555]">Biografía</p>
+              <p className="font-medium text-white">{formData.bio || 'No definido'}</p>
             </div>
             <div>
-              <p className="text-sm text-[--tribu-gray]">Habilidades</p>
+              <p className="text-sm text-[#555]">Habilidades</p>
               <div className="flex flex-wrap gap-2 mt-1">
                 {formData.skills.length > 0 ? formData.skills.map((skill) => (
-                  <span key={skill} className="px-3 py-1 rounded-full bg-gray-100 text-sm">{skill}</span>
-                )) : <p className="text-gray-400">No definidas</p>}
+                  <span key={skill} className="px-3 py-1 rounded-full bg-[#161616] text-[#555] text-sm border border-[#1f1f1f]">{skill}</span>
+                )) : <p className="text-[#333]">No definidas</p>}
               </div>
             </div>
             {formData.university && (
               <div>
-                <p className="text-sm text-[--tribu-gray]">Universidad</p>
-                <p className="font-medium">{formData.university} {formData.career && `- ${formData.career}`}</p>
+                <p className="text-sm text-[#555]">Universidad</p>
+                <p className="font-medium text-white">{formData.university} {formData.career && `- ${formData.career}`}</p>
               </div>
             )}
           </div>

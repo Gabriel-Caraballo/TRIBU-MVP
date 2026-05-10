@@ -58,7 +58,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validación con Zod
     try {
       if (accountType === 'org_admin') {
@@ -125,8 +125,8 @@ export default function RegisterPage() {
       {step === 1 && (
         <div>
           <p className="text-[#8a8a82] text-xs uppercase tracking-widest text-center mb-8">Selecciona el tipo de cuenta que deseas crear</p>
-          
-          <AccountTypeSelector 
+
+          <AccountTypeSelector
             onSelect={handleAccountTypeSelect}
             selected={accountType || undefined}
           />
@@ -140,7 +140,7 @@ export default function RegisterPage() {
               {authError}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <FormField
               id="fullName"
@@ -150,7 +150,7 @@ export default function RegisterPage() {
               error={errors.fullName}
               required
             />
-            
+
             <FormField
               id="email"
               label="Email"
@@ -160,7 +160,7 @@ export default function RegisterPage() {
               error={errors.email}
               required
             />
-            
+
             {accountType === 'org_admin' && (
               <FormField
                 id="orgName"
@@ -171,7 +171,7 @@ export default function RegisterPage() {
                 required
               />
             )}
-            
+
             <PasswordInput
               id="password"
               label="Contraseña"
@@ -180,7 +180,7 @@ export default function RegisterPage() {
               error={errors.password}
               required
             />
-            
+
             <PasswordInput
               id="confirmPassword"
               label="Confirmar contraseña"
@@ -189,7 +189,7 @@ export default function RegisterPage() {
               error={errors.confirmPassword}
               required
             />
-            
+
             <div className="flex items-center justify-between pt-4">
               <button
                 type="button"
@@ -198,13 +198,12 @@ export default function RegisterPage() {
               >
                 &larr; Volver
               </button>
-              
+
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`btn w-auto min-w-[150px] btn-primary ${
-                  isLoading ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
+                className={`btn w-auto min-w-[150px] btn-primary ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
@@ -218,7 +217,7 @@ export default function RegisterPage() {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-8 text-center border-t border-white/10 pt-6">
             <p className="text-[10px] text-[#8a8a82] uppercase tracking-widest">
               ¿Ya tienes cuenta?{' '}

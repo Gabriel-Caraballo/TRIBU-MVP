@@ -198,28 +198,36 @@ export default function ScanPage() {
   // Result Screen
   if (result) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className={`bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center ${
-          result.success ? "border-4 border-green-400" : "border-4 border-red-400"
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+        <div className={`bg-[#111] rounded-2xl border p-8 max-w-sm w-full text-center ${
+          result.success ? "border-[#22c55e]" : "border-red-500"
         }`}>
-          <div className="text-5xl mb-4">
-            {result.success ? "✅" : "❌"}
+          <div className="mb-4">
+            {result.success ? (
+              <svg className="w-12 h-12 text-[#22c55e] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            ) : (
+              <svg className="w-12 h-12 text-red-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            )}
           </div>
           
-          <h2 className={`text-2xl font-bold ${result.success ? "text-green-600" : "text-red-600"}`}>
+          <h2 className={`text-2xl font-bold ${result.success ? "text-[#22c55e]" : "text-red-400"}`}>
             {result.success ? "¡Listo!" : "Error"}
           </h2>
-          <p className="text-gray-600 mt-3">{result.message}</p>
+          <p className="text-[#555] mt-3">{result.message}</p>
           
           {result.success && result.hours && (
-            <div className="mt-4 bg-green-100 rounded-lg p-3">
-              <span className="text-green-700 font-bold">+{result.hours} horas</span>
+            <div className="mt-4 bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.2)] rounded-lg p-3">
+              <span className="text-[#22c55e] font-bold">+{result.hours} horas</span>
             </div>
           )}
           
           <button
             onClick={tryAgain}
-            className="mt-8 w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700"
+            className="mt-8 w-full py-3 bg-[#22c55e] text-black rounded-lg font-bold hover:bg-[#16a34a]"
           >
             Escanear otro
           </button>
@@ -230,16 +238,15 @@ export default function ScanPage() {
 
   // Main Scan Screen
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0a0a0a]">
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="text-center mb-4">
-          <span className="text-4xl">📷</span>
-          <h1 className="text-2xl font-bold text-slate-800 mt-2">Escanear QR</h1>
-          <p className="text-slate-500 mt-1">Apunta al código QR</p>
+          <h1 className="text-2xl font-bold text-white mt-2">Escanear QR</h1>
+          <p className="text-[#555] mt-1">Apunta al código QR</p>
         </div>
 
         {cameraError && (
-          <div className="mb-4 bg-red-100 text-red-700 p-3 rounded-lg text-center">
+          <div className="mb-4 bg-[rgba(239,68,68,0.08)] text-red-400 p-3 rounded-lg text-center border border-[rgba(239,68,68,0.2)]">
             {cameraError}
           </div>
         )}
@@ -249,7 +256,7 @@ export default function ScanPage() {
             <select
               value={selectedCameraId}
               onChange={handleCameraChange}
-              className="w-full p-2 border rounded-lg bg-white"
+              className="w-full p-2 border border-[#1f1f1f] rounded-lg bg-[#111] text-white"
             >
               {cameras.map(cam => (
                 <option key={cam.deviceId} value={cam.deviceId}>
@@ -260,22 +267,22 @@ export default function ScanPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-4">
+        <div className="bg-[#111] rounded-xl border border-[#1f1f1f] overflow-hidden mb-4">
           <div id="qr-reader" className="w-full"></div>
         </div>
 
         {loading && (
           <div className="text-center py-4">
-            <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="mt-2 text-slate-600">Procesando...</p>
+            <div className="w-10 h-10 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="mt-2 text-[#555]">Procesando...</p>
           </div>
         )}
 
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-medium hover:border-blue-500 hover:text-blue-500"
+          className="w-full py-3 border-2 border-dashed border-[#1f1f1f] rounded-xl text-[#444] font-medium hover:border-[#22c55e] hover:text-[#22c55e]"
         >
-          📁 Subir imagen del QR
+          Subir imagen del QR
         </button>
         <input
           ref={fileInputRef}
@@ -285,9 +292,9 @@ export default function ScanPage() {
           className="hidden"
         />
 
-        <div className="mt-6 bg-white rounded-lg p-4 text-sm text-slate-600">
-          <p className="font-bold text-slate-800 mb-2">📋 Instrucciones:</p>
-          <ol className="space-y-1 list-decimal list-inside">
+        <div className="mt-6 bg-[#111] rounded-lg border border-[#1f1f1f] p-4 text-sm">
+          <p className="font-medium text-white mb-2">Instrucciones:</p>
+          <ol className="space-y-1 text-[#555] list-decimal list-inside">
             <li>La ONG te da el QR al terminar</li>
             <li>Apunta la cámara al código</li>
             <li>¡Las horas se acreditan!</li>

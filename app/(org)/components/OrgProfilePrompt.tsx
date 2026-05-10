@@ -152,7 +152,7 @@ export default function OrgProfilePrompt({ onComplete }: OrgProfilePromptProps) 
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-xl p-8">
+    <div className="bg-white rounded-xl shadow-xl p-5 md:p-8">
       {/* Header de alerta */}
       <div className="bg-[--tribu-orange-light] border-l-4 border-[--tribu-orange] p-4 mb-6 rounded-r-lg">
         <div className="flex items-center">
@@ -325,7 +325,7 @@ export default function OrgProfilePrompt({ onComplete }: OrgProfilePromptProps) 
           <button
             type="submit"
             disabled={saving}
-            className={`px-8 py-3 bg-[--tribu-blue] text-white rounded-lg hover:bg-[--tribu-navy] transition-colors font-medium ${
+            className={`w-full md:w-auto px-8 py-3 bg-[--tribu-blue] text-white rounded-lg hover:bg-[--tribu-navy] transition-colors font-medium ${
               saving ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >

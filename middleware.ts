@@ -10,7 +10,7 @@ const PUBLIC_ROUTES = ['/', '/auth/login', '/auth/register', '/auth/callback', '
 const ORG_ADMIN_ROUTES = ['/dashboard', '/activities', '/volunteers', '/reports'];
 
 // Rutas que requieren ser voluntario
-const VOLUNTEER_ROUTES = ['/feed', '/scan', '/profile', '/certificates', '/my-activities'];
+const VOLUNTEER_ROUTES = ['/volunteer-dashboard', '/feed', '/scan', '/profile', '/certificates', '/my-activities'];
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -95,7 +95,7 @@ export async function middleware(request: NextRequest) {
       if (user?.account_type === 'org_admin') {
         return NextResponse.redirect(new URL('/dashboard', request.url));
       } else if (user?.account_type === 'volunteer') {
-        return NextResponse.redirect(new URL('/feed', request.url));
+        return NextResponse.redirect(new URL('/volunteer-dashboard', request.url));
       }
     }
 
@@ -122,7 +122,7 @@ export async function middleware(request: NextRequest) {
     if (isOrgAdminRoute && user?.account_type !== 'org_admin') {
       // Redirigir a feed si es voluntario intentando acceder a rutas de ONG
       if (user?.account_type === 'volunteer') {
-        return NextResponse.redirect(new URL('/feed', request.url));
+        return NextResponse.redirect(new URL('/volunteer-dashboard', request.url));
       }
       // Redirigir a login en cualquier otro caso
       return NextResponse.redirect(new URL('/auth/login', request.url));

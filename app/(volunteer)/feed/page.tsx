@@ -201,42 +201,41 @@ export default function VolunteerFeed() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-[#0a0a0a] pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         {/* Header */}
         <div className="mb-6 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[--tribu-navy]">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
             Encuentra tu próxima tarea voluntaria
           </h1>
           
           {volunteerSkills.length > 0 && activities.some(a => 
             calculateSkillMatch(a.required_skills || []) > 0
           ) && (
-            <p className="text-[--tribu-green] font-medium mt-2 flex items-center">
-              <span className="text-lg mr-2">✨</span>
+            <p className="text-[#22c55e] font-medium mt-2 text-sm">
               Hay actividades que coinciden con tus habilidades
             </p>
           )}
         </div>
 
         {/* Filters - Responsive */}
-        <div className="bg-white rounded-xl shadow-sm mb-6 lg:mb-8 p-4 lg:p-5">
+        <div className="bg-[#111] rounded-xl border border-[#1f1f1f] mb-6 lg:mb-8 p-4 lg:p-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Skill Filter */}
             <div className="relative">
-              <label className="block text-sm font-semibold text-[--tribu-navy] mb-2">
-                🎯 Habilidad
+              <label className="block text-xs tracking-widest uppercase text-[#888] mb-2">
+                Habilidad
               </label>
               <select 
                 value={skillFilter[0] || ''}
                 onChange={(e) => setSkillFilter(e.target.value ? [e.target.value] : [])}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--tribu-blue] focus:border-transparent bg-white"
+                className="w-full px-4 py-2.5 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] bg-[#0a0a0a] text-white"
               >
                 <option value="">Todas las habilidades</option>
                 {allSkills.map((skill) => (
@@ -247,13 +246,13 @@ export default function VolunteerFeed() {
             
             {/* Date Filter */}
             <div className="relative">
-              <label className="block text-sm font-semibold text-[--tribu-navy] mb-2">
-                📅 Fecha
+              <label className="block text-xs tracking-widest uppercase text-[#888] mb-2">
+                Fecha
               </label>
               <select 
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--tribu-blue] focus:border-transparent bg-white"
+                className="w-full px-4 py-2.5 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] bg-[#0a0a0a] text-white"
               >
                 <option value="all">Todas las fechas</option>
                 <option value="week">Esta semana</option>
@@ -263,8 +262,8 @@ export default function VolunteerFeed() {
             
             {/* Search */}
             <div className="relative">
-              <label className="block text-sm font-semibold text-[--tribu-navy] mb-2">
-                🔍 Buscar
+              <label className="block text-xs tracking-widest uppercase text-[#888] mb-2">
+                Buscar
               </label>
               <div className="relative">
                 <input 
@@ -272,9 +271,9 @@ export default function VolunteerFeed() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Título de actividad..."
-                  className="w-full px-4 py-2.5 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--tribu-blue] focus:border-transparent"
+                  className="w-full px-4 py-2.5 pl-10 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] bg-[#0a0a0a] text-white placeholder:text-[#444]"
                 />
-                <svg className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-[#444] absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
@@ -292,59 +291,65 @@ export default function VolunteerFeed() {
               return (
                 <div 
                   key={activity.id} 
-                  className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
-                    activity.is_registered ? 'ring-2 ring-green-400' : ''
+                  className={`bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] overflow-hidden ${
+                    activity.is_registered ? 'ring-2 ring-[#22c55e]' : ''
                   }`}
                 >
                   {/* Match Badge */}
                   {matchPercentage > 0 && (
                     <div className={`${
                       matchPercentage >= 75 
-                        ? 'bg-gradient-to-r from-green-500 to-green-600' 
+                        ? 'bg-[rgba(34,197,94,0.15)] text-[#22c55e]' 
                         : matchPercentage >= 50
-                        ? 'bg-gradient-to-r from-[--tribu-green] to-green-500'
-                        : 'bg-gradient-to-r from-[--tribu-orange] to-orange-500'
-                    } text-white text-xs font-bold py-2 px-4 text-center flex items-center justify-center`}>
-                      <span className="mr-1">🎯</span>
-                      {matchPercentage}% match
+                        ? 'bg-[rgba(245,158,11,0.12)] text-[#f59e0b]'
+                        : 'bg-[rgba(245,158,11,0.08)] text-[#f59e0b]'
+                    } text-xs font-bold py-2 px-4 text-center`}>
+                      {matchPercentage}% match con tus habilidades
                     </div>
                   )}
                   
                   <div className="p-4 lg:p-5">
                     {/* Organization Badge */}
                     <div className="flex items-center mb-2">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        🏢 {activity.organization}
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#161616] text-[#555] border border-[#1f1f1f]">
+                        {activity.organization}
                       </span>
                     </div>
                     
                     {/* Title */}
-                    <h3 className="text-lg font-bold text-[--tribu-navy] mb-2 line-clamp-2 min-h-[2.5rem]">
+                    <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 min-h-[2.5rem]">
                       {activity.title}
                     </h3>
                     
                     {/* Info Grid */}
                     <div className="space-y-2.5 mb-4">
-                      <div className="flex items-start text-sm text-[--tribu-gray]">
-                        <span className="w-5 flex-shrink-0 mt-0.5">📅</span>
+                      <div className="flex items-start text-sm text-[#555]">
+                        <svg className="w-4 h-4 text-[#444] flex-shrink-0 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                         <div>
-                          <p className="font-medium">{formatDate(activity.start_time)}</p>
-                          <p className="text-xs text-gray-500">{hours} horas</p>
+                          <p className="font-medium text-[#aaa]">{formatDate(activity.start_time)}</p>
+                          <p className="text-xs text-[#555]">{hours} horas</p>
                         </div>
                       </div>
 
-                      <div className="flex items-start text-sm text-[--tribu-gray]">
-                        <span className="w-5 flex-shrink-0 mt-0.5">📍</span>
+                      <div className="flex items-start text-sm text-[#555]">
+                        <svg className="w-4 h-4 text-[#444] flex-shrink-0 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
                         <span className="line-clamp-1">{activity.location || 'Sin ubicación'}</span>
                       </div>
                       
                       <div className="flex items-center text-sm">
-                        <span className="w-5 flex-shrink-0">👥</span>
-                        <span className={(activity.registered_count || 0) >= (activity.max_volunteers || Infinity) ? 'text-red-500 font-medium' : 'text-[--tribu-gray]'}>
+                        <svg className="w-4 h-4 text-[#444] flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span className={(activity.registered_count || 0) >= (activity.max_volunteers || Infinity) ? 'text-red-400 font-medium' : 'text-[#555]'}>
                           {activity.registered_count || 0}/{activity.max_volunteers || '∞'} voluntarios
                         </span>
                         {(activity.registered_count || 0) >= (activity.max_volunteers || Infinity) && (
-                          <span className="ml-2 text-xs bg-red-100 text-red-600 px-1.5 py-0.5 rounded">Lleno</span>
+                          <span className="ml-2 text-xs bg-[rgba(239,68,68,0.1)] text-red-400 px-1.5 py-0.5 rounded">Lleno</span>
                         )}
                       </div>
                     </div>
@@ -356,15 +361,15 @@ export default function VolunteerFeed() {
                           key={skill} 
                           className={`text-xs px-2.5 py-1 rounded-full font-medium ${
                             volunteerSkills.some(vs => vs.toLowerCase() === skill.toLowerCase())
-                              ? 'bg-green-100 text-green-700 border border-green-200'
-                              : 'bg-gray-100 text-gray-600'
+                              ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]'
+                              : 'bg-[#161616] text-[#555] border border-[#1f1f1f]'
                           }`}
                         >
                           {skill}
                         </span>
                       ))}
                       {activity.required_skills?.length > 4 && (
-                        <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
+                        <span className="text-xs px-2.5 py-1 rounded-full bg-[#161616] text-[#555] border border-[#1f1f1f]">
                           +{activity.required_skills.length - 4}
                         </span>
                       )}
@@ -372,17 +377,17 @@ export default function VolunteerFeed() {
                     
                     {/* Action Button */}
                     {activity.is_registered ? (
-                      <div className="w-full py-3 bg-green-100 text-green-700 rounded-lg font-semibold text-center flex items-center justify-center">
+                      <div className="w-full py-3 bg-[rgba(34,197,94,0.1)] text-[#22c55e] rounded-lg font-semibold text-center flex items-center justify-center border border-[rgba(34,197,94,0.2)]">
                         <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        ✅ Ya estás registrado
+                        Ya estás registrado
                       </div>
                     ) : (
                       <button
                         onClick={() => handleRegister(activity.id)}
                         disabled={registeringId === activity.id || (activity.registered_count || 0) >= (activity.max_volunteers || Infinity)}
-                        className="w-full py-3 bg-[--tribu-blue] text-white rounded-lg font-semibold hover:bg-[--tribu-navy] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        className="w-full py-3 bg-[#22c55e] text-black rounded-lg font-bold hover:bg-[#16a34a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                       >
                         {registeringId === activity.id ? (
                           <span className="flex items-center">
@@ -393,10 +398,7 @@ export default function VolunteerFeed() {
                             Registrando...
                           </span>
                         ) : (
-                          <span className="flex items-center">
-                            <span className="mr-2">✨</span>
-                            Registrarme
-                          </span>
+                          <span>Registrarme</span>
                         )}
                       </button>
                     )}
@@ -406,10 +408,9 @@ export default function VolunteerFeed() {
             })}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-            <div className="text-6xl mb-4">😔</div>
-            <h3 className="text-xl font-bold text-[--tribu-navy]">No hay actividades disponibles</h3>
-            <p className="text-[--tribu-gray] mt-2 mb-6">
+          <div className="text-center py-12 bg-[#111] rounded-xl border border-[#1f1f1f]">
+            <h3 className="text-xl font-bold text-white">No hay actividades disponibles</h3>
+            <p className="text-[#555] mt-2 mb-6">
               Prueba con otros filtros o vuelve más tarde
             </p>
             <button
@@ -418,7 +419,7 @@ export default function VolunteerFeed() {
                 setDateFilter('all');
                 setSearchQuery('');
               }}
-              className="px-6 py-2.5 bg-[--tribu-blue] text-white rounded-lg font-medium hover:bg-[--tribu-navy] transition-colors"
+              className="px-6 py-2.5 bg-[#22c55e] text-black rounded-lg font-medium hover:bg-[#16a34a] transition-colors"
             >
               Limpiar filtros
             </button>

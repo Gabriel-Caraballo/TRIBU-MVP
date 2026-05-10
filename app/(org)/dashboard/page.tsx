@@ -4,6 +4,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { 
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell 
+} from 'recharts';
 
 interface Activity {
   id: string;
@@ -33,6 +36,10 @@ export default function Dashboard() {
   const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
   const [topVolunteers, setTopVolunteers] = useState<Volunteer[]>([]);
   const [orgId, setOrgId] = useState<string | null>(null);
+  
+  // Chart data
+  const [activitiesChartData, setActivitiesChartData] = useState<{ month: string; count: number }[]>([]);
+  const [volunteersBySkill, setVolunteersBySkill] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -187,6 +194,60 @@ export default function Dashboard() {
 
         setTopVolunteers(topVolunteersData);
       }
+
+      // 5. Prepare activities by month chart data
+      if (activities && activities.length > 0) {
+        const monthlyData: Record<string, number> = {};
+        
+        activities.forEach(a => {
+          const date = new Date(a.start_time);
+          const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+          monthlyData[monthKey] = (monthlyData[monthKey] || 0) + 1;
+        });
+
+        const sortedMonths = Object.keys(monthlyData).sort();
+        const chartData = sortedMonths.slice(-6).map(month => {
+          const [year, m] = month.split('-');
+          const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+          return {
+            month: monthNames[parseInt(m) - 1],
+            count: monthlyData[month]
+          };
+        });
+        
+        setActivitiesChartData(chartData);
+      }
+
+      // 6. Get volunteers by skill for pie chart
+      if (activityIds.length > 0) {
+        const { data: allRegistrations } = await supabase
+          .from('activity_registrations')
+          .select('volunteer_id')
+          .in('activity_id', activityIds);
+
+        const volunteerIds = Array.from(new Set((allRegistrations || []).map(r => r.volunteer_id)));
+        
+        if (volunteerIds.length > 0) {
+          const { data: profiles } = await supabase
+            .from('volunteer_profiles')
+            .select('skills')
+            .in('user_id', volunteerIds);
+
+          const skillCount: Record<string, number> = {};
+          profiles?.forEach(p => {
+            (p.skills || []).forEach((skill: string) => {
+              skillCount[skill] = (skillCount[skill] || 0) + 1;
+            });
+          });
+
+          const topSkills = Object.entries(skillCount)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([name, value]) => ({ name, value }));
+
+          setVolunteersBySkill(topSkills);
+        }
+      }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {
@@ -299,6 +360,72 @@ return (
                 📊
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Activities by Month - Bar Chart */}
+          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
+            <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
+              <span className="mr-2">📈</span> Actividades por Mes
+            </h2>
+            {activitiesChartData.length > 0 ? (
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={activitiesChartData}>
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: 8 }}
+                      formatter={(value: any) => [`${value} actividades`, '']}
+                    />
+                    <Bar dataKey="count" fill="#107c41" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="h-64 flex items-center justify-center text-gray-500">
+                <p>No hay suficientes datos para mostrar</p>
+              </div>
+            )}
+          </div>
+
+          {/* Volunteers by Skill - Pie Chart */}
+          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
+            <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
+              <span className="mr-2">🎯</span> Voluntarios por Habilidad
+            </h2>
+            {volunteersBySkill.length > 0 ? (
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={volunteersBySkill}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={2}
+                      dataKey="value"
+                      label={({ name, value }) => `${name}: ${value}`}
+                    >
+                      {volunteersBySkill.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={['#107c41', '#0d5c2f', '#8a8a82', '#e8e8e2', '#666'][index % 5]} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{ borderRadius: 8 }}
+                      formatter={(value: any) => [`${value} voluntarios`, '']}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="h-64 flex items-center justify-center text-gray-500">
+                <p>No hay suficientes datos para mostrar</p>
+              </div>
+            )}
           </div>
         </div>
 

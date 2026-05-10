@@ -204,16 +204,16 @@ export default function ActivityDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
 
   if (!activity) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-xl font-bold text-[--tribu-navy]">Actividad no encontrada</h2>
-        <Link href="/feed" className="text-[--tribu-blue] hover:underline mt-4 inline-block">
+      <div className="max-w-3xl mx-auto pb-20 bg-[#0a0a0a] text-center py-12">
+        <h2 className="text-xl font-bold text-white">Actividad no encontrada</h2>
+        <Link href="/feed" className="text-[#22c55e] hover:underline mt-4 inline-block">
           ← Volver al feed
         </Link>
       </div>
@@ -224,32 +224,32 @@ export default function ActivityDetailPage() {
   const hours = calculateHours(activity.start_time, activity.end_time);
 
   return (
-    <div className="max-w-3xl mx-auto pb-20">
-      <Link href="/feed" className="text-[--tribu-blue] hover:underline inline-flex items-center mb-4">
+    <div className="max-w-3xl mx-auto pb-20 bg-[#0a0a0a]">
+      <Link href="/feed" className="text-[#22c55e] hover:underline inline-flex items-center mb-4">
         ← Volver al feed
       </Link>
 
       {/* Message */}
       {message && (
         <div className={`p-4 rounded-lg mb-4 ${
-          message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+          message.type === 'success' ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]' : 'bg-[rgba(239,68,68,0.08)] text-red-400 border border-[rgba(239,68,68,0.2)]'
         }`}>
           {message.text}
         </div>
       )}
 
       {/* Main Card */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-[#111] rounded-xl border border-[#1f1f1f] overflow-hidden">
         {/* Match Banner */}
         {matchPercentage > 0 && (
-          <div className={`px-6 py-3 text-white ${
+          <div className={`px-6 py-3 ${
             matchPercentage >= 75 
-              ? 'bg-gradient-to-r from-green-500 to-green-600' 
+              ? 'bg-[rgba(34,197,94,0.12)] text-[#22c55e]' 
               : matchPercentage >= 50
-              ? 'bg-gradient-to-r from-[--tribu-green] to-green-500'
-              : 'bg-gradient-to-r from-[--tribu-orange] to-orange-500'
+              ? 'bg-[rgba(34,197,94,0.10)] text-[#22c55e]'
+              : 'bg-[rgba(245,158,11,0.10)] text-[#f59e0b]'
           }`}>
-            <span className="font-bold">🎯 {matchPercentage}%</span> de coincidence con tus habilidades
+            <span className="font-bold">{matchPercentage}%</span> de coincidencia con tus habilidades
           </div>
         )}
 
@@ -263,90 +263,98 @@ export default function ActivityDetailPage() {
                 className="w-12 h-12 rounded-full object-cover mr-3"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-[--tribu-blue-light] flex items-center justify-center mr-3">
-                <span className="text-xl">🏢</span>
+              <div className="w-12 h-12 rounded-full bg-[#161616] border border-[#1f1f1f] flex items-center justify-center mr-3">
+                <svg className="w-6 h-6 text-[#555]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
               </div>
             )}
             <div>
-              <p className="text-sm text-[--tribu-gray]">Organización</p>
-              <p className="font-bold text-[--tribu-navy]">{activity.organization?.name || 'ONG'}</p>
+              <p className="text-xs text-[#555]">Organización</p>
+              <p className="font-medium text-white">{activity.organization?.name || 'ONG'}</p>
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold text-[--tribu-navy] mb-4">{activity.title}</h1>
+          <h1 className="text-2xl font-bold text-white mb-4">{activity.title}</h1>
 
           {/* Description */}
           {activity.description && (
-            <p className="text-[--tribu-gray] mb-6">{activity.description}</p>
+            <p className="text-[#aaa] mb-6">{activity.description}</p>
           )}
 
           {/* Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="flex items-start">
-              <span className="text-xl mr-3">📅</span>
+              <svg className="w-5 h-5 text-[#444] flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
               <div>
-                <p className="text-sm text-[--tribu-gray]">Fecha y hora</p>
-                <p className="font-medium">{formatDate(activity.start_time)}</p>
-                <p className="text-sm text-[--tribu-gray]">{hours} horas</p>
+                <p className="text-xs text-[#555]">Fecha y hora</p>
+                <p className="font-medium text-white">{formatDate(activity.start_time)}</p>
+                <p className="text-sm text-[#555]">{hours} horas</p>
               </div>
             </div>
             <div className="flex items-start">
-              <span className="text-xl mr-3">📍</span>
+              <svg className="w-5 h-5 text-[#444] flex-shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
               <div>
-                <p className="text-sm text-[--tribu-gray]">Ubicación</p>
-                <p className="font-medium">{activity.location || 'Por definir'}</p>
+                <p className="text-xs text-[#555]">Ubicación</p>
+                <p className="font-medium text-[#aaa]">{activity.location || 'Por definir'}</p>
               </div>
             </div>
           </div>
 
           {/* Required Skills */}
           <div className="mb-6">
-            <p className="text-sm text-[--tribu-gray] mb-2">Habilidades requeridas</p>
+            <p className="text-xs text-[#555] mb-2">Habilidades requeridas</p>
             <div className="flex flex-wrap gap-2">
               {activity.required_skills?.map((skill) => (
                 <span 
                   key={skill}
                   className={`px-3 py-1 rounded-full text-sm font-medium ${
                     volunteerSkills.some(vs => vs.toLowerCase() === skill.toLowerCase())
-                      ? 'bg-green-100 text-green-700 border border-green-200'
-                      : 'bg-gray-100 text-gray-600'
+                      ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]'
+                      : 'bg-[#161616] text-[#555] border border-[#1f1f1f]'
                   }`}
                 >
                   {skill} {volunteerSkills.some(vs => vs.toLowerCase() === skill.toLowerCase()) && '✓'}
                 </span>
               ))}
               {(!activity.required_skills || activity.required_skills.length === 0) && (
-                <span className="text-[--tribu-gray]">No se requieren habilidades específicas</span>
+                <span className="text-[#555]">No se requieren habilidades específicas</span>
               )}
             </div>
           </div>
 
           {/* Capacity */}
           {activity.max_volunteers && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-[--tribu-gray]">Cupo máximo</p>
-              <p className="font-bold text-[--tribu-navy]">{activity.max_volunteers} voluntarios</p>
+            <div className="mb-6 p-4 bg-[#161616] border border-[#1f1f1f] rounded-lg">
+              <p className="text-xs text-[#555]">Cupo máximo</p>
+              <p className="font-bold text-white">{activity.max_volunteers} voluntarios</p>
             </div>
           )}
 
           {/* Registration Status */}
           {registration && (
             <div className={`mb-6 p-4 rounded-lg ${
-              registration.status === 'approved' ? 'bg-green-50' :
-              registration.status === 'pending' ? 'bg-yellow-50' :
-              'bg-gray-50'
+              registration.status === 'approved' ? 'bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.2)]' :
+              registration.status === 'pending' ? 'bg-[rgba(245,158,11,0.08)] border border-[rgba(245,158,11,0.2)]' :
+              registration.status === 'attended' ? 'bg-[rgba(34,197,94,0.08)] border border-[rgba(34,197,94,0.2)]' :
+              'bg-[#161616] border border-[#1f1f1f]'
             }`}>
               <p className="font-medium">
-                {registration.status === 'approved' && '✅ Estás aprobado para esta actividad'}
-                {registration.status === 'pending' && '⏳ Tu solicitud está pendiente de aprobación'}
-                {registration.status === 'attended' && '✅ Asististe a esta actividad'}
-                {registration.status === 'cancelled' && '❌ Tu registro fue cancelado'}
+                {registration.status === 'approved' && 'Estás aprobado para esta actividad'}
+                {registration.status === 'pending' && 'Tu solicitud está pendiente de aprobación'}
+                {registration.status === 'attended' && 'Asististe a esta actividad'}
+                {registration.status === 'cancelled' && 'Tu registro fue cancelado'}
               </p>
               {registration.status !== 'attended' && registration.status !== 'cancelled' && (
                 <button
                   onClick={handleCancelRegistration}
-                  className="mt-2 text-sm text-red-600 hover:underline"
+                  className="mt-2 text-sm text-red-400 hover:underline"
                 >
                   Cancelar registro
                 </button>
@@ -359,7 +367,7 @@ export default function ActivityDetailPage() {
             <button
               onClick={handleRequestJoin}
               disabled={registering}
-              className="w-full py-4 bg-[--tribu-blue] text-white rounded-lg font-bold text-lg hover:bg-[--tribu-navy] transition-colors disabled:opacity-50 flex items-center justify-center"
+              className="w-full py-4 bg-[#22c55e] text-black rounded-lg font-bold text-lg hover:bg-[#16a34a] transition-colors disabled:opacity-50 flex items-center justify-center"
             >
               {registering ? (
                 <>
@@ -370,16 +378,13 @@ export default function ActivityDetailPage() {
                   Enviando solicitud...
                 </>
               ) : (
-                <>
-                  <span className="mr-2">✨</span>
-                  Solicitar unirme
-                </>
+                <>Solicitar unirme</>
               )}
             </button>
           )}
 
           {activity.status !== 'open' && !registration && (
-            <div className="w-full py-4 bg-gray-100 text-gray-500 rounded-lg font-bold text-lg text-center">
+            <div className="w-full py-4 bg-[#161616] text-[#444] rounded-lg font-bold text-lg text-center border border-[#1f1f1f]">
               Esta actividad no está abierta
             </div>
           )}

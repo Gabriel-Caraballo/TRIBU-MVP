@@ -17,12 +17,12 @@ export default function ForgotPasswordPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  
+
   const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validación con Zod
     try {
       forgotSchema.parse({ email });
@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
     }
 
     setIsLoading(true);
-    
+
     try {
       await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
@@ -69,17 +69,17 @@ export default function ForgotPasswordPage() {
               </svg>
             </div>
           </div>
-          
+
           <div className="space-y-4">
             <p className="text-[--tribu-dark]">
               Si ese email existe en nuestra base de datos, recibirás un enlace para restablecer tu contraseña en los próximos minutos.
             </p>
-            
+
             <p className="text-[--tribu-gray] text-sm">
               Recuerda revisar tu carpeta de spam si no lo encuentras.
             </p>
           </div>
-          
+
           <div className="pt-4">
             <Link href="/auth/login" className="text-[--tribu-blue] hover:underline font-medium">
               Volver al inicio de sesión
@@ -95,7 +95,7 @@ export default function ForgotPasswordPage() {
       <p className="text-[--tribu-gray] text-center mb-6">
         Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña
       </p>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <FormField
           id="email"
@@ -106,13 +106,12 @@ export default function ForgotPasswordPage() {
           error={errors.email}
           required
         />
-        
+
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-[--tribu-blue] hover:bg-[--tribu-navy] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--tribu-blue] transition-colors ${
-            isLoading ? 'opacity-70 cursor-not-allowed' : ''
-          }`}
+          className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-[--tribu-blue] hover:bg-[--tribu-navy] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--tribu-blue] transition-colors ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+            }`}
         >
           {isLoading ? (
             <div className="flex items-center">
@@ -125,7 +124,7 @@ export default function ForgotPasswordPage() {
           ) : 'Enviar enlace'}
         </button>
       </form>
-      
+
       <div className="mt-6 text-center">
         <Link href="/auth/login" className="text-[--tribu-blue] hover:underline font-medium text-sm">
           ← Volver a inicio de sesión

@@ -25,30 +25,29 @@ export default function MessagesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[--tribu-light] pb-20">
+    <div className="min-h-screen bg-[#0a0a0a] pb-20">
       <div className="max-w-md mx-auto p-4">
-        <h1 className="text-2xl font-bold text-[--tribu-navy] mb-6">Mensajes</h1>
+        <h1 className="text-2xl font-bold text-white mb-6">Mensajes</h1>
         
         <div className="text-center py-12">
-          <div className="text-5xl mb-4">💬</div>
-          <h2 className="text-xl font-semibold text-[--tribu-navy] mb-2">Aún no hay mensajes</h2>
-          <p className="text-[--tribu-gray]">
+          <h2 className="text-xl font-semibold text-white mb-2">Aún no hay mensajes</h2>
+          <p className="text-[#555]">
             Aquí podrás chatear con otros voluntarios y coordinar trueques de actividades.
           </p>
         </div>
 
-        <div className="mt-8 p-4 bg-white rounded-lg shadow-sm">
-          <h3 className="font-semibold text-[--tribu-navy] mb-2">Próximamente</h3>
-          <ul className="text-sm text-[--tribu-gray] space-y-2">
-            <li>✨ Chats directos con otros voluntarios</li>
-            <li>🤝 Trueques de horarios entre voluntarios</li>
-            <li>📢 Notificaciones de la comunidad</li>
+        <div className="mt-8 p-4 bg-[#111] rounded-lg border border-[#1f1f1f]">
+          <h3 className="font-semibold text-white mb-2">Próximamente</h3>
+          <ul className="text-sm text-[#555] space-y-2">
+            <li>— Chats directos con otros voluntarios</li>
+            <li>— Trueques de horarios entre voluntarios</li>
+            <li>— Notificaciones de la comunidad</li>
           </ul>
         </div>
       </div>
