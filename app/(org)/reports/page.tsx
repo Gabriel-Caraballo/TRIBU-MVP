@@ -180,96 +180,96 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-[#0a0a0a] space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[--tribu-navy]">Reportes</h1>
-        <p className="text-[--tribu-gray]">Impacto social de tu organización</p>
+        <h1 className="text-2xl font-bold text-white">Reportes</h1>
+        <p className="text-[#555]">Impacto social de tu organización</p>
       </div>
 
       {/* Overall Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-[--tribu-gray]">Total Actividades</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">
+        <div className="bg-[#111] p-6 rounded-lg border border-[#1f1f1f]">
+          <h3 className="text-xs font-medium text-[#444] tracking-widest uppercase">Total Actividades</h3>
+          <p className="text-3xl font-bold text-white mt-2">
             {overallStats?.totalActivities || 0}
           </p>
         </div>
         
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-[--tribu-gray]">Total Voluntarios</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">
+        <div className="bg-[#111] p-6 rounded-lg border border-[#1f1f1f]">
+          <h3 className="text-xs font-medium text-[#444] tracking-widest uppercase">Total Voluntarios</h3>
+          <p className="text-3xl font-bold text-white mt-2">
             {overallStats?.totalVolunteers || 0}
           </p>
         </div>
         
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-[--tribu-gray]">Horas Totales</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">
+        <div className="bg-[#111] p-6 rounded-lg border border-[#1f1f1f]">
+          <h3 className="text-xs font-medium text-[#444] tracking-widest uppercase">Horas Totales</h3>
+          <p className="text-3xl font-bold text-white mt-2">
             {overallStats?.totalHours || 0}
           </p>
         </div>
         
-        <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-[--tribu-gray]">Promedio Voluntarios</h3>
-          <p className="text-3xl font-bold text-[--tribu-navy] mt-2">
+        <div className="bg-[#111] p-6 rounded-lg border border-[#1f1f1f]">
+          <h3 className="text-xs font-medium text-[#444] tracking-widest uppercase">Promedio Voluntarios</h3>
+          <p className="text-3xl font-bold text-white mt-2">
             {overallStats?.avgVolunteersPerActivity || 0}
           </p>
         </div>
       </div>
 
       {/* Monthly Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-[--tribu-navy]">Estadísticas Mensuales</h2>
+      <div className="bg-[#111] rounded-lg border border-[#1f1f1f] overflow-hidden">
+        <div className="px-6 py-4 border-b border-[#1f1f1f]">
+          <h2 className="text-lg font-medium text-white">Estadísticas Mensuales</h2>
         </div>
         
         {monthlyStats.length === 0 ? (
           <div className="text-center py-12">
-            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="mx-auto h-12 w-12 text-[#333]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
-            <p className="mt-4 text-gray-500">No hay datos suficientes aún</p>
-            <p className="mt-2 text-sm text-gray-400">Crea actividades para comenzar a generar impacto</p>
+            <p className="mt-4 text-[#555]">No hay datos suficientes aún</p>
+            <p className="mt-2 text-sm text-[#333]">Crea actividades para comenzar a generar impacto</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-[#1f1f1f]">
+              <thead className="bg-[#0d0d0d]">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#444]">
                     Mes
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-[#444]">
                     Actividades
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-[#444]">
                     Voluntarios
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-[#444]">
                     Horas
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-[#1f1f1f]">
                 {monthlyStats.map((stat, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={index} className={index % 2 === 0 ? 'bg-[#111]' : 'bg-[#0d0d0d]'}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                       {stat.month}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-[#555]">
                       {stat.activities}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-[#555]">
                       {stat.volunteers}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
-                      <span className="font-medium text-[--tribu-green]">{stat.hours}h</span>
+                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-[#555]">
+                      <span className="font-medium text-[#22c55e]">{stat.hours}h</span>
                     </td>
                   </tr>
                 ))}
@@ -280,15 +280,15 @@ export default function ReportsPage() {
       </div>
 
       {/* Impact Summary */}
-      <div className="bg-gradient-to-r from-[--tribu-blue] to-[--tribu-navy] rounded-lg shadow-lg p-6 text-white">
-        <h2 className="text-xl font-bold mb-4">Resumen de Impacto</h2>
-        <p className="text-lg">
-          Tu organización ha generado <span className="font-bold">{overallStats?.totalHours || 0} horas</span> de voluntariado 
-          con la participación de <span className="font-bold">{overallStats?.totalVolunteers || 0} voluntarios</span> en 
-          <span className="font-bold">{overallStats?.totalActivities || 0} actividades</span>.
+      <div className="bg-[#111] border border-[#22c55e] border-opacity-20 rounded-lg p-6">
+        <h2 className="text-xl font-bold text-white mb-4">Resumen de Impacto</h2>
+        <p className="text-lg text-[#aaa]">
+          Tu organización ha generado <span className="font-bold text-white">{overallStats?.totalHours || 0} horas</span> de voluntariado 
+          con la participación de <span className="font-bold text-white">{overallStats?.totalVolunteers || 0} voluntarios</span> en 
+          <span className="font-bold text-white">{overallStats?.totalActivities || 0} actividades</span>.
         </p>
-        <p className="mt-2 text-blue-100">
-          ¡Gracias por generar impacto positivo en tu comunidad!
+        <p className="mt-2 text-[#555]">
+          El impacto de tu organización es real y medible.
         </p>
       </div>
     </div>

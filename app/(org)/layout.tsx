@@ -25,6 +25,7 @@ interface OrganizationProfile {
 
 export default function OrgLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [organizationName, setOrganizationName] = useState('Mi Organización');
   const [isLoading, setIsLoading] = useState(true);
   const [profileComplete, setProfileComplete] = useState<boolean | null>(null);
@@ -95,8 +96,8 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
   // Mostrar pantalla de carga
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[--tribu-light]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+      <div className="flex items-center justify-center h-screen bg-[#0a0a0a]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
@@ -104,7 +105,7 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
   // Si el perfil no está completo, mostrar overlay obligatorio
   if (profileComplete === false) {
     return (
-      <div className="fixed inset-0 z-50 bg-[--tribu-light] overflow-auto">
+      <div className="fixed inset-0 z-50 bg-[#0a0a0a] overflow-auto">
         <div className="min-h-screen flex items-center justify-center p-4">
           <div className="max-w-2xl w-full">
             <OrgProfilePrompt />
@@ -138,13 +139,13 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen bg-[--tribu-light]">
+    <div className="flex h-screen bg-[#0a0a0a]">
       {/* Mobile nav */}
       <div className="fixed top-0 left-0 right-0 z-20 lg:hidden">
-        <div className="bg-white shadow-sm p-4 flex justify-between items-center">
+        <div className="bg-[#0d0d0d] border-b border-[#1f1f1f] p-4 flex justify-between items-center">
           <button
             onClick={toggleSidebar}
-            className="p-2 rounded-md text-gray-500 hover:bg-gray-100"
+            className="p-2 rounded-md text-[#444] hover:bg-[#161616]"
           >
             <svg
               className="w-6 h-6"
@@ -173,7 +174,7 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
                 priority
               />
             </div>
-            <span className="font-bold text-[--tribu-navy]">TRIBU</span>
+            <span className="font-bold text-white tracking-widest">TRIBU</span>
           </div>
         </div>
       </div>
@@ -181,15 +182,105 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
       {/* Mobile sidebar backdrop */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+          className="fixed inset-0 bg-black/70 z-20 lg:hidden"
           onClick={closeSidebar}
         />
       )}
 
-      {/* Sidebar */}
+      {/* Desktop sidebar - colapsable */}
+      <aside className={`hidden lg:block fixed inset-y-0 left-0 bg-[#0d0d0d] border-r border-[#1f1f1f] z-30 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64'}`}>
+        <div className="h-full flex flex-col relative">
+
+          {/* Botón toggle colapso */}
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="absolute -right-3 top-10 w-6 h-6 bg-[#22c55e] rounded-full flex items-center justify-center text-black hover:scale-110 transition-transform z-50"
+          >
+            <svg
+              className={`w-4 h-4 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Logo */}
+          <div className={`p-6 flex items-center ${isSidebarCollapsed ? 'justify-center' : 'space-x-3'}`}>
+            <div className="w-10 h-10 relative rounded-full overflow-hidden bg-[#111110] flex-shrink-0">
+              <Image src="/logo.png" alt="TRIBU Logo" fill className="object-cover" priority />
+            </div>
+            {!isSidebarCollapsed && (
+              <span className="font-bold text-xl text-white tracking-widest">TRIBU</span>
+            )}
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+            {navigationLinks.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeSidebar}
+                  className={`group flex items-center px-4 py-3 transition-all border-l-2 ${
+                    isActive
+                      ? 'border-[#22c55e] bg-[rgba(34,197,94,0.08)] text-[#22c55e]'
+                      : 'border-transparent text-[#555] hover:text-[#aaa] hover:bg-[#161616]'
+                  }`}
+                >
+                  <svg
+                    className={`flex-shrink-0 w-5 h-5 ${isSidebarCollapsed ? 'mx-auto' : 'mr-3'} ${
+                      isActive ? 'text-[#22c55e]' : 'text-[#444] group-hover:text-[#777]'
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={link.icon} />
+                  </svg>
+                  {!isSidebarCollapsed && (
+                    <span className="text-sm truncate">{link.title}</span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* User info */}
+          <div className="border-t border-[#1f1f1f] p-4">
+            <div className={`flex items-center mb-4 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
+              <div className="w-10 h-10 rounded-full bg-[#22c55e] text-black flex items-center justify-center font-bold text-lg flex-shrink-0">
+                {organizationName.charAt(0)}
+              </div>
+              {!isSidebarCollapsed && (
+                <div className="ml-3 overflow-hidden">
+                  <p className="text-sm font-medium text-white truncate">{organizationName}</p>
+                  <p className="text-xs text-[#555]">ONG / Organización</p>
+                </div>
+              )}
+            </div>
+            <button
+              onClick={handleLogout}
+              className={`flex items-center w-full text-[#444] hover:text-red-500 transition-colors ${
+                isSidebarCollapsed ? 'justify-center' : 'px-4'
+              }`}
+            >
+              <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              {!isSidebarCollapsed && <span className="ml-2 text-sm">Cerrar sesión</span>}
+            </button>
+          </div>
+
+        </div>
+      </aside>
+
+      {/* Mobile sidebar - deslizable */}
       <aside
-        className={`fixed top-0 left-0 z-30 h-full w-64 bg-white shadow-lg transform lg:translate-x-0 transition-transform ease-in-out duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } lg:relative lg:z-0`}
+        className={`lg:hidden fixed top-0 left-0 z-30 h-full w-64 bg-[#0d0d0d] border-r border-[#1f1f1f] transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300`}
       >
         <div className="h-full flex flex-col">
           {/* Logo */}
@@ -203,7 +294,7 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
                 priority
               />
             </div>
-            <span className="font-bold text-xl text-[--tribu-navy]">TRIBU</span>
+            <span className="font-bold text-xl text-white tracking-widest">TRIBU</span>
           </div>
 
           {/* Navigation */}
@@ -216,13 +307,13 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
                   key={link.href}
                   href={link.href}
                   className={`group flex items-center px-4 py-3 rounded-md transition-colors ${isActive
-                      ? 'bg-[--tribu-blue-light] text-[--tribu-blue]'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'text-[#22c55e] bg-[rgba(34,197,94,0.08)] border-l-2 border-[#22c55e] rounded-none'
+                      : 'text-[#555] hover:text-[#aaa] hover:bg-[#161616] border-l-2 border-transparent'
                     }`}
                   onClick={closeSidebar}
                 >
                   <svg
-                    className={`mr-3 w-5 h-5 ${isActive ? 'text-[--tribu-blue]' : 'text-gray-500 group-hover:text-gray-700'}`}
+                    className={`mr-3 w-5 h-5 ${isActive ? 'text-[#22c55e]' : 'text-[#444] group-hover:text-[#777]'}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -236,22 +327,22 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
           </nav>
 
           {/* User info */}
-          <div className="border-t border-gray-200 p-4">
+          <div className="border-t border-[#1f1f1f] p-4">
             <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-[--tribu-blue] text-white flex items-center justify-center font-bold text-lg">
+              <div className="w-10 h-10 rounded-full bg-[#22c55e] text-black flex items-center justify-center font-bold text-lg">
                 {organizationName.charAt(0)}
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium text-[--tribu-dark]">{organizationName}</p>
-                <p className="text-xs text-gray-500">ONG / Organización</p>
+                <p className="text-sm font-medium text-white">{organizationName}</p>
+                <p className="text-xs text-[#555]">ONG / Organización</p>
               </div>
             </div>
 
             <button
               onClick={handleLogout}
-              className="mt-4 w-full flex items-center px-4 py-2 rounded-md text-[--tribu-dark] hover:bg-gray-100 transition-colors text-sm"
+              className="mt-4 w-full flex items-center px-4 py-2 rounded-md text-[#444] hover:bg-[#161616] hover:text-[#aaa] transition-colors text-sm"
             >
-              <svg className="w-5 h-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 mr-2 text-[#333]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
               Cerrar sesión
@@ -261,7 +352,9 @@ export default function OrgLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content */}
-      <main className={`flex-1 pt-14 lg:pt-0 ${isSidebarOpen ? 'overflow-hidden' : 'overflow-auto'}`}>
+      <main className={`flex-1 pt-14 lg:pt-0 transition-all duration-300 ${
+        isSidebarOpen ? 'overflow-hidden' : 'overflow-auto'
+      } ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
         <div className="container mx-auto p-4 h-full">
           {children}
         </div>

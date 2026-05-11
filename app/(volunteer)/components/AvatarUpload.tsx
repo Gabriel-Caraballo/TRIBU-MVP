@@ -7,9 +7,10 @@ interface AvatarUploadProps {
     onUpload: (url: string) => void;
     editing: boolean;
     userName?: string;
+    userId?: string;
 }
 
-export function AvatarUpload({ url, onUpload, editing, userName }: AvatarUploadProps) {
+export function AvatarUpload({ url, onUpload, editing, userName, userId }: AvatarUploadProps) {
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const supabase = createClient();
@@ -17,12 +18,14 @@ export function AvatarUpload({ url, onUpload, editing, userName }: AvatarUploadP
     async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
         try {
             if (!e.target.files || e.target.files.length === 0) return;
+            if (!userId) {
+                alert('Error: usuario no identificado');
+                return;
+            }
 
             setUploading(true);
             const file = e.target.files[0];
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `avatars/${fileName}`;
+            const filePath = `${userId}/avatar`;
 
             // Subida a Supabase Storage
             const { error: uploadError } = await supabase.storage

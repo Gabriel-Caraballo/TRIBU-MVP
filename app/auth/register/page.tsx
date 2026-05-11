@@ -92,7 +92,7 @@ export default function RegisterPage() {
         options: {
           data: {
             full_name: formData.fullName,
-            role: accountType,
+            account_type: accountType,
             org_name: accountType === 'org_admin' ? formData.orgName : undefined
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`

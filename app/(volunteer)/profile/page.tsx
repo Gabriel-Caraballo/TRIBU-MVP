@@ -55,6 +55,7 @@ export default function ProfilePage() {
     avatarUrl: ''
   });
   const [activityCount, setActivityCount] = useState(0);
+  const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
     fetchProfile();
@@ -63,6 +64,8 @@ export default function ProfilePage() {
   async function fetchProfile() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { router.push('/auth/login'); return; }
+
+    setUserId(session.user.id);
 
     const { data: userProfile } = await supabase.from('user_profiles').select('*').eq('id', session.user.id).single();
     const { data: volunteerProfile } = await supabase.from('volunteer_profiles').select('*').eq('user_id', session.user.id).single();
@@ -81,7 +84,12 @@ export default function ProfilePage() {
 
     if (userProfile) {
       setUserName(userProfile.full_name || 'Voluntario');
-      setFormData(prev => ({ ...prev, fullName: userProfile.full_name || '', phone: userProfile.phone || '' }));
+      setFormData(prev => ({ 
+        ...prev, 
+        fullName: userProfile.full_name || '', 
+        phone: userProfile.phone || '',
+        avatarUrl: userProfile.avatar_url || ''
+      }));
     }
 
     if (volunteerProfile) {
@@ -93,8 +101,7 @@ export default function ProfilePage() {
         university: volunteerProfile.university || '',
         career: volunteerProfile.career || '',
         age: volunteerProfile.age?.toString() || '',
-        city: volunteerProfile.city || '',
-        avatarUrl: volunteerProfile.avatar_url || ''
+        city: volunteerProfile.city || ''
       }));
     }
     setLoading(false);
@@ -107,15 +114,18 @@ export default function ProfilePage() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      await supabase.from('user_profiles').update({ full_name: formData.fullName, phone: formData.phone || null }).eq('id', session.user.id);
+      await supabase.from('user_profiles').update({ 
+        full_name: formData.fullName, 
+        phone: formData.phone || null,
+        avatar_url: formData.avatarUrl || null 
+      }).eq('id', session.user.id);
       await supabase.from('volunteer_profiles').update({
         bio: formData.bio || null,
         skills: formData.skills,
         university: formData.university || null,
         career: formData.career || null,
         age: formData.age ? parseInt(formData.age) : null,
-        city: formData.city || null,
-        avatar_url: formData.avatarUrl || null
+        city: formData.city || null
       }).eq('user_id', session.user.id);
 
       setMessage({ type: 'success', text: '¡Perfil actualizado!' });
@@ -139,6 +149,7 @@ export default function ProfilePage() {
             url={formData.avatarUrl}
             editing={editing}
             userName={userName}
+            userId={userId}
             onUpload={(url) => setFormData(prev => ({ ...prev, avatarUrl: url }))}
           />
 

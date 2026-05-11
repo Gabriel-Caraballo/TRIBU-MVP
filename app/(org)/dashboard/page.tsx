@@ -257,12 +257,12 @@ export default function Dashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'draft': return 'bg-gray-100 text-gray-800';
-      case 'open': return 'bg-blue-100 text-blue-800';
-      case 'in_progress': return 'bg-yellow-100 text-yellow-800';
-      case 'completed': return 'bg-green-100 text-green-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'draft': return 'bg-[#161616] text-[#555] border border-[#1f1f1f]';
+      case 'open': return 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]';
+      case 'in_progress': return 'bg-[rgba(245,158,11,0.1)] text-[#f59e0b] border border-[rgba(245,158,11,0.2)]';
+      case 'completed': return 'bg-[rgba(34,197,94,0.08)] text-[#22c55e] border border-[rgba(34,197,94,0.15)]';
+      case 'cancelled': return 'bg-[rgba(239,68,68,0.08)] text-red-400 border border-[rgba(239,68,68,0.15)]';
+      default: return 'bg-[#161616] text-[#555] border border-[#1f1f1f]';
     }
   };
 
@@ -278,8 +278,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[--tribu-blue]"></div>
+      <div className="flex items-center justify-center h-screen bg-[#0a0a0a]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
@@ -287,11 +287,10 @@ export default function Dashboard() {
   // If no org found
   if (!orgId) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-md bg-white rounded-xl shadow-lg p-8">
-          <div className="text-6xl mb-4">🏢</div>
-          <h3 className="text-xl font-bold text-[--tribu-navy]">No tienes una organización</h3>
-          <p className="text-[--tribu-gray] mt-2 mb-6">
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+        <div className="text-center max-w-md bg-[#111] rounded-xl border border-[#1f1f1f] p-8">
+          <h3 className="text-xl font-bold text-white">No tienes una organización</h3>
+          <p className="text-[#555] mt-2 mb-6">
             Contáctate con el administrador para crear una organización.
           </p>
         </div>
@@ -300,65 +299,65 @@ export default function Dashboard() {
   }
 
 return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-[#0a0a0a] pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         {/* Header */}
         <div className="mb-6 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[--tribu-navy]">
-            👋 Hola, {orgName}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+            Hola, {orgName}
           </h1>
-          <p className="text-[--tribu-gray] mt-2">
+          <p className="text-[#555] mt-2">
             Aquí tienes un resumen de tu impacto social
           </p>
         </div>
 
         {/* Stats Cards - Responsive */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-blue]">{stats.totalActivities}</div>
-                <div className="text-sm text-[--tribu-gray]">Actividades</div>
+                <div className="text-2xl lg:text-3xl font-bold text-[#22c55e]">{stats.totalActivities}</div>
+                <div className="text-xs text-[#555] tracking-widest uppercase">Actividades</div>
               </div>
-              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-blue-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
-                📋
-              </div>
+              <svg className="w-8 h-8 text-[#22c55e] opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-green]">{stats.totalVolunteers}</div>
-                <div className="text-sm text-[--tribu-gray]">Voluntarios</div>
+                <div className="text-2xl lg:text-3xl font-bold text-[#22c55e]">{stats.totalVolunteers}</div>
+                <div className="text-xs text-[#555] tracking-widest uppercase">Voluntarios</div>
               </div>
-              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-green-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
-                🤝
-              </div>
+              <svg className="w-8 h-8 text-[#22c55e] opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-navy]">{stats.totalHours}</div>
-                <div className="text-sm text-[--tribu-gray]">Horas</div>
+                <div className="text-2xl lg:text-3xl font-bold text-white">{stats.totalHours}</div>
+                <div className="text-xs text-[#555] tracking-widest uppercase">Horas</div>
               </div>
-              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-navy-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
-                ⏱️
-              </div>
+              <svg className="w-8 h-8 text-[#22c55e] opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl lg:text-3xl font-bold text-[--tribu-orange]">{stats.attendanceRate}%</div>
-                <div className="text-sm text-[--tribu-gray]">Asistencia</div>
+                <div className="text-2xl lg:text-3xl font-bold text-[#f59e0b]">{stats.attendanceRate}%</div>
+                <div className="text-xs text-[#555] tracking-widest uppercase">Asistencia</div>
               </div>
-              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-orange-100 rounded-xl flex items-center justify-center text-2xl lg:text-3xl">
-                📊
-              </div>
+              <svg className="w-8 h-8 text-[#22c55e] opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
             </div>
           </div>
         </div>
@@ -366,35 +365,35 @@ return (
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Activities by Month - Bar Chart */}
-          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
-            <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
-              <span className="mr-2">📈</span> Actividades por Mes
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
+            <h2 className="text-lg lg:text-xl font-medium text-white mb-4">
+              Actividades por Mes
             </h2>
             {activitiesChartData.length > 0 ? (
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={activitiesChartData}>
-                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+                    <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#555' }} />
+                    <YAxis tick={{ fontSize: 11, fill: '#555' }} allowDecimals={false} />
                     <Tooltip 
-                      contentStyle={{ borderRadius: 8 }}
+                      contentStyle={{ borderRadius: 8, background: '#111', border: '1px solid #1f1f1f', color: '#fff' }}
                       formatter={(value: any) => [`${value} actividades`, '']}
                     />
-                    <Bar dataKey="count" fill="#107c41" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="count" fill="#22c55e" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-64 flex items-center justify-center text-gray-500">
+              <div className="h-64 flex items-center justify-center text-[#444]">
                 <p>No hay suficientes datos para mostrar</p>
               </div>
             )}
           </div>
 
           {/* Volunteers by Skill - Pie Chart */}
-          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
-            <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] mb-4 flex items-center">
-              <span className="mr-2">🎯</span> Voluntarios por Habilidad
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
+            <h2 className="text-lg lg:text-xl font-medium text-white mb-4">
+              Voluntarios por Habilidad
             </h2>
             {volunteersBySkill.length > 0 ? (
               <div className="h-64">
@@ -411,18 +410,18 @@ return (
                       label={({ name, value }) => `${name}: ${value}`}
                     >
                       {volunteersBySkill.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={['#107c41', '#0d5c2f', '#8a8a82', '#e8e8e2', '#666'][index % 5]} />
+                        <Cell key={`cell-${index}`} fill={['#22c55e', '#16a34a', '#333', '#1f1f1f', '#2a2a2a'][index % 5]} />
                       ))}
                     </Pie>
                     <Tooltip 
-                      contentStyle={{ borderRadius: 8 }}
+                      contentStyle={{ borderRadius: 8, background: '#111', border: '1px solid #1f1f1f', color: '#fff' }}
                       formatter={(value: any) => [`${value} voluntarios`, '']}
                     />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-64 flex items-center justify-center text-gray-500">
+              <div className="h-64 flex items-center justify-center text-[#444]">
                 <p>No hay suficientes datos para mostrar</p>
               </div>
             )}
@@ -432,20 +431,19 @@ return (
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Recent Activities */}
-          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] flex items-center">
-                <span className="mr-2">📋</span> Actividades Recientes
+              <h2 className="text-lg lg:text-xl font-medium text-white">
+                Actividades Recientes
               </h2>
-              <Link href="/activities" className="text-sm text-[--tribu-blue] hover:underline">
+              <Link href="/activities" className="text-sm text-[#22c55e] hover:underline">
                 Ver todas →
               </Link>
             </div>
             
             {recentActivities.length === 0 ? (
               <div className="text-center py-8">
-                <div className="text-4xl mb-2">📭</div>
-                <p className="text-gray-500">No hay actividades aún</p>
+                <p className="text-[#444]">No hay actividades aún</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -453,24 +451,24 @@ return (
                   <Link 
                     key={activity.id} 
                     href={`/activities/${activity.id}`}
-                    className="block p-3 lg:p-4 border border-gray-100 rounded-lg hover:border-[--tribu-blue] hover:shadow-md transition-all"
+                    className="block p-3 lg:p-4 border border-[#1f1f1f] rounded-lg hover:border-[#2a2a2a] bg-[#0d0d0d] transition-all"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-[--tribu-navy] truncate">{activity.title}</h3>
-                        <p className="text-sm text-[--tribu-gray] mt-1">
+                        <h3 className="font-semibold text-white truncate">{activity.title}</h3>
+                        <p className="text-sm text-[#555] mt-1">
                           {formatDate(activity.start_time)}
                           {activity.location && ` • ${activity.location}`}
                         </p>
                       </div>
                       <div className="text-right ml-3 flex-shrink-0">
                         <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(activity.status)}`}>
-                          {activity.status === 'open' ? '🟢 Abierta' : 
-                           activity.status === 'in_progress' ? '🟡 En progreso' :
-                           activity.status === 'completed' ? '✅ Completada' :
-                           activity.status === 'draft' ? '📝 Borrador' : activity.status}
+                          {activity.status === 'open' ? 'Abierta' : 
+                           activity.status === 'in_progress' ? 'En progreso' :
+                           activity.status === 'completed' ? 'Completada' :
+                           activity.status === 'draft' ? 'Borrador' : activity.status}
                         </span>
-                        <p className="text-xs text-[--tribu-gray] mt-1">
+                        <p className="text-xs text-[#444] mt-1">
                           {activity.registeredCount} registrados
                         </p>
                       </div>
@@ -482,46 +480,44 @@ return (
             
             <Link 
               href="/activities/new"
-              className="mt-4 w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-200 rounded-lg text-gray-500 hover:border-[--tribu-blue] hover:text-[--tribu-blue] transition-colors font-medium"
+              className="mt-4 w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-[#1f1f1f] rounded-lg text-[#333] hover:border-[#22c55e] hover:text-[#22c55e] transition-colors font-medium"
             >
-              <span className="mr-2 text-lg">➕</span>
+              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+              </svg>
               Crear nueva actividad
             </Link>
           </div>
 
           {/* Top Volunteers */}
-          <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
+          <div className="bg-[#111] rounded-xl border border-[#1f1f1f] p-4 lg:p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg lg:text-xl font-bold text-[--tribu-navy] flex items-center">
-                <span className="mr-2">🏆</span> Top Voluntarios
+              <h2 className="text-lg lg:text-xl font-medium text-white">
+                Top Voluntarios
               </h2>
-              <Link href="/volunteers" className="text-sm text-[--tribu-blue] hover:underline">
+              <Link href="/volunteers" className="text-sm text-[#22c55e] hover:underline">
                 Ver todos →
               </Link>
             </div>
             
             {topVolunteers.length === 0 ? (
               <div className="text-center py-8">
-                <div className="text-4xl mb-2">🤔</div>
-                <p className="text-gray-500">
+                <p className="text-[#444]">
                   Los voluntarios que participen aparecerán aquí
                 </p>
               </div>
             ) : (
               <div className="space-y-3">
                 {topVolunteers.map((volunteer, index) => (
-                  <div key={volunteer.id} className="flex items-center p-3 bg-gray-50 rounded-lg">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg ${
-                      index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-400'
+                  <div key={volunteer.id} className="flex items-center p-3 bg-[#0d0d0d] rounded-lg border border-[#1f1f1f]">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                      index === 0 ? 'bg-[#22c55e] text-black' : index === 1 ? 'bg-[#333] text-[#aaa]' : 'bg-[#222] text-[#555]'
                     }`}>
-                      {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                      {index + 1}
                     </div>
                     <div className="ml-3 flex-1">
-                      <p className="font-semibold text-[--tribu-navy]">{volunteer.full_name}</p>
-                      <p className="text-sm text-[--tribu-gray]">{volunteer.total_hours} horas acumuladas</p>
-                    </div>
-                    <div className="text-2xl text-gray-300">
-                      👏
+                      <p className="font-medium text-white">{volunteer.full_name}</p>
+                      <p className="text-sm text-[#555]">{volunteer.total_hours} horas acumuladas</p>
                     </div>
                   </div>
                 ))}
