@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   keywords: 'voluntariado, ONG, gestión, República Dominicana, impacto social, ESG, certificados',
   metadataBase: new URL('https://tribu.do'), // URL base para los metadatos
   openGraph: {
-    title: 'TRIBU — Tu impacto merece ser medido',
+    title: 'TRIBU — Conecta con propósito',
     description: 'Gestión de talento voluntario con herramientas de nivel corporativo.',
     type: 'website',
   }

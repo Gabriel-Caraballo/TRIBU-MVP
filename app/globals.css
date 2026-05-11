@@ -7,11 +7,16 @@
 
 :root {
   /* Nuevos Primarios - Paleta Corporativa Logo TRIBU */
-  --tribu-green: #22c55e;      /* verde principal */
-  --tribu-yellow: #eab308;     /* amarillo principal */
-  --tribu-dark-blue: #0f172a;  /* azul oscuro - fondos */
-  --tribu-blue: #3b82f6;       /* azul claro - acentos */
-  --tribu-light: #e8e8e2;      /* texto principal - reemplaza al fondo claro */
+  --tribu-green: #22c55e;
+  /* verde principal */
+  --tribu-yellow: #eab308;
+  /* amarillo principal */
+  --tribu-dark-blue: #0f172a;
+  /* azul oscuro - fondos */
+  --tribu-blue: #3b82f6;
+  /* azul claro - acentos */
+  --tribu-light: #e8e8e2;
+  /* texto principal - reemplaza al fondo claro */
 
   /* Colores secundarios (compatibilidad si hay clases antiguas) */
   --tribu-terracotta: var(--tribu-green);
@@ -30,10 +35,12 @@
   --tribu-peach-light: #f8fafc;
 
   /* Neutros */
-  --tribu-dark:   #0a0a09;    /* fondo principal oscuro (landing style) */
-  --tribu-gray:   #8a8a82;    /* textos secundarios (landing style) */
-  --tribu-white:  #FFFFFF;
-  --tribu-bg:     var(--tribu-dark);
+  --tribu-dark: #0a0a09;
+  /* fondo principal oscuro (landing style) */
+  --tribu-gray: #8a8a82;
+  /* textos secundarios (landing style) */
+  --tribu-white: #FFFFFF;
+  --tribu-bg: var(--tribu-dark);
   --tribu-surface: #111110;
   --tribu-surface-dark: #000000;
 
@@ -44,7 +51,13 @@
 }
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-inter), sans-serif;
     font-weight: 700;
     text-transform: uppercase;
@@ -60,6 +73,7 @@
 
 /* Utilities personalizadas */
 @layer utilities {
+
   /* Gradientes y texto */
   .text-gradient {
     background: var(--tribu-gradient);
@@ -67,18 +81,18 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .text-gradient-warm {
     background: var(--tribu-gradient-warm);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .text-shadow-sm {
     text-shadow: 0 1px 2px rgba(91, 65, 54, 0.1);
   }
-  
+
   .text-shadow {
     text-shadow: 0 2px 4px rgba(91, 65, 54, 0.12);
   }
@@ -91,7 +105,7 @@
     border: 1px solid rgba(255, 255, 255, 0.6);
     box-shadow: 0 8px 32px 0 rgba(91, 65, 54, 0.05);
   }
-  
+
   .glass-card {
     background: var(--tribu-surface);
     backdrop-filter: blur(16px);
@@ -104,8 +118,8 @@
   }
 
   .glass-card:hover {
-    box-shadow: 0 16px 48px 0 rgba(91, 65, 54, 0.12), 
-                inset 0 0 20px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 16px 48px 0 rgba(91, 65, 54, 0.12),
+      inset 0 0 20px rgba(255, 255, 255, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.95);
     transform: translateY(-4px);
   }
@@ -155,89 +169,132 @@
 
 /* Aurora - gradiente animado tipo aurora boreal */
 @keyframes aurora {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Float suave - movimiento vertical orgánico */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 /* Float rítmico para múltiples elementos */
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(1deg); }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(1deg);
+  }
 }
 
 @keyframes float-slower {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(-1deg); }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(-1deg);
+  }
 }
 
 /* Fade In - entrada suave */
 @keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* Fade In Left - entrada desde la izquierda */
 @keyframes fadeInLeft {
-  from { 
-    opacity: 0; 
-    transform: translateX(-30px); 
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 /* Fade In Right - entrada desde la derecha */
 @keyframes fadeInRight {
-  from { 
-    opacity: 0; 
-    transform: translateX(30px); 
+  from {
+    opacity: 0;
+    transform: translateX(30px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 /* Scale In - entrada con escala */
 @keyframes scaleIn {
-  from { 
-    opacity: 0; 
-    transform: scale(0.95); 
+  from {
+    opacity: 0;
+    transform: scale(0.95);
   }
-  to { 
-    opacity: 1; 
-    transform: scale(1); 
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 /* Pulse suave */
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* Pulse con escala */
 @keyframes pulseSoft {
-  0%, 100% { 
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
-  50% { 
+
+  50% {
     opacity: 0.85;
     transform: scale(1.02);
   }
@@ -245,77 +302,130 @@
 
 /* Slide In - deslizamiento lateral */
 @keyframes slideIn {
-  from { 
-    opacity: 0; 
-    transform: translateX(-15px); 
+  from {
+    opacity: 0;
+    transform: translateX(-15px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 /* Slide In Up - deslizamiento hacia arriba */
 @keyframes slideInUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px); 
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* Shimmer - efecto brillo animado */
 @keyframes shimmer {
-  0% { 
-    background-position: -1000px 0; 
+  0% {
+    background-position: -1000px 0;
   }
-  100% { 
-    background-position: 1000px 0; 
+
+  100% {
+    background-position: 1000px 0;
   }
 }
 
 /* Glow - efecto de brillo con sombra */
 @keyframes glow {
-  0%, 100% { 
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); 
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
   }
-  50% { 
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); 
+
+  50% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
   }
 }
 
 /* Rotate - rotación continua */
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Particle - partículas flotantes orgánicas */
 @keyframes particle-1 {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(30px, -50px); }
-  50% { transform: translate(-20px, -100px); }
-  75% { transform: translate(50px, -30px); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(30px, -50px);
+  }
+
+  50% {
+    transform: translate(-20px, -100px);
+  }
+
+  75% {
+    transform: translate(50px, -30px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes particle-2 {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-40px, 40px); }
-  50% { transform: translate(30px, -60px); }
-  75% { transform: translate(-60px, 20px); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-40px, 40px);
+  }
+
+  50% {
+    transform: translate(30px, -60px);
+  }
+
+  75% {
+    transform: translate(-60px, 20px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes particle-3 {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(50px, -30px); }
-  50% { transform: translate(-30px, 60px); }
-  75% { transform: translate(40px, -40px); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(50px, -30px);
+  }
+
+  50% {
+    transform: translate(-30px, 60px);
+  }
+
+  75% {
+    transform: translate(40px, -40px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* Clases de animación reutilizables */
@@ -389,6 +499,7 @@
 
 /* Accesibilidad - respetar preferencias de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
+
   .floating,
   .floating-slow,
   .floating-slower,
@@ -603,4 +714,30 @@
   @apply text-[--tribu-orange] border;
   background-color: rgba(253, 248, 235, 0.5);
   border-color: var(--tribu-orange-light);
+}
+
+/* Oculta la barra de scroll pero permite el desplazamiento */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+html,
+body {
+  overflow-x: hidden;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
 }

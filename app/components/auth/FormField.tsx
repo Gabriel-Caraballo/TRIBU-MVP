@@ -59,11 +59,10 @@ export default function FormField({
                 ? 'border-[--tribu-green]/50 ring-1 ring-[--tribu-green]/20'
                 : 'border-white/10'
             }
-            /* ESTO QUITA EL RESALTADO AZUL DEL AUTOFILL */
-            auto-fill:bg-transparent
-            [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_#121212]
-            [&:-webkit-autofill]:text-fill-white
-            [&:-webkit-autofill]:[--webkit-text-fill-color:white]
+            /* SOLUCIÓN PARA AUTOFILL */
+            [&:-webkit-autofill]:[-webkit-text-fill-color:white]
+            [&:-webkit-autofill]:[box-shadow:0_0_0_1000px_#121212_inset]
+            [&:-webkit-autofill]:transition-colors
           `}
         />
         {error && (
