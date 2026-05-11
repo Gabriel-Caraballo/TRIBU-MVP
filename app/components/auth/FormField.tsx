@@ -1,5 +1,5 @@
 // app/components/auth/FormField.tsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface FormFieldProps {
   id: string;
@@ -10,6 +10,8 @@ interface FormFieldProps {
   error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  className?: string;
+  autoComplete?: string;
 }
 
 export default function FormField({
@@ -21,23 +23,21 @@ export default function FormField({
   error,
   onChange,
   required = false,
+  className = '',
+  autoComplete,
 }: FormFieldProps) {
   const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-
-  useEffect(() => {
-    setIsFilled(value.length > 0);
-  }, [value]);
 
   return (
-    <div className="mb-4">
-      <label 
-        htmlFor={id} 
-        className={`block text-sm font-medium ${isFocused ? 'text-[--tribu-blue]' : 'text-[--tribu-gray]'} transition-colors`}
+    <div className={`${className}`}>
+      <label
+        htmlFor={id}
+        className={`block text-[11px] uppercase tracking-[0.1em] font-bold mb-1.5 transition-colors ${isFocused ? 'text-[--tribu-green]' : 'text-white/40'
+          }`}
       >
-        {label} {required && <span className="text-red-500">*</span>}
+        {label} {required && <span className="text-red-500/80">*</span>}
       </label>
-      <div className="mt-1 relative">
+      <div className="relative">
         <input
           id={id}
           name={id}
@@ -46,13 +46,28 @@ export default function FormField({
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className={`appearance-none block w-full px-3 py-3 border ${error ? 'border-red-500' : isFocused ? 'border-[--tribu-blue]' : 'border-gray-300'} 
-          rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[--tribu-blue] focus:border-[--tribu-blue] transition-colors`}
+          autoComplete={autoComplete}
           placeholder={placeholder}
-          aria-describedby={`${id}-error`}
+          className={`
+            appearance-none block w-full px-4 py-3 
+            bg-white/5 border rounded-xl transition-all duration-300
+            text-white placeholder:text-white/10 text-sm
+            focus:outline-none focus:bg-white/[0.08]
+            ${error
+              ? 'border-red-500/50 focus:border-red-500'
+              : isFocused
+                ? 'border-[--tribu-green]/50 ring-1 ring-[--tribu-green]/20'
+                : 'border-white/10'
+            }
+            /* ESTO QUITA EL RESALTADO AZUL DEL AUTOFILL */
+            auto-fill:bg-transparent
+            [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_#121212]
+            [&:-webkit-autofill]:text-fill-white
+            [&:-webkit-autofill]:[--webkit-text-fill-color:white]
+          `}
         />
         {error && (
-          <p className="mt-2 text-sm text-red-600" id={`${id}-error`}>
+          <p className="mt-1.5 text-[10px] text-red-400 font-mono uppercase tracking-tight">
             {error}
           </p>
         )}

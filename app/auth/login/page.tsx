@@ -115,62 +115,92 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthCard title="[ INICIAR_SESIÓN ]">
+    <AuthCard title="Iniciar Sesión">
+      {/* Alerta de Error - Ahora más integrada */}
       {authError && (
-        <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-4 mb-6 text-xs tracking-wide font-mono">
-          {authError}
+        <div className="flex items-center gap-3 bg-red-500/10 border-l-2 border-red-500 text-red-200 p-4 mb-6 text-xs rounded-r-xl animate-in fade-in slide-in-from-top-2 duration-300">
+          <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span className="font-medium tracking-wide">{authError}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Campo de Email */}
         <FormField
           id="email"
-          label="Email"
+          label="Correo Electrónico"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           error={errors.email}
           required
+          autoComplete="email"
+          // Eliminamos las clases de bg aquí porque ya las maneja internamente FormField.tsx
+          className="w-full"
         />
 
-        <PasswordInput
-          id="password"
-          label="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          error={errors.password}
-          required
-        />
-
-        <div className="text-right mt-2">
-          <Link href="/auth/forgot-password" className="text-[10px] tracking-widest uppercase text-[#8a8a82] hover:text-[--tribu-green] transition-colors">
-            [ OLVIDÉ MI CONTRASEÑA ]
-          </Link>
+        {/* Campo de Contraseña */}
+        <div className="space-y-1">
+          <PasswordInput
+            id="password"
+            label="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={errors.password}
+            required
+            autoComplete="current-password"
+            className="w-full"
+          />
+          <div className="flex justify-end">
+            <Link
+              href="/auth/forgot-password"
+              className="text-[10px] font-bold uppercase tracking-[0.1em] text-white/20 hover:text-[--tribu-green] transition-all"
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className={`btn btn-primary w-full mt-4 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+          className={`relative w-full py-4 bg-[--tribu-green] hover:bg-[--tribu-green]/90 text-black text-xs font-black uppercase tracking-[0.2em] rounded-xl transition-all active:scale-[0.97] shadow-[0_0_20px_rgba(var(--tribu-green-rgb),0.2)] ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
         >
           {isLoading ? (
-            <div className="flex items-center gap-2">
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V2C5.373 2 2 5.373 2 12h2zm8 4l-2-2 2-2 2 2-2 2z"></path>
+            <div className="flex items-center justify-center gap-3">
+              <svg className="animate-spin h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-100" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Iniciando sesión...
+              <span>Verificando...</span>
             </div>
-          ) : 'Iniciar sesión'}
+          ) : (
+            "Entrar a la Tribu"
+          )}
         </button>
       </form>
 
-      <div className="mt-8 text-center border-t border-white/10 pt-6">
-        <p className="text-[10px] text-[#8a8a82] uppercase tracking-widest">
-          ¿No tienes cuenta?{' '}
-          <Link href="/auth/register" className="text-[--tribu-green] font-bold hover:text-[#e8e8e2] transition-colors ml-2">
-            Regístrate aquí &rarr;
+      {/* Divisor Visual */}
+      <div className="mt-12 text-center relative">
+        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+          <div className="w-full border-t border-white/5"></div>
+        </div>
+        <div className="relative flex justify-center text-[9px] uppercase tracking-[0.4em] font-bold">
+          <span className="bg-transparent backdrop-blur-md px-4 text-white/10 italic">
+            Membresía
+          </span>
+        </div>
+
+        <p className="mt-8 text-[11px] text-white/30 uppercase tracking-widest font-medium">
+          ¿Aún no eres miembro?{' '}
+          <Link
+            href="/auth/register"
+            className="text-[--tribu-green] font-black hover:text-white transition-colors ml-1 underline decoration-white/10 underline-offset-4"
+          >
+            Únete ahora
           </Link>
         </p>
       </div>
