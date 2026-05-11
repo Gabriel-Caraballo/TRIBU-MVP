@@ -16,52 +16,70 @@ interface AccountTypeSelectorProps {
 export default function AccountTypeSelector({ onSelect, selected }: AccountTypeSelectorProps) {
   const accountTypes: AccountType[] = [
     {
-      id: 'org_admin',
-      title: 'Soy una ONG / Organización',
-      description: 'Gestiona voluntarios y mide tu impacto',
+      id: 'volunteer',
+      title: 'Voluntario',
+      description: 'Encuentra causas y construye tu CV social',
       icon: (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg>
       )
     },
     {
-      id: 'volunteer',
-      title: 'Soy voluntario',
-      description: 'Encuentra causas y construye tu CV',
+      id: 'org_admin',
+      title: 'Organización',
+      description: 'Gestiona equipos y mide tu impacto real',
       icon: (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 21h18M3 7v1a3 3 0 006 0V4m0 3a3 3 0 006 0V4m0 3a3 3 0 006 0V4M4 21h16V10H4v11z" />
         </svg>
       )
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
-      {accountTypes.map((type) => (
-        <div
-          key={type.id}
-          className={`border-2 rounded-lg p-6 cursor-pointer transition-all hover:shadow-md ${
-            selected === type.id 
-              ? 'border-[--tribu-blue] bg-[--tribu-blue-light]/20' 
-              : 'border-gray-200 hover:border-[--tribu-blue]/30'
-          }`}
-          onClick={() => onSelect(type.id)}
-        >
-          <div className="flex items-center mb-3">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-              selected === type.id 
-                ? 'bg-[--tribu-blue] text-white' 
-                : 'bg-[--tribu-blue-light] text-[--tribu-blue]'
-            }`}>
+    <div className="grid grid-cols-1 gap-4 my-8">
+      {accountTypes.map((type) => {
+        const isSelected = selected === type.id;
+
+        return (
+          <div
+            key={type.id}
+            onClick={() => onSelect(type.id)}
+            className={`
+              group relative flex items-center p-5 cursor-pointer rounded-2xl transition-all duration-300
+              border border-white/5 bg-white/[0.02] hover:bg-white/[0.05]
+              ${isSelected ? 'ring-1 ring-[--tribu-green] border-[--tribu-green]/30 bg-white/[0.07]' : ''}
+            `}
+          >
+            {/* Indicador de selección */}
+            <div className={`
+              w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300
+              ${isSelected
+                ? 'bg-[--tribu-green] text-black shadow-[0_0_15px_rgba(var(--tribu-green-rgb),0.3)]'
+                : 'bg-white/5 text-white/40 group-hover:text-white/60'}
+            `}>
               {type.icon}
             </div>
-            <h3 className="ml-3 font-semibold text-[--tribu-navy]">{type.title}</h3>
+
+            <div className="ml-4 flex-1">
+              <h3 className={`text-xs font-black uppercase tracking-[0.15em] transition-colors ${isSelected ? 'text-white' : 'text-white/60'}`}>
+                {type.title}
+              </h3>
+              <p className="text-[10px] text-white/30 uppercase tracking-wider mt-0.5 leading-relaxed">
+                {type.description}
+              </p>
+            </div>
+
+            {/* Checkmark visual para selección */}
+            {isSelected && (
+              <div className="absolute right-5 animate-in zoom-in duration-300">
+                <div className="w-2 h-2 rounded-full bg-[--tribu-green] shadow-[0_0_8px_var(--tribu-green)]" />
+              </div>
+            )}
           </div>
-          <p className="text-[--tribu-gray] text-sm ml-13">{type.description}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

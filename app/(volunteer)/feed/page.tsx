@@ -23,6 +23,7 @@ interface Activity {
 export default function VolunteerFeed() {
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [volunteerSkills, setVolunteerSkills] = useState<string[]>([]);
   const [skillFilter, setSkillFilter] = useState<string[]>([]);
@@ -38,7 +39,7 @@ export default function VolunteerFeed() {
     setLoading(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      
+
       if (!session) {
         setLoading(false);
         return;
@@ -50,7 +51,7 @@ export default function VolunteerFeed() {
         .select('skills')
         .eq('user_id', session.user.id)
         .single();
-      
+
       if (volunteerProfile?.skills) {
         setVolunteerSkills(volunteerProfile.skills);
       }
@@ -135,7 +136,7 @@ export default function VolunteerFeed() {
 
   function calculateSkillMatch(activitySkills: string[]) {
     if (!volunteerSkills.length || !activitySkills.length) return 0;
-    const matchingSkills = activitySkills.filter(skill => 
+    const matchingSkills = activitySkills.filter(skill =>
       volunteerSkills.some(vs => vs.toLowerCase() === skill.toLowerCase())
     );
     return Math.round((matchingSkills.length / activitySkills.length) * 100);
@@ -143,10 +144,10 @@ export default function VolunteerFeed() {
 
   function formatDate(dateString: string) {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('es-DO', { 
+    return new Intl.DateTimeFormat('es-DO', {
       weekday: 'short',
-      day: 'numeric', 
-      month: 'short', 
+      day: 'numeric',
+      month: 'short',
       hour: '2-digit',
       minute: '2-digit'
     }).format(date);
@@ -169,11 +170,11 @@ export default function VolunteerFeed() {
     if (skillFilter.length > 0 && !activity.required_skills?.some(s => skillFilter.includes(s))) {
       return false;
     }
-    
+
     if (dateFilter !== 'all') {
       const activityDate = new Date(activity.start_time);
       const today = new Date();
-      
+
       if (dateFilter === 'week') {
         const nextWeek = new Date();
         nextWeek.setDate(today.getDate() + 7);
@@ -184,11 +185,11 @@ export default function VolunteerFeed() {
         if (activityDate > nextMonth) return false;
       }
     }
-    
+
     if (searchQuery && !activity.title.toLowerCase().includes(searchQuery.toLowerCase())) {
       return false;
     }
-    
+
     return true;
   }).sort((a, b) => {
     // Sort by skill match
@@ -206,122 +207,136 @@ export default function VolunteerFeed() {
     );
   }
 
+  const hasActiveFilters = skillFilter.length > 0 || dateFilter !== 'all';
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+
         {/* Header */}
         <div className="mb-6 lg:mb-8">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
             Encuentra tu próxima tarea voluntaria
           </h1>
-          
-          {volunteerSkills.length > 0 && activities.some(a => 
+
+          {volunteerSkills.length > 0 && activities.some(a =>
             calculateSkillMatch(a.required_skills || []) > 0
           ) && (
-            <p className="text-[#22c55e] font-medium mt-2 text-sm">
-              Hay actividades que coinciden con tus habilidades
-            </p>
+              <p className="text-[#22c55e] font-medium mt-2 text-sm">
+                Hay actividades que coinciden con tus habilidades
+              </p>
+            )}
+        </div>
+
+        {/* Search & Filters Section */}
+        <div className="mb-6 lg:mb-8 space-y-4">
+          <div className="flex gap-3">
+            {/* Main Search Bar */}
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="¿Qué quieres hacer?"
+                className="w-full px-4 py-3 pl-11 border border-[#1f1f1f] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#22c55e] bg-[#111] text-white placeholder:text-[#444] transition-all"
+              />
+              <svg className="w-5 h-5 text-[#444] absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+
+            {/* Filter Toggle Button */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`relative px-4 py-3 rounded-xl border transition-all flex items-center gap-2 font-medium ${showFilters || hasActiveFilters
+                ? 'bg-[#22c55e] border-[#22c55e] text-black'
+                : 'bg-[#111] border-[#1f1f1f] text-white hover:border-[#2a2a2a]'
+                }`}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              <span className="hidden sm:inline">Filtros</span>
+
+              {!showFilters && hasActiveFilters && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Collapsible Filters Panel */}
+          {showFilters && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 bg-[#111] border border-[#1f1f1f] rounded-xl transition-all">
+              <div className="relative">
+                <label className="block text-xs tracking-widest uppercase text-[#888] mb-2 font-semibold">
+                  Habilidad
+                </label>
+                <select
+                  value={skillFilter[0] || ''}
+                  onChange={(e) => setSkillFilter(e.target.value ? [e.target.value] : [])}
+                  className="w-full px-4 py-2.5 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] bg-[#0a0a0a] text-white"
+                >
+                  <option value="">Todas las habilidades</option>
+                  {allSkills.map((skill) => (
+                    <option key={skill} value={skill}>{skill}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="relative">
+                <label className="block text-xs tracking-widest uppercase text-[#888] mb-2 font-semibold">
+                  Fecha
+                </label>
+                <select
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] bg-[#0a0a0a] text-white"
+                >
+                  <option value="all">Todas las fechas</option>
+                  <option value="week">Esta semana</option>
+                  <option value="month">Este mes</option>
+                </select>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Filters - Responsive */}
-        <div className="bg-[#111] rounded-xl border border-[#1f1f1f] mb-6 lg:mb-8 p-4 lg:p-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Skill Filter */}
-            <div className="relative">
-              <label className="block text-xs tracking-widest uppercase text-[#888] mb-2">
-                Habilidad
-              </label>
-              <select 
-                value={skillFilter[0] || ''}
-                onChange={(e) => setSkillFilter(e.target.value ? [e.target.value] : [])}
-                className="w-full px-4 py-2.5 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] bg-[#0a0a0a] text-white"
-              >
-                <option value="">Todas las habilidades</option>
-                {allSkills.map((skill) => (
-                  <option key={skill} value={skill}>{skill}</option>
-                ))}
-              </select>
-            </div>
-            
-            {/* Date Filter */}
-            <div className="relative">
-              <label className="block text-xs tracking-widest uppercase text-[#888] mb-2">
-                Fecha
-              </label>
-              <select 
-                value={dateFilter}
-                onChange={(e) => setDateFilter(e.target.value)}
-                className="w-full px-4 py-2.5 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] bg-[#0a0a0a] text-white"
-              >
-                <option value="all">Todas las fechas</option>
-                <option value="week">Esta semana</option>
-                <option value="month">Este mes</option>
-              </select>
-            </div>
-            
-            {/* Search */}
-            <div className="relative">
-              <label className="block text-xs tracking-widest uppercase text-[#888] mb-2">
-                Buscar
-              </label>
-              <div className="relative">
-                <input 
-                  type="text" 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Título de actividad..."
-                  className="w-full px-4 py-2.5 pl-10 border border-[#1f1f1f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] bg-[#0a0a0a] text-white placeholder:text-[#444]"
-                />
-                <svg className="w-5 h-5 text-[#444] absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Activities Grid - Responsive Cards */}
+        {/* Activities Grid */}
         {filteredActivities.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {filteredActivities.map((activity) => {
               const matchPercentage = calculateSkillMatch(activity.required_skills || []);
               const hours = calculateHours(activity.start_time, activity.end_time);
-              
+
               return (
-                <div 
-                  key={activity.id} 
-                  className={`bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] overflow-hidden ${
-                    activity.is_registered ? 'ring-2 ring-[#22c55e]' : ''
-                  }`}
+                <div
+                  key={activity.id}
+                  className={`bg-[#111] rounded-xl border border-[#1f1f1f] hover:border-[#2a2a2a] overflow-hidden transition-all ${activity.is_registered ? 'ring-2 ring-[#22c55e]' : ''
+                    }`}
                 >
-                  {/* Match Badge */}
                   {matchPercentage > 0 && (
-                    <div className={`${
-                      matchPercentage >= 75 
-                        ? 'bg-[rgba(34,197,94,0.15)] text-[#22c55e]' 
-                        : matchPercentage >= 50
-                        ? 'bg-[rgba(245,158,11,0.12)] text-[#f59e0b]'
-                        : 'bg-[rgba(245,158,11,0.08)] text-[#f59e0b]'
-                    } text-xs font-bold py-2 px-4 text-center`}>
+                    <div className={`${matchPercentage >= 75
+                      ? 'bg-[rgba(34,197,94,0.15)] text-[#22c55e]'
+                      : 'bg-[rgba(245,158,11,0.12)] text-[#f59e0b]'
+                      } text-xs font-bold py-2 px-4 text-center`}>
                       {matchPercentage}% match con tus habilidades
                     </div>
                   )}
-                  
+
                   <div className="p-4 lg:p-5">
-                    {/* Organization Badge */}
                     <div className="flex items-center mb-2">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#161616] text-[#555] border border-[#1f1f1f]">
                         {activity.organization}
                       </span>
                     </div>
-                    
-                    {/* Title */}
+
                     <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 min-h-[2.5rem]">
                       {activity.title}
                     </h3>
-                    
-                    {/* Info Grid */}
+
                     <div className="space-y-2.5 mb-4">
                       <div className="flex items-start text-sm text-[#555]">
                         <svg className="w-4 h-4 text-[#444] flex-shrink-0 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -340,7 +355,7 @@ export default function VolunteerFeed() {
                         </svg>
                         <span className="line-clamp-1">{activity.location || 'Sin ubicación'}</span>
                       </div>
-                      
+
                       <div className="flex items-center text-sm">
                         <svg className="w-4 h-4 text-[#444] flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -348,34 +363,23 @@ export default function VolunteerFeed() {
                         <span className={(activity.registered_count || 0) >= (activity.max_volunteers || Infinity) ? 'text-red-400 font-medium' : 'text-[#555]'}>
                           {activity.registered_count || 0}/{activity.max_volunteers || '∞'} voluntarios
                         </span>
-                        {(activity.registered_count || 0) >= (activity.max_volunteers || Infinity) && (
-                          <span className="ml-2 text-xs bg-[rgba(239,68,68,0.1)] text-red-400 px-1.5 py-0.5 rounded">Lleno</span>
-                        )}
                       </div>
                     </div>
-                    
-                    {/* Skills */}
+
                     <div className="flex flex-wrap gap-1.5 mb-4">
                       {activity.required_skills?.slice(0, 4).map((skill) => (
-                        <span 
-                          key={skill} 
-                          className={`text-xs px-2.5 py-1 rounded-full font-medium ${
-                            volunteerSkills.some(vs => vs.toLowerCase() === skill.toLowerCase())
-                              ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]'
-                              : 'bg-[#161616] text-[#555] border border-[#1f1f1f]'
-                          }`}
+                        <span
+                          key={skill}
+                          className={`text-xs px-2.5 py-1 rounded-full font-medium ${volunteerSkills.some(vs => vs.toLowerCase() === skill.toLowerCase())
+                            ? 'bg-[rgba(34,197,94,0.1)] text-[#22c55e] border border-[rgba(34,197,94,0.2)]'
+                            : 'bg-[#161616] text-[#555] border border-[#1f1f1f]'
+                            }`}
                         >
                           {skill}
                         </span>
                       ))}
-                      {activity.required_skills?.length > 4 && (
-                        <span className="text-xs px-2.5 py-1 rounded-full bg-[#161616] text-[#555] border border-[#1f1f1f]">
-                          +{activity.required_skills.length - 4}
-                        </span>
-                      )}
                     </div>
-                    
-                    {/* Action Button */}
+
                     {activity.is_registered ? (
                       <div className="w-full py-3 bg-[rgba(34,197,94,0.1)] text-[#22c55e] rounded-lg font-semibold text-center flex items-center justify-center border border-[rgba(34,197,94,0.2)]">
                         <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -410,9 +414,7 @@ export default function VolunteerFeed() {
         ) : (
           <div className="text-center py-12 bg-[#111] rounded-xl border border-[#1f1f1f]">
             <h3 className="text-xl font-bold text-white">No hay actividades disponibles</h3>
-            <p className="text-[#555] mt-2 mb-6">
-              Prueba con otros filtros o vuelve más tarde
-            </p>
+            <p className="text-[#555] mt-2 mb-6">Prueba con otros filtros o vuelve más tarde</p>
             <button
               onClick={() => {
                 setSkillFilter([]);

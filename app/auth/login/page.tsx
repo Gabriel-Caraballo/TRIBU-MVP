@@ -184,7 +184,7 @@ export default function LoginPage() {
       </form>
 
       {/* Divisor Visual */}
-      <div className="mt-12 text-center relative">
+      <div className="mt-12 text-center relative z-50">
         <div className="absolute inset-0 flex items-center" aria-hidden="true">
           <div className="w-full border-t border-white/5"></div>
         </div>
@@ -198,7 +198,7 @@ export default function LoginPage() {
           ¿Aún no eres miembro?{' '}
           <Link
             href="/auth/register"
-            className="text-[--tribu-green] font-black hover:text-white transition-colors ml-1 underline decoration-white/10 underline-offset-4"
+            className="inline-block relative z-[100] text-[--tribu-green] font-black hover:text-white transition-colors ml-1 underline decoration-white/10 underline-offset-4 cursor-pointer"
           >
             Únete ahora
           </Link>
