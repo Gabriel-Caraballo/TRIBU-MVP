@@ -1,6 +1,3 @@
-// components/landing/Hero.tsx
-// Sección principal hero con gradiente animado, copy principal y mockup del dashboard
-
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -9,147 +6,168 @@ import Link from 'next/link';
 export const Hero = () => {
   const [phase, setPhase] = useState<'scanning' | 'success' | 'app'>('scanning');
 
-  // Secuencia de animación del celular
   useEffect(() => {
-    const cycle = () => {
-      setPhase('scanning');
-      // A los 3 segundos, encuentra el QR y muestra éxito
-      setTimeout(() => setPhase('success'), 3000);
-      // 1.5 segundos después, abre la app
-      setTimeout(() => setPhase('app'), 4500); 
-    };
-    
-    cycle();
-    // Se repite todo el ciclo cada 9 segundos
-    const interval = setInterval(cycle, 9000); 
-    
+    const sequence = [
+      { state: 'scanning', delay: 0 },
+      { state: 'success', delay: 3000 },
+      { state: 'app', delay: 4500 },
+    ] as const;
+
+    let current = 0;
+    const interval = setInterval(() => {
+      current = (current + 1) % sequence.length;
+      setPhase(sequence[current].state);
+    }, 3000); // Ajustado para un flujo más natural
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <>
-    <style>{`
-      @keyframes scanLine {
-        0%, 100% { transform: translateY(0); opacity: 0; }
-        10%, 90% { opacity: 1; }
-        50% { transform: translateY(160px); }
-      }
-      .animate-scan-line {
-        animation: scanLine 2s ease-in-out infinite;
-      }
-    `}</style>
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0a0a09] text-[#e8e8e2] font-mono border-b border-white/10">
-      
-      <div className="container relative z-10 mx-auto px-4 pt-32 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center max-w-6xl">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a09] text-[#e8e8e2] border-b border-white/5">
+      {/* Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.08),transparent_50%)] pointer-events-none" />
 
-        {/* Columna Izquierda: Copy + CTAs */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 z-20">
-          <div className="mb-12">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans uppercase tracking-tighter leading-[1] mb-6 max-w-3xl font-black flex flex-wrap items-end justify-center lg:justify-start gap-y-3">
-              <span className="inline-block transform scale-y-110 origin-bottom mr-2">El impacto real no se mide en</span>
-              <em className="inline-flex not-italic border-t-2 border-l-2 border-[#107c41] bg-[#f3f2f1] shadow-[4px_4px_0px_#107c41] ml-2">
-                {['E', 'X', 'C', 'E', 'L'].map((letter, i) => (
-                  <span key={i} className="flex items-center justify-center w-6 h-8 md:w-8 md:h-10 border-b-2 border-r-2 border-[#107c41] text-[#107c41] font-black text-lg md:text-xl font-mono">
-                    {letter}
-                  </span>
-                ))}
-              </em>.
-            </h1>
-            <p className="text-sm md:text-base text-[#8a8a82] leading-relaxed max-w-xl text-center lg:text-left">
-              Así nace <strong className="text-[--tribu-green]">TRIBU</strong>. La plataforma que profesionaliza, mide y valida el voluntariado social para que tu impacto deje de ser invisible.
-            </p>
+      <div className="container relative z-10 mx-auto px-4 pt-32 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl">
+
+        {/* Columna Izquierda: Mensaje Estratégico */}
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/30 bg-green-500/5 text-[10px] uppercase tracking-[0.2em] font-bold mb-6 text-green-500">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            Infraestructura de Impacto
           </div>
 
-          {/* CTAs Minimalistas Monospace */}
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-sans font-black tracking-tighter leading-[1.1] mb-8 uppercase">
+            Menos <span className="text-[#8a8a82]">administración</span>,<br />
+            más <span className="text-green-500 italic">impacto</span>.
+          </h1>
+
+          <p className="text-base md:text-lg text-[#8a8a82] leading-relaxed max-w-xl mb-10 font-medium">
+            Conectamos talento que actúa con proyectos que trascienden.
+            Eliminamos el <span className="text-white border-b border-white/20">Excel del sector social</span> para transformar la voluntad en
+            <strong className="text-white"> capital de carrera </strong> y reportes
+            <strong className="text-white"> ESG auditables</strong>.
+          </p>
+
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <Link
-              href="/auth/register"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 text-xs font-bold tracking-widest uppercase bg-[--tribu-green] text-white px-10 py-5 hover:bg-[#e8e8e2] hover:text-[#0a0a09] transition-colors duration-300"
-            >
-              Comenzar gratis
+            <Link href="/organizations" className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-3 text-[11px] font-bold tracking-[0.15em] uppercase bg-white text-black px-8 py-5 hover:bg-green-500 hover:text-white transition-all duration-300 shadow-xl shadow-white/5">
+              Potenciar mi ONG
             </Link>
-            <Link
-              href="#how-it-works"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 text-xs font-bold tracking-widest uppercase bg-[#111110] text-[#e8e8e2] border border-white/10 px-10 py-5 hover:text-white hover:border-white/30 transition-colors duration-300"
-            >
-              Ver cómo funciona
+            <Link href="/volunteers" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 text-[11px] font-bold tracking-[0.15em] uppercase border border-white/20 text-white px-8 py-5 hover:border-green-500 hover:bg-green-500/5 transition-all duration-300">
+              Empezar a Impactar
             </Link>
+          </div>
+
+          {/* Social Proof Placeholder */}
+          <div className="mt-12 flex items-center gap-8 opacity-30 grayscale hover:opacity-60 transition-opacity">
+            <span className="text-[10px] font-mono tracking-widest uppercase">Trusted by:</span>
+            <div className="flex gap-6 items-center">
+              <div className="h-4 w-20 bg-white/40 rounded-sm"></div>
+              <div className="h-4 w-24 bg-white/40 rounded-sm"></div>
+              <div className="h-4 w-16 bg-white/40 rounded-sm"></div>
+            </div>
           </div>
         </div>
 
-        {/* Columna Derecha: Phone Mockup Animation */}
-        <div className="flex justify-center lg:justify-center order-1 lg:order-2 w-full z-10 relative">
-          {/* Contenedor del Celular con rotación y traslación */}
-          <div className="relative w-[260px] h-[540px] border-[8px] border-[#2a2a28] rounded-[3rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col bg-[#111110] ring-1 ring-white/5 transform lg:rotate-[12deg] lg:-translate-y-12 lg:-translate-x-4 hover:rotate-0 transition-transform duration-700 ease-out">
-            
-            {/* Notch del Celular */}
-            <div className="absolute top-0 inset-x-0 h-6 flex justify-center z-50">
-              <div className="w-24 h-5 bg-[#2a2a28] rounded-b-2xl"></div>
+        {/* Columna Derecha: Phone Mockup */}
+        <div className="flex justify-center order-1 lg:order-2 w-full perspective-1000">
+          <div className="relative w-[280px] h-[580px] border-[12px] border-[#1a1a18] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col bg-[#0a0a09] ring-1 ring-white/10 lg:rotate-3 hover:rotate-0 transition-transform duration-700 ease-out group">
+
+            {/* Camera Notch */}
+            <div className="absolute top-0 inset-x-0 h-7 flex justify-center z-50">
+              <div className="w-24 h-5 bg-[#1a1a18] rounded-b-2xl"></div>
             </div>
 
-            {/* Fase 1: Escaneando */}
-            <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'scanning' ? 'opacity-100 z-10' : 'opacity-0 z-0'} flex flex-col items-center justify-center bg-black/90`}>
-              <div className="text-white/50 text-xs mb-8 uppercase tracking-widest">Escaneando QR...</div>
-              <div className="relative w-48 h-48 border-2 border-white/10 rounded-xl flex items-center justify-center">
-                {/* Esquinas del escáner */}
-                <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-[#22c55e] rounded-tl-lg"></div>
-                <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-[#22c55e] rounded-tr-lg"></div>
-                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-[#22c55e] rounded-bl-lg"></div>
-                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-[#22c55e] rounded-br-lg"></div>
-                
-                {/* Mock de Código QR */}
-                <div className="w-28 h-28 bg-white/20 rounded p-2 flex flex-wrap gap-1">
-                  <div className="w-full h-full border-4 border-dashed border-white/30"></div>
+            {/* Content: Phase Scanning */}
+            <div className={`absolute inset-0 transition-all duration-500 flex flex-col items-center justify-center bg-[#0a0a09] ${phase === 'scanning' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+              <div className="text-green-500 font-mono text-[9px] mb-8 uppercase tracking-[0.3em] animate-pulse">Escaneando Punto de Impacto</div>
+              <div className="relative w-48 h-48 border border-white/5 rounded-2xl flex items-center justify-center bg-white/[0.02]">
+                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-green-500"></div>
+                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-green-500"></div>
+                <div className="w-24 h-24 opacity-20 bg-green-500 blur-3xl absolute animate-pulse"></div>
+
+                {/* QR Simulation Grid */}
+                <div className="grid grid-cols-3 gap-1.5 w-12 opacity-30">
+                  {[...Array(9)].map((_, i) => <div key={i} className="w-full h-3 bg-white"></div>)}
                 </div>
-                
-                {/* Línea láser de escaneo */}
-                <div className="absolute top-4 left-0 right-0 h-0.5 bg-[--tribu-green] shadow-[0_0_15px_var(--tribu-green)] animate-scan-line"></div>
+
+                {/* Scan Line Animation */}
+                <div className="absolute top-0 inset-x-0 h-[2px] bg-green-500 shadow-[0_0_15px_#22c55e] animate-[scanLine_2s_infinite]"></div>
               </div>
             </div>
 
-            {/* Fase 2: Éxito */}
-            <div className={`absolute inset-0 transition-opacity duration-300 ${phase === 'success' ? 'opacity-100 z-10' : 'opacity-0 z-0'} flex flex-col items-center justify-center bg-[--tribu-green]`}>
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-xl scale-in-center">
-                <svg className="w-10 h-10 text-[--tribu-green]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {/* Content: Phase Success */}
+            <div className={`absolute inset-0 transition-all duration-500 flex flex-col items-center justify-center bg-green-500 ${phase === 'success' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+              <div className="w-20 h-20 bg-black rounded-full flex items-center justify-center mb-6 shadow-2xl animate-bounce">
+                <svg className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-white font-sans font-bold text-xl uppercase tracking-wider">Asistencia</h3>
-              <h3 className="text-white font-sans font-bold text-xl uppercase tracking-wider">Validada</h3>
+              <p className="text-black font-sans font-black text-xs uppercase tracking-tighter text-center">
+                HORA VALIDADA <br /> <span className="text-[10px] opacity-70">REPORTABLE EN ESG</span>
+              </p>
             </div>
 
-            {/* Fase 3: Dashboard en App */}
-            <div className={`absolute inset-0 transition-opacity duration-500 ${phase === 'app' ? 'opacity-100 z-10' : 'opacity-0 z-0'} flex flex-col bg-white`}>
-              <div className="pt-10 pb-6 px-6 bg-[#0a0a09] text-white rounded-b-[2rem] shadow-md">
-                <div className="flex justify-between items-center mb-6">
-                  <span className="font-serif font-bold text-lg tracking-wider">TRIBU</span>
-                  <div className="w-7 h-7 rounded-full bg-[--tribu-green] text-white flex items-center justify-center font-bold text-[10px]">JD</div>
+            {/* Content: Phase App */}
+            <div className={`absolute inset-0 transition-all duration-700 flex flex-col bg-[#f4f4f2] ${phase === 'app' ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4'}`}>
+              <div className="pt-12 pb-8 px-6 bg-black text-white rounded-b-[2.5rem] shadow-lg">
+                <div className="flex justify-between items-center mb-8">
+                  <span className="font-sans font-black text-sm tracking-tighter uppercase text-green-500 italic">Tribu.Data</span>
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-bold">JD</div>
                 </div>
-                <div className="text-white/50 text-[10px] uppercase tracking-widest mb-1 font-sans">Horas validadas</div>
-                <div className="text-4xl font-sans font-bold">124<span className="text-sm text-white/40 ml-1">h</span></div>
+                <div className="space-y-1">
+                  <div className="text-white/40 text-[8px] uppercase tracking-[0.2em] font-bold">Career Capital Acumulado</div>
+                  <div className="text-5xl font-sans font-black tracking-tighter">124.5<span className="text-lg text-green-500">h</span></div>
+                </div>
               </div>
-              
-              <div className="p-5 flex-1 bg-gray-50">
-                <div className="text-[#0a0a09] font-sans font-bold text-xs uppercase tracking-wider mb-4">Actividad Reciente</div>
-                
-                <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="font-bold text-[#0a0a09] text-sm font-sans">Reforestación</div>
-                    <span className="text-[8px] text-[--tribu-green] font-bold bg-[--tribu-green]/10 px-2 py-1 rounded tracking-wider">COMPLETA</span>
-                  </div>
-                  <div className="text-[10px] text-gray-500 mb-3 font-sans">Parque Nacional • Hoy</div>
-                  <div className="flex gap-2">
-                    <span className="text-[10px] text-[--tribu-green] bg-[--tribu-green]/10 px-2 py-1 rounded font-bold font-sans">+4 Horas</span>
-                    <span className="text-[10px] text-gray-600 bg-gray-100 px-2 py-1 rounded font-medium font-sans">Ecología</span>
-                  </div>
+
+              <div className="p-6 flex-1">
+                <div className="flex justify-between items-center mb-6">
+                  <div className="text-black font-black text-[10px] uppercase tracking-wider">Métricas de Impacto</div>
+                  <div className="h-px flex-1 bg-black/10 ml-4"></div>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    { label: 'Reforestación', val: '85%', status: 'VERIFIED' },
+                    { label: 'Mentoría STEM', val: '40%', status: 'PENDING' }
+                  ].map((item, idx) => (
+                    <div key={idx} className="bg-white p-4 rounded-2xl shadow-sm border border-black/5">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="font-bold text-black text-[10px] uppercase">{item.label}</div>
+                        <span className={`text-[7px] font-black px-2 py-0.5 rounded tracking-widest ${item.status === 'VERIFIED' ? 'text-green-600 border border-green-200' : 'text-gray-400'}`}>
+                          {item.status}
+                        </span>
+                      </div>
+                      <div className="w-full bg-black/5 h-1 rounded-full overflow-hidden">
+                        <div className="bg-green-500 h-full transition-all duration-1000" style={{ width: item.val }}></div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
+
+          {/* ESG Badge */}
+          <div className="absolute -bottom-4 -right-4 lg:-right-8 bg-white text-black p-4 shadow-2xl rounded-2xl hidden md:block max-w-[150px] border border-black/5 animate-pulse">
+            <p className="text-[9px] font-bold uppercase tracking-tight leading-tight">
+              Cumplimiento bajo estándar <span className="text-green-600 italic">GRI & SASB</span>
+            </p>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes scanLine {
+          0%, 100% { transform: translateY(0); opacity: 0; }
+          10%, 90% { opacity: 1; }
+          50% { transform: translateY(190px); }
+        }
+      `}</style>
     </section>
-    </>
   );
 };
 

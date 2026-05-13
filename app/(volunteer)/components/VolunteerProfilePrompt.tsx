@@ -1,9 +1,8 @@
-// app/(volunteer)/components/VolunteerProfilePrompt.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { AvatarUpload } from './AvatarUpload'; // Asegúrate de que la ruta sea correcta
+import { AvatarUpload } from './AvatarUpload';
 
 const COMMON_SKILLS = [
   'Diseño gráfico', 'Fotografía', 'Video edición', 'Redes sociales',
@@ -36,10 +35,11 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
     bio: '',
     skills: [] as string[],
     city: '',
-    age: '',
+    birth_date: '', // Cambiado de age a birth_date
+    phone: '',      // Nuevo campo
     university: '',
     career: '',
-    avatarUrl: '' // Nuevo campo para la URL del avatar
+    avatarUrl: ''
   });
   const [newSkill, setNewSkill] = useState('');
 
@@ -52,7 +52,6 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      // Obtener nombre del perfil de usuario para el AvatarUpload
       const { data: userProfile } = await supabase
         .from('user_profiles')
         .select('full_name')
@@ -73,7 +72,8 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
           bio: volunteerProfile.bio || '',
           skills: volunteerProfile.skills || [],
           city: volunteerProfile.city || '',
-          age: volunteerProfile.age?.toString() || '',
+          birth_date: volunteerProfile.birth_date || '', // Mapeo de fecha
+          phone: volunteerProfile.phone || '',           // Mapeo de teléfono
           university: volunteerProfile.university || '',
           career: volunteerProfile.career || '',
           avatarUrl: volunteerProfile.avatar_url || ''
@@ -98,10 +98,11 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
           bio: formData.bio,
           skills: formData.skills,
           city: formData.city,
-          age: formData.age ? parseInt(formData.age) : null,
+          birth_date: formData.birth_date || null, // Guardar fecha
+          phone: formData.phone || null,           // Guardar teléfono
           university: formData.university || null,
           career: formData.career || null,
-          avatar_url: formData.avatarUrl // Guardar la URL en la DB
+          avatar_url: formData.avatarUrl
         })
         .eq('id', volunteerId);
 
@@ -123,10 +124,6 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
       setFormData(prev => ({ ...prev, skills: [...prev.skills, skill] }));
     }
     setNewSkill('');
-  }
-
-  function removeSkill(skill: string) {
-    setFormData(prev => ({ ...prev, skills: prev.skills.filter(s => s !== skill) }));
   }
 
   if (loading) {
@@ -162,7 +159,6 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Resto de campos del formulario... */}
         <div>
           <label className="block text-sm font-medium text-[--tribu-gray] mb-1">Cuéntanos sobre ti *</label>
           <textarea
@@ -175,7 +171,7 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
           />
         </div>
 
-        {/* Ciudad y Edad */}
+        {/* Ciudad y Fecha de Nacimiento */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-[--tribu-gray] mb-1">Ciudad *</label>
@@ -192,18 +188,71 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-[--tribu-gray] mb-1">Edad</label>
+            <label className="block text-sm font-medium text-[--tribu-gray] mb-1">Fecha de nacimiento *</label>
             <input
-              type="number"
-              value={formData.age}
-              onChange={(e) => setFormData(prev => ({ ...prev, age: e.target.value }))}
+              type="date"
+              value={formData.birth_date}
+              onChange={(e) => setFormData(prev => ({ ...prev, birth_date: e.target.value }))}
+              required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
-              placeholder="Tu edad"
             />
           </div>
         </div>
 
-        {/* Habilidades y Botón de guardar se mantienen igual... */}
+        {/* Teléfono y Universidad */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-[--tribu-gray] mb-1">Número de teléfono *</label>
+            <input
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+              required
+              placeholder="Ej: 809-555-5555"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-[--tribu-gray] mb-1">Universidad (Opcional)</label>
+            <input
+              type="text"
+              value={formData.university}
+              onChange={(e) => setFormData(prev => ({ ...prev, university: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[--tribu-blue]"
+              placeholder="¿Dónde estudias?"
+            />
+          </div>
+        </div>
+
+        {/* Habilidades (Resumido para brevedad) */}
+        <div>
+          <label className="block text-sm font-medium text-[--tribu-gray] mb-2">Habilidades</label>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {formData.skills.map(skill => (
+              <span key={skill} className="bg-[--tribu-blue-light] text-[--tribu-blue] px-3 py-1 rounded-full text-sm flex items-center">
+                {skill}
+                <button type="button" onClick={() => setFormData(prev => ({ ...prev, skills: prev.skills.filter(s => s !== skill) }))} className="ml-2 font-bold">&times;</button>
+              </span>
+            ))}
+          </div>
+          <select
+            onChange={(e) => addSkill(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            value=""
+          >
+            <option value="">Agregar habilidad...</option>
+            {COMMON_SKILLS.filter(s => !formData.skills.includes(s)).map(skill => (
+              <option key={skill} value={skill}>{skill}</option>
+            ))}
+          </select>
+        </div>
+
+        {message.text && (
+          <div className={`p-3 rounded-md ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            {message.text}
+          </div>
+        )}
+
         <div className="flex justify-end pt-4">
           <button
             type="submit"
@@ -217,3 +266,4 @@ export default function VolunteerProfilePrompt({ onComplete }: VolunteerProfileP
     </div>
   );
 }
+
